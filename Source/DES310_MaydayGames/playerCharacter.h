@@ -22,6 +22,8 @@ protected:
 	void moveRight(float Axis);
 	void moveForward(float Axis);
 
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
