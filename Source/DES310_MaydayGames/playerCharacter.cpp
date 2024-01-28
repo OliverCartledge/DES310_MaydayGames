@@ -18,6 +18,16 @@ void AplayerCharacter::BeginPlay()
 	
 }
 
+void AplayerCharacter::moveRight(float Axis)
+{
+	AddMovementInput(GetActorRightVector() * Axis);
+}
+
+void AplayerCharacter::moveForward(float Axis)
+{
+	AddMovementInput(GetActorForwardVector() * Axis);
+}
+
 // Called every frame
 void AplayerCharacter::Tick(float DeltaTime)
 {
@@ -29,6 +39,11 @@ void AplayerCharacter::Tick(float DeltaTime)
 void AplayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis(TEXT("moveForward"), this, &AplayerCharacter::moveForward);
+	PlayerInputComponent->BindAxis(TEXT("moveRight"), this, &AplayerCharacter::moveRight);
+	PlayerInputComponent->BindAxis(TEXT("turnRight"), this, &AplayerCharacter::AddControllerYawInput);
+	PlayerInputComponent->BindAxis(TEXT("lookUp"), this, &AplayerCharacter::AddControllerPitchInput);
+	PlayerInputComponent->BindAction(TEXT("jump"), IE_Pressed, this, &AplayerCharacter::Jump);
 
 }
 

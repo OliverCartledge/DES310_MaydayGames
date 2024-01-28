@@ -6,6 +6,13 @@
 #include "GameFramework/Character.h"
 #include "playerCharacter.generated.h"
 
+class UInputComponent;
+class USkeletalMeshComponent;
+class USceneComponent;
+class UCameraComponent;
+class UAnimMontage;
+class USoundBase;
+
 UCLASS()
 class DES310_MAYDAYGAMES_API AplayerCharacter : public ACharacter
 {
@@ -18,6 +25,11 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void moveRight(float Axis);
+	void moveForward(float Axis);
+
+
 
 public:	
 	// Called every frame
