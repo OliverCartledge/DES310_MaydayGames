@@ -6,6 +6,13 @@
 #include "GameFramework/Character.h"
 #include "playerCharacter.generated.h"
 
+class UInputComponent;
+class USkeletalMeshComponent;
+class USceneComponent;
+class UCameraComponent;
+class UAnimMontage;
+class USoundBase;
+
 UCLASS()
 class DES310_MAYDAYGAMES_API AplayerCharacter : public ACharacter
 {
