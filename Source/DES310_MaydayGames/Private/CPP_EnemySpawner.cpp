@@ -3,7 +3,8 @@
 
 #include "CPP_EnemySpawner.h"
 #include "Engine/EngineTypes.h"
-
+#include "AIController.h"
+#include "CPP_Enemy.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
 
 
@@ -38,27 +39,24 @@ void ACPP_EnemySpawner::Tick(float DeltaTime)
 
 }
 
-void ACPP_EnemySpawner::spawnEnemy()
+void ACPP_EnemySpawner::RandomSpawn(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
 {
+	TArray<FVector> spawnPositions = QueryInstance->GetResultsAsLocations();
 	
-}
-
-
-void ACPP_EnemySpawner::FindPlayer()
-{
-	FEnvQueryRequest PlayerPosQueryRequest = FEnvQueryRequest(FindPlayerEQS, this);
-	PlayerPosQueryRequest.Execute(EEnvQueryRunMode::SingleResult, this, &ACPP_EnemySpawner::MoveToQueryResult);
-}
-
-void ACPP_EnemySpawner::MoveToQueryResult(TSharedPtr<FEnvQueryResult> result)
-{
-	if (result->FEnvQueryResult::IsSuccsessful()) {
-
-		//TODO:
-		//Fix MoveToLocation
-		
-		//MoveToLocation(result->GetItemAsLocation(0));
+	if(spawnPositions.Num() > 0)
+	{
+		GetWorld()->SpawnActor<AActor>(enemyClass, spawnPositions[0], FRotator::ZeroRotator);
 	}
 }
+
+void ACPP_EnemySpawner::spawnEnemy()
+{
+	UEnvQueryInstanceBlueprintWrapper* query = UEnvQueryManager::RunEQSQuery(this, RandomSpawnEQS, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
+	if(query != nullptr)
+	{
+		query->GetOnQueryFinishedEvent().AddDynamic(this, &ACPP_EnemySpawner::RandomSpawn);
+	}
+}
+
 
 

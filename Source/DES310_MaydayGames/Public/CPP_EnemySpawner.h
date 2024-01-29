@@ -7,10 +7,12 @@
 #include "Engine/EngineTypes.h"
 
 #include "AIController.h"
+#include "EnvironmentQuery/EnvQueryInstanceBlueprintWrapper.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 
 #include "CPP_EnemySpawner.generated.h"
 
+class ACPP_Enemy;
 struct FTimerHandle;
 struct FEnvQueryRequest;
 
@@ -27,15 +29,16 @@ public:
 	FTimerHandle Timer;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
-	UEnvQuery *FindPlayerEQS;
-
-	UFUNCTION(BlueprintCallable)
-	void FindPlayer();
-
-	void MoveToQueryResult(TSharedPtr<FEnvQueryResult> result);
+	UEnvQuery *RandomSpawnEQS;
 
 	UFUNCTION()
+	void RandomSpawn(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+	
+	UFUNCTION()
 	void spawnEnemy();
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ACPP_Enemy> enemyClass;
 
 
 protected:
