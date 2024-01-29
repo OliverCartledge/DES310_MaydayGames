@@ -35,6 +35,7 @@ ADES310_MaydayGamesCharacter::ADES310_MaydayGamesCharacter()
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
+	Tags.Add(FName("Player"));
 }
 
 void ADES310_MaydayGamesCharacter::BeginPlay()
