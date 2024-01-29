@@ -11,6 +11,7 @@ ACPP_Enemy::ACPP_Enemy()
 	
 	seeingPlayer = false;
 	
+	//set up and enable pawn sensing (using by AI to sense player)
 	PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensing");
 	PawnSensing->bEnableSensingUpdates = true;
 	PawnSensing->SetPeripheralVisionAngle(180.f);
@@ -21,9 +22,10 @@ void ACPP_Enemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//add pawn sensing's "OnSeePawn" - this triggers when the AI 'see's' the player pawn
 	if (PawnSensing)
     {
-        PawnSensing->OnSeePawn.AddDynamic(this, &ACPP_Enemy::OnSeePawn);
+		PawnSensing->OnSeePawn.AddDynamic(this, &ACPP_Enemy::OnSeePawn); //call OnSeePawn when a pawn is seen
     }
 	
 }
@@ -42,16 +44,25 @@ void ACPP_Enemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
-void ACPP_Enemy::OnSeePawn(APawn* Pawn)
+
+//OnSeePawn function (created)
+//This is what enables the AI to 'see' the player pawn
+void ACPP_Enemy::OnSeePawn(APawn* Pawn) //player or 'other' pawn passed in via param
 {
+
+	//check for player tag to allow this ot see the player, specifically
 	if(Pawn->ActorHasTag("Player"))
 	{
 		seeingPlayer = true;
+
+		//if the player is see
 		if(seeingPlayer)
 		{
-			//AI MOVETO
+			//AI MOVETO:
+				//get the AI's controller to override/update it
 			AAIController* AIController = GetController<AAIController>();
 
+			//move the AI to the player (pawn actor)
 			if (AIControllerClass != nullptr)
 			{
 				AIController->MoveToActor(Pawn);
