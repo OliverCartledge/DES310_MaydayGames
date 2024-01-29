@@ -13,7 +13,7 @@ class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
 
-UCLASS()
+UCLASS(config = Game)
 class DES310_MAYDAYGAMES_API AplayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
