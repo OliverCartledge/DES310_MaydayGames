@@ -57,6 +57,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void SecondaryFire();
 
+	UFUNCTION(BlueprintCallable)
+	bool LineTraceShot(FHitResult& OutHit);
+
 protected:
 	/** Ends gameplay for this component. */
 	UFUNCTION()

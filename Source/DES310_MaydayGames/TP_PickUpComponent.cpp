@@ -43,8 +43,6 @@ void UTP_PickUpComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedCo
 			{
 				// Fire
 				EnhancedInputComponent->BindAction(PickupAction, ETriggerEvent::Triggered, this, &UTP_PickUpComponent::pickWeaponUp);
-
-				
 			}
 			
 		}
