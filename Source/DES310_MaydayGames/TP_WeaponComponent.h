@@ -38,6 +38,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* FireAction;
 
+	/** Secondary Fire Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* SecondaryFireAction;
+
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();
 
@@ -48,6 +52,10 @@ public:
 	/** Make the weapon Fire a Projectile */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
+
+	/** Make the weapon Fire a seconadry Projectile */
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void SecondaryFire();
 
 protected:
 	/** Ends gameplay for this component. */
