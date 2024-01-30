@@ -24,12 +24,14 @@ public:
 	// Sets default values for this character's properties
 	ACPP_Enemy();
 	
+	//definition on 'pawn see' funciton
 	UFUNCTION()
 	void OnSeePawn(APawn* Pawn);
 	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
 	bool seeingPlayer;
 	
+	//used to define pawn sensing
 	UPROPERTY(VisibleAnywhere)
 	UPawnSensingComponent* PawnSensing;
 

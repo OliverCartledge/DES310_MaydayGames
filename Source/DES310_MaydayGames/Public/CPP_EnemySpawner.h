@@ -25,20 +25,24 @@ public:
 	// Sets default values for this actor's properties
 	ACPP_EnemySpawner();
 	
+	//timer - used ot spawn an enemy every 'x' seconds
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
 	FTimerHandle Timer;
 
+
+	//query - used to give the AI's spawn logic
 	UPROPERTY(EditAnywhere, Category = "AI")
 	UEnvQuery *RandomSpawnEQS;
 
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<ACPP_Enemy> enemyClass;
+
+	//funcitons
 	UFUNCTION()
 	void RandomSpawn(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 	
 	UFUNCTION()
 	void spawnEnemy();
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<ACPP_Enemy> enemyClass;
 
 
 protected:
