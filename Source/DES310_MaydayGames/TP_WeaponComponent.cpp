@@ -59,11 +59,15 @@ void UTP_WeaponComponent::Fire()
 
 	bool isHit = GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint, ECC_Visibility, CollisionParams);
 
+	APawn* hitPawn = Cast<APawn>(OutHit.GetActor());
+
 	if (isHit)
 	{
 		if (OutHit.bBlockingHit)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *OutHit.GetActor()->GetName()));
+			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *OutHit.GetActor()->GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *hitPawn->GetName()));
+
 		}
 	}
 	
