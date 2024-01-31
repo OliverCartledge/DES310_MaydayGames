@@ -66,6 +66,9 @@ void UTP_WeaponComponent::Fire()
 		{
 			APawn* hitPawn = Cast<APawn>(OutHit.GetActor());
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *OutHit.GetActor()->GetName()));
+
+			//THIS WILL DESTROY ANY ACTOR THAT IS HIT WITH THE DEBUG LINE!!!!
+			OutHit.GetActor()->Destroy();
 			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *hitPawn->GetName()));
 
 		}
