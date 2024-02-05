@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "CPP_Enemy.h"
 #include "AIController.h"
+#include "DES310_MaydayGamesCharacter.generated.h"
 
 
 // Sets default values
@@ -15,6 +16,8 @@ ACPP_Enemy::ACPP_Enemy()
 	PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensing");
 	PawnSensing->bEnableSensingUpdates = true;
 	PawnSensing->SetPeripheralVisionAngle(180.f);
+
+	Tags.Add(FName("Enemy"));
 }
 
 // Called when the game starts or when spawned
@@ -70,6 +73,7 @@ void ACPP_Enemy::OnSeePawn(APawn* Pawn) //player or 'other' pawn passed in via p
 		}
 	}
 }
+
 
 
 

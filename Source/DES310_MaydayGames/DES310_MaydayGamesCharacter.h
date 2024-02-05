@@ -45,7 +45,9 @@ public:
 
 protected:
 	virtual void BeginPlay();
-
+	virtual void NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
+	
+	
 public:
 		
 	/** Look Input Action */
@@ -63,6 +65,8 @@ public:
 	/** Getter for the bool */
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool GetHasRifle();
+
+	
 
 protected:
 	/** Called for movement input */

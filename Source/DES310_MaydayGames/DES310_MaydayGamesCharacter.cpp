@@ -1,6 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "DES310_MaydayGamesCharacter.h"
+
+#include "CPP_Enemy.h"
 #include "DES310_MaydayGamesProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
@@ -109,3 +111,21 @@ bool ADES310_MaydayGamesCharacter::GetHasRifle()
 {
 	return bHasRifle;
 }
+
+//player - enemy collisions
+void ADES310_MaydayGamesCharacter::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
+{
+
+	//atempt 1
+	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
+	
+	 if (Other && Other->IsA(ACPP_Enemy::StaticClass()))
+	 {
+	 	this->Destroy();
+	 	//OtherActor->Destroy(); //test
+	 }
+
+
+	
+}
+
