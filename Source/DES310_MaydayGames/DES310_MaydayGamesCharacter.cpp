@@ -121,7 +121,9 @@ void ADES310_MaydayGamesCharacter::NotifyHit(UPrimitiveComponent* MyComp, AActor
 	
 	 if (Other && Other->IsA(ACPP_Enemy::StaticClass()))
 	 {
+		deathScreen();
 	 	this->Destroy();
+	 	
 	 	//OtherActor->Destroy(); //test
 	 }
 

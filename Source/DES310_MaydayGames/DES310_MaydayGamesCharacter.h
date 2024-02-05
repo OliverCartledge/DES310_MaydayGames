@@ -66,6 +66,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool GetHasRifle();
 
+	UFUNCTION(BlueprintImplementableEvent, Category="deathScreen")
+	void deathScreen();
+
 	
 
 protected:
