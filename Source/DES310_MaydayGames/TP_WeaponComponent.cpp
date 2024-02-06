@@ -2,6 +2,7 @@
 
 
 #include "TP_WeaponComponent.h"
+#include "Engine.h"
 #include "DES310_MaydayGamesCharacter.h"
 #include "DES310_MaydayGamesProjectile.h"
 #include "GameFramework/PlayerController.h"
@@ -31,18 +32,21 @@ void UTP_WeaponComponent::Fire()
 	APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
 
 	FVector ForwardVector = OurCamera->GetActorForwardVector();
-	FVector StartPoint = OurCamera->GetCameraLocation();
-	FVector EndPoint = StartPoint + (ForwardVector * 1000);
+	FRotator StartPoint = OurCamera->GetCameraRotation();
+	const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
+
+	FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
 
 	FCollisionQueryParams CollisionParams;
 
 
-	DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Green, true);
+	DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
 
-	bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint, ECC_Pawn, CollisionParams);
+	bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
 
 	if (bHit)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
 		ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
 
 		if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
@@ -50,7 +54,7 @@ void UTP_WeaponComponent::Fire()
 			enemyHit->Destroy();
 		}
 
-		OutHit.GetActor()->Destroy(); //this was for testing BUt it was found that the player is destroyed. Investigate this further
+		//OutHit.GetActor()->Destroy(); //this was for testing BUt it was found that the player is destroyed. Investigate this further
 	}
 	
 	// Try and play the sound if specified
