@@ -2,6 +2,7 @@
 
 #include "DES310_MaydayGamesCharacter.h"
 
+#include "Engine.h"
 #include "CPP_Enemy.h"
 #include "DES310_MaydayGamesProjectile.h"
 #include "Animation/AnimInstance.h"
@@ -44,6 +45,8 @@ void ADES310_MaydayGamesCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	playerHealth = 50;
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -121,8 +124,14 @@ void ADES310_MaydayGamesCharacter::NotifyHit(UPrimitiveComponent* MyComp, AActor
 	
 	 if (Other && Other->IsA(ACPP_Enemy::StaticClass()))
 	 {
-		deathScreen();
-	 	this->Destroy();
+		 playerHealth -= 1;
+		 GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Current health: %f"), playerHealth));
+
+		 if (playerHealth <= 0)
+		 {
+			 deathScreen();
+			 this->Destroy();
+		 }
 	 	
 	 	//OtherActor->Destroy(); //test
 	 }
@@ -130,4 +139,3 @@ void ADES310_MaydayGamesCharacter::NotifyHit(UPrimitiveComponent* MyComp, AActor
 
 	
 }
-

@@ -69,7 +69,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category="deathScreen")
 	void deathScreen();
 
-	
+	float playerHealth = 0;
 
 protected:
 	/** Called for movement input */
