@@ -119,7 +119,6 @@ bool ADES310_MaydayGamesCharacter::GetHasRifle()
 void ADES310_MaydayGamesCharacter::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
 {
 
-	//atempt 1
 	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
 	
 	 if (Other && Other->IsA(ACPP_Enemy::StaticClass()))

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "GameFramework/Actor.h"
 #include "TP_WeaponComponent.generated.h"
 
 class ADES310_MaydayGamesCharacter;
@@ -56,6 +57,7 @@ public:
 	/** Make the weapon Fire a seconadry Projectile */
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void SecondaryFire();
+
 
 	UFUNCTION(BlueprintCallable)
 	bool LineTraceShot(FHitResult& OutHit);

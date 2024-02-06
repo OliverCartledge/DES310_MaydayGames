@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "CPP_Enemy.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -25,53 +26,31 @@ void UTP_WeaponComponent::Fire()
 		return;
 	}
 
-	////// Try and fire a projectile
-	//if (ProjectileClass != nullptr)
-	//{
-	//	UWorld* const World = GetWorld();
-	//	if (World != nullptr)
-	//	{
-	//		APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
-	//		const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
-	//		// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-	//		const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
-	//
-	//		//Set Spawn Collision Handling Override
-	//		FActorSpawnParameters ActorSpawnParams;
-	//		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-	//
-	//		// Spawn the projectile at the muzzle
-	//		World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-	//	}
-	//}
-
 	FHitResult OutHit;
 
 	APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
 
 	FVector ForwardVector = OurCamera->GetActorForwardVector();
 	FVector StartPoint = OurCamera->GetCameraLocation();
-	FVector EndPoint = StartPoint + (ForwardVector * 10000);
+	FVector EndPoint = StartPoint + (ForwardVector * 1000);
 
 	FCollisionQueryParams CollisionParams;
 
+
 	DrawDebugLine(GetWorld(), StartPoint, EndPoint, FColor::Green, true);
 
-	bool isHit = GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint, ECC_Visibility, CollisionParams);
+	bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint, ECC_Pawn, CollisionParams);
 
-
-	if (isHit)
+	if (bHit)
 	{
-		if (OutHit.bBlockingHit)
+		ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
+
+		if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
 		{
-			APawn* hitPawn = Cast<APawn>(OutHit.GetActor());
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *OutHit.GetActor()->GetName()));
-
-			//THIS WILL DESTROY ANY ACTOR THAT IS HIT WITH THE DEBUG LINE!!!!
-			OutHit.GetActor()->Destroy();
-			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *hitPawn->GetName()));
-
+			enemyHit->Destroy();
 		}
+
+		OutHit.GetActor()->Destroy(); //this was for testing BUt it was found that the player is destroyed. Investigate this further
 	}
 	
 	// Try and play the sound if specified
