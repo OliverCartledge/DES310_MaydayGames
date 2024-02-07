@@ -7,7 +7,7 @@
 #include "DES310_MaydayGamesProjectile.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
-#include "Particles/ParticleSystemComponent.h"
+//#include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "CPP_Enemy.h"
 #include "EnhancedInputComponent.h"
@@ -20,7 +20,7 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
 
 	//particle system
-	ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystem");
+	//ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystem");
 }
 
 
@@ -32,7 +32,7 @@ void UTP_WeaponComponent::Fire()
 	}
 
 	//particle system (to be tested and polished)
-	ParticleSystem->Activate();
+	//ParticleSystem->Activate();
 	
 
 	FHitResult OutHit;
@@ -47,8 +47,8 @@ void UTP_WeaponComponent::Fire()
 
 	FCollisionQueryParams CollisionParams;
 
-	ParticleSystem->SetWorldLocation(SpawnLocation);
-	ParticleSystem->SetWorldRotation(StartPoint);
+	//ParticleSystem->SetWorldLocation(SpawnLocation);
+	//ParticleSystem->SetWorldRotation(StartPoint);
 
 
 	DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
@@ -85,7 +85,7 @@ void UTP_WeaponComponent::Fire()
 		}
 	}
 
-	ParticleSystem->Deactivate();
+	//ParticleSystem->Deactivate();
 }
 
 void UTP_WeaponComponent::SecondaryFire()

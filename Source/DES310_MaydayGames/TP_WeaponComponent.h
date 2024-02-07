@@ -64,8 +64,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool LineTraceShot(FHitResult& OutHit);
 
-	UPROPERTY(EditAnywhere, category = "particle")
-		UParticleSystemComponent* ParticleSystem;
+	//UPROPERTY(EditAnywhere, category = "particle")
+	//	UParticleSystemComponent* ParticleSystem;
 
 protected:
 	/** Ends gameplay for this component. */
