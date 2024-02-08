@@ -53,12 +53,12 @@ void APlayerCharacter::BeginPlay()
 }
 
 
-//// Called every frame
-//void APlayerCharacter::Tick(float DeltaTime)
-//{
-//	Super::Tick(DeltaTime);
-//
-//}
+// Called every frame
+void APlayerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
 
 // Called to bind functionality to input
 void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
