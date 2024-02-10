@@ -23,6 +23,17 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 	//ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystem");
 }
 
+//Check if right click is being held down
+void UTP_WeaponComponent::ADSPressed()
+{
+	IsADS = true;
+}
+
+//Check if right click has been released
+void UTP_WeaponComponent::ADSReleased()
+{
+	IsADS = false;
+}
 
 void UTP_WeaponComponent::Fire()
 {
@@ -30,107 +41,62 @@ void UTP_WeaponComponent::Fire()
 	{
 		return;
 	}
-
-	//particle system (to be tested and polished)
-	//ParticleSystem->Activate();
 	
-
-	FHitResult OutHit;
-
-	APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
-
-	FVector ForwardVector = OurCamera->GetActorForwardVector();
-	FRotator StartPoint = OurCamera->GetCameraRotation();
-	const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
-
-	FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
-
-	FCollisionQueryParams CollisionParams;
-
-	//ParticleSystem->SetWorldLocation(SpawnLocation);
-	//ParticleSystem->SetWorldRotation(StartPoint);
-
-
-	DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
-
-	bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
-
-	if (bHit)
+	//If the player is hodling right click allow them to shoot
+	if (IsADS)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
-		ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
+		//particle system (to be tested and polished)
+		//ParticleSystem->Activate();
 
-		if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
+		FHitResult OutHit;
+
+		APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
+
+		FVector ForwardVector = OurCamera->GetActorForwardVector();
+		FRotator StartPoint = OurCamera->GetCameraRotation();
+		const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
+
+		FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
+
+		FCollisionQueryParams CollisionParams;
+
+		//ParticleSystem->SetWorldLocation(SpawnLocation);
+		//ParticleSystem->SetWorldRotation(StartPoint);
+
+		//Debug line for bug testing the gun fire 
+		DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
+
+		bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
+
+		if (bHit)
 		{
-			enemyHit->Destroy();
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
+			ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
+
+			if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
+			{
+				enemyHit->Destroy();
+			}
 		}
 
-		//OutHit.GetActor()->Destroy(); //this was for testing BUt it was found that the player is destroyed. Investigate this further
-	}
-	
-	// Try and play the sound if specified
-	if (FireSound != nullptr)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
-	}
-	
-	// Try and play a firing animation if specified
-	if (FireAnimation != nullptr)
-	{
-		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
-		if (AnimInstance != nullptr)
+		// Try and play the sound if specified
+		if (FireSound != nullptr)
 		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
+			UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
 		}
-	}
 
-	//ParticleSystem->Deactivate();
-}
-
-void UTP_WeaponComponent::SecondaryFire()
-{
-	if (Character == nullptr || Character->GetController() == nullptr)
-	{
-		return;
-	}
-
-	// Try and fire a projectile
-	if (ProjectileClass != nullptr)
-	{
-		UWorld* const World = GetWorld();
-		if (World != nullptr)
+		// Try and play a firing animation if specified
+		if (FireAnimation != nullptr)
 		{
-			APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
-			const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
-			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-			const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
-
-			//Set Spawn Collision Handling Override
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-			// Spawn the projectile at the muzzle
-			for (int i = 0; i < 3; i++)
-			World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			// Get the animation object for the arms mesh
+			UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
+			if (AnimInstance != nullptr)
+			{
+				AnimInstance->Montage_Play(FireAnimation, 1.f);
+			}
 		}
-	}
 
-	// Try and play the sound if specified
-	if (FireSound != nullptr)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
-	}
-
-	// Try and play a firing animation if specified
-	if (FireAnimation != nullptr)
-	{
-		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
-		if (AnimInstance != nullptr)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
+		//ParticleSystem->Deactivate();
 	}
 }
 
@@ -172,11 +138,12 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 
 		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
 		{
-			// Fire
-			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::Fire);
+			//Input mapping for holding/ releasing right click
+			EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Started, this, &UTP_WeaponComponent::ADSPressed);
+			EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Completed, this, &UTP_WeaponComponent::ADSReleased);
 
-			// Secondary Fire
-			EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::SecondaryFire);
+			//Input mapping for left click 
+			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::Fire);
 		}
 	}
 }

@@ -56,23 +56,24 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
 
-	/** Make the weapon Fire a seconadry Projectile */
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void SecondaryFire();
-
-
 	UFUNCTION(BlueprintCallable)
 	bool LineTraceShot(FHitResult& OutHit);
 
 	/*UPROPERTY(EditAnywhere, category = "particle")
-		UParticleSystemComponent* ParticleSystem;*/
+	UParticleSystemComponent* ParticleSystem;*/
 
 protected:
 	/** Ends gameplay for this component. */
 	UFUNCTION()
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	void ADSPressed();
+
+	void ADSReleased();
+
 private:
 	/** The Character holding this weapon*/
 	ADES310_MaydayGamesCharacter* Character;
+
+	bool IsADS;
 };
