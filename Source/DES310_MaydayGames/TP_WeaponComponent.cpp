@@ -78,9 +78,26 @@ void UTP_WeaponComponent::Fire()
 				//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
 				ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
 
+				//if we hit an enemy
 				if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
 				{
-					enemyHit->Destroy();
+
+					//get enemy health
+					float currentHealth = enemyHit->enemyHealth;
+					currentHealth -= weaponDamage; //apply damage
+
+					//if enemy has no health left, destroy the actor
+					if (currentHealth <= 0)
+					{
+						enemyHit->Destroy();
+						playerScore += enemyHit->enemyGiveScore;
+						showScore();
+					}
+					//else, update health value
+					else
+					{
+						enemyHit->enemyHealth = currentHealth;
+					}
 				}
 			}
 
@@ -172,4 +189,10 @@ void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 			Subsystem->RemoveMappingContext(FireMappingContext);
 		}
 	}
+}
+
+
+void UTP_WeaponComponent::showScore()
+{
+		GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::White, FString::Printf(TEXT("Score: %d"), playerScore));
 }

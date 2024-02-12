@@ -23,6 +23,9 @@ class DES310_MAYDAYGAMES_API ACPP_Enemy : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ACPP_Enemy();
+
+	float enemyHealth = 100.f;
+	int enemyGiveScore = 10.f;
 	
 	//definition on 'pawn see' funciton
 	UFUNCTION()

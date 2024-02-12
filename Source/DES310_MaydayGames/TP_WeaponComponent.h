@@ -17,6 +17,11 @@ class DES310_MAYDAYGAMES_API UTP_WeaponComponent : public USkeletalMeshComponent
 	GENERATED_BODY()
 
 public:
+
+	//this weapon is the base-class pistol
+	float weaponDamage = 50.f;
+	int playerScore = 0;
+	
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class ADES310_MaydayGamesProjectile> ProjectileClass;
@@ -59,8 +64,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool LineTraceShot(FHitResult& OutHit);
 
+	UFUNCTION(Category="HUD")
+	void showScore();
+
 	/*UPROPERTY(EditAnywhere, category = "particle")
 	UParticleSystemComponent* ParticleSystem;*/
+	
 
 protected:
 	/** Ends gameplay for this component. */
