@@ -39,6 +39,10 @@ class ADES310_MaydayGamesCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
+	//Check ADS to stop movement 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* ADSAction;
+
 	
 public:
 	ADES310_MaydayGamesCharacter();
@@ -47,7 +51,11 @@ protected:
 	virtual void BeginPlay();
 	virtual void NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 	
-	
+
+	void ADSPressed();
+
+	void ADSReleased();
+
 public:
 		
 	/** Look Input Action */
@@ -70,6 +78,8 @@ public:
 	void deathScreen();
 
 	float playerHealth = 0;
+
+	bool IsADS;
 
 protected:
 	/** Called for movement input */

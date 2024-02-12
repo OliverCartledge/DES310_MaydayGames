@@ -75,20 +75,38 @@ void ADES310_MaydayGamesCharacter::SetupPlayerInputComponent(class UInputCompone
 
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADES310_MaydayGamesCharacter::Look);
+
+		//Input mapping for holding/ releasing right click
+		EnhancedInputComponent->BindAction(ADSAction, ETriggerEvent::Started, this, &ADES310_MaydayGamesCharacter::ADSPressed);
+		EnhancedInputComponent->BindAction(ADSAction, ETriggerEvent::Completed, this, &ADES310_MaydayGamesCharacter::ADSReleased);
 	}
+}
+
+
+void ADES310_MaydayGamesCharacter::ADSPressed()
+{
+	IsADS = true;
+}
+
+void ADES310_MaydayGamesCharacter::ADSReleased()
+{
+	IsADS = false;
 }
 
 
 void ADES310_MaydayGamesCharacter::Move(const FInputActionValue& Value)
 {
-	// input is a Vector2D
-	FVector2D MovementVector = Value.Get<FVector2D>();
-
-	if (Controller != nullptr)
+	if (!IsADS)
 	{
-		// add movement 
-		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
-		AddMovementInput(GetActorRightVector(), MovementVector.X);
+		// input is a Vector2D
+		FVector2D MovementVector = Value.Get<FVector2D>();
+
+		if (Controller != nullptr)
+		{
+			// add movement 
+			AddMovementInput(GetActorForwardVector(), MovementVector.Y);
+			AddMovementInput(GetActorRightVector(), MovementVector.X);
+		}
 	}
 }
 
