@@ -6,6 +6,7 @@
 #include "DES310_MaydayGamesCharacter.h"
 #include "DES310_MaydayGamesProjectile.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/Actor.h"
 #include "Camera/PlayerCameraManager.h"
 //#include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -35,6 +36,8 @@ void UTP_WeaponComponent::ADSReleased()
 	IsADS = false;
 }
 
+
+
 void UTP_WeaponComponent::Fire()
 {
 	if (Character == nullptr || Character->GetController() == nullptr)
@@ -48,7 +51,7 @@ void UTP_WeaponComponent::Fire()
 	if (IsADS)
 	{
 
-		if (bulletCount >= 0)
+		if (bulletCount >= 0 && canFire)
 		{
 			//particle system (to be tested and polished)
 			//ParticleSystem->Activate();
@@ -60,9 +63,7 @@ void UTP_WeaponComponent::Fire()
 			FVector ForwardVector = OurCamera->GetActorForwardVector();
 			FRotator StartPoint = OurCamera->GetCameraRotation();
 			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
-
 			FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
-
 			FCollisionQueryParams CollisionParams;
 
 			//ParticleSystem->SetWorldLocation(SpawnLocation);
@@ -71,6 +72,9 @@ void UTP_WeaponComponent::Fire()
 			//Debug line for bug testing the gun fire 
 			DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
 
+			canFire = false;
+			StartTimer();
+			
 			bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
 
 			if (bHit)
@@ -78,6 +82,8 @@ void UTP_WeaponComponent::Fire()
 				//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
 				ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
 
+
+				
 				//if we hit an enemy
 				if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
 				{
@@ -101,6 +107,8 @@ void UTP_WeaponComponent::Fire()
 				}
 			}
 
+
+			
 			// Try and play the sound if specified
 			if (FireSound != nullptr)
 			{
@@ -196,3 +204,23 @@ void UTP_WeaponComponent::showScore()
 {
 		GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::White, FString::Printf(TEXT("Score: %d"), playerScore));
 }
+
+
+//commented out as this CANNOT be used in a skeletalmesh inherited class. Must be AACTOR so move this code.
+void UTP_WeaponComponent::TimerExpired()
+{
+	canFire = true;
+}
+
+void UTP_WeaponComponent::StartTimer()
+{
+	// Start the timer to create a fire rate of -> 1 shot every x amount of time
+	AActor* OwningActor = GetOwner();
+	
+	if (OwningActor)
+	{
+		OwningActor->GetWorldTimerManager().SetTimer(GunFireRate, this, &UTP_WeaponComponent::TimerExpired,  0.5f, false);
+	}
+}
+
+

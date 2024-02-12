@@ -80,6 +80,14 @@ protected:
 
 	void ADSReleased();
 
+
+	////commented out as this CANNOT be used in a skeletalmesh inherited class. Must be AACTOR so move this code.
+	// //fire rate for weapon
+	FTimerHandle GunFireRate;
+	void TimerExpired();
+	void StartTimer();
+	bool canFire = true;
+
 private:
 	/** The Character holding this weapon*/
 	ADES310_MaydayGamesCharacter* Character;
