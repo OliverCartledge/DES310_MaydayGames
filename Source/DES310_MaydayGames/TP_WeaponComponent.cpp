@@ -41,60 +41,70 @@ void UTP_WeaponComponent::Fire()
 	{
 		return;
 	}
-	
+
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %f"), bulletCount));
+
 	//If the player is hodling right click allow them to shoot
 	if (IsADS)
 	{
-		//particle system (to be tested and polished)
-		//ParticleSystem->Activate();
 
-		FHitResult OutHit;
-
-		APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
-
-		FVector ForwardVector = OurCamera->GetActorForwardVector();
-		FRotator StartPoint = OurCamera->GetCameraRotation();
-		const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
-
-		FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
-
-		FCollisionQueryParams CollisionParams;
-
-		//ParticleSystem->SetWorldLocation(SpawnLocation);
-		//ParticleSystem->SetWorldRotation(StartPoint);
-
-		//Debug line for bug testing the gun fire 
-		DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
-
-		bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
-
-		if (bHit)
+		if (bulletCount >= 0)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
-			ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
+			//particle system (to be tested and polished)
+			//ParticleSystem->Activate();
 
-			if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
+			FHitResult OutHit;
+
+			APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
+
+			FVector ForwardVector = OurCamera->GetActorForwardVector();
+			FRotator StartPoint = OurCamera->GetCameraRotation();
+			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
+
+			FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
+
+			FCollisionQueryParams CollisionParams;
+
+			//ParticleSystem->SetWorldLocation(SpawnLocation);
+			//ParticleSystem->SetWorldRotation(StartPoint);
+
+			//Debug line for bug testing the gun fire 
+			DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
+
+			bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
+
+			if (bHit)
 			{
-				enemyHit->Destroy();
+				//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
+				ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
+
+				if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
+				{
+					enemyHit->Destroy();
+				}
 			}
-		}
 
-		// Try and play the sound if specified
-		if (FireSound != nullptr)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
-		}
-
-		// Try and play a firing animation if specified
-		if (FireAnimation != nullptr)
-		{
-			// Get the animation object for the arms mesh
-			UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
-			if (AnimInstance != nullptr)
+			// Try and play the sound if specified
+			if (FireSound != nullptr)
 			{
-				AnimInstance->Montage_Play(FireAnimation, 1.f);
+				UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
 			}
+
+			// Try and play a firing animation if specified
+			if (FireAnimation != nullptr)
+			{
+				// Get the animation object for the arms mesh
+				UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
+				if (AnimInstance != nullptr)
+				{
+					AnimInstance->Montage_Play(FireAnimation, 1.f);
+				}
+			}
+
+			bulletCount -= 1;
 		}
+		else
+			bulletCount = 10;
 
 		//ParticleSystem->Deactivate();
 	}

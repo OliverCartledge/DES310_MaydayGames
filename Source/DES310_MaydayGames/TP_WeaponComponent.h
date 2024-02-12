@@ -76,4 +76,6 @@ private:
 	ADES310_MaydayGamesCharacter* Character;
 
 	bool IsADS;
+
+	float bulletCount = 10;
 };
