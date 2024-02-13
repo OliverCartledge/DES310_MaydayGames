@@ -42,6 +42,10 @@ void UTP_WeaponComponent::Reload()
 	bulletCount = 10;
 }
 
+//void UTP_WeaponComponent::winScreen()
+//{
+//
+//}
 
 void UTP_WeaponComponent::Fire()
 {
