@@ -83,7 +83,9 @@ public:
 	//UFUNCTION(BlueprintCallable, Category = "Score")
 	//	void UpdateScore(int scoreToAdd);
 
+	UPROPERTY(BlueprintReadWrite, category="health")
 	float playerHealth = 0;
+
 	//int playerScore = 0;
 
 	bool IsADS;
