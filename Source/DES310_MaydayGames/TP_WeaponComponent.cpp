@@ -36,7 +36,10 @@ void UTP_WeaponComponent::ADSReleased()
 	IsADS = false;
 }
 
-
+//void UTP_WeaponComponent::winScreen()
+//{
+//
+//}
 
 void UTP_WeaponComponent::Fire()
 {
@@ -82,7 +85,6 @@ void UTP_WeaponComponent::Fire()
 				//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
 				ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
 
-
 				
 				//if we hit an enemy
 				if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
@@ -98,6 +100,17 @@ void UTP_WeaponComponent::Fire()
 						enemyHit->Destroy();
 						playerScore += enemyHit->enemyGiveScore;
 						showScore();
+
+						if (playerScore >= 40)
+						{
+							//this is being met, as per tested by the debug message
+							//but the winscreena nd bool aint showing in the BPs
+							//so struggling ot set a win screen
+
+
+							winScreen();
+							//GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::White, FString::Printf(TEXT("WIN CONDITION MET"))); //DEBUG MSG
+						}
 					}
 					//else, update health value
 					else
@@ -146,6 +159,7 @@ bool UTP_WeaponComponent::LineTraceShot(FHitResult& OutHit)
 	FCollisionQueryParams Parameters;
 	return GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint, ECC_Visibility, Parameters);
 }
+
 
 void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetCharacter)
 {
@@ -222,5 +236,8 @@ void UTP_WeaponComponent::StartTimer()
 		OwningActor->GetWorldTimerManager().SetTimer(GunFireRate, this, &UTP_WeaponComponent::TimerExpired,  0.5f, false);
 	}
 }
+
+
+
 
 

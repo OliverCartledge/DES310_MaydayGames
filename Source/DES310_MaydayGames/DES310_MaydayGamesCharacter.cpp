@@ -149,10 +149,15 @@ void ADES310_MaydayGamesCharacter::NotifyHit(UPrimitiveComponent* MyComp, AActor
 			 deathScreen();
 			 this->Destroy();
 		 }
-	 	
+
 	 	//OtherActor->Destroy(); //test
 	 }
 
 
 	
 }
+
+//void ADES310_MaydayGamesCharacter::UpdateScore(int scoreToAdd)
+//{
+//	playerScore += scoreToAdd;
+//}

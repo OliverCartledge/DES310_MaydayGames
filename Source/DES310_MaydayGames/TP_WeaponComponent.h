@@ -64,8 +64,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool LineTraceShot(FHitResult& OutHit);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "winScreen")
+	void winScreen();
+
 	UFUNCTION(Category="HUD")
 	void showScore();
+
 
 	/*UPROPERTY(EditAnywhere, category = "particle")
 	UParticleSystemComponent* ParticleSystem;*/

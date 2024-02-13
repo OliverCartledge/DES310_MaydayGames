@@ -77,7 +77,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category="deathScreen")
 	void deathScreen();
 
+	//UFUNCTION(BlueprintImplementableEvent, Category = "winScreen")
+	//	void winScreen();
+
+	//UFUNCTION(BlueprintCallable, Category = "Score")
+	//	void UpdateScore(int scoreToAdd);
+
 	float playerHealth = 0;
+	//int playerScore = 0;
 
 	bool IsADS;
 
