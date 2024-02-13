@@ -36,12 +36,6 @@ void UTP_WeaponComponent::ADSReleased()
 	IsADS = false;
 }
 
-//Check if right click has been released
-void UTP_WeaponComponent::Reload()
-{
-	bulletCount = 10;
-}
-
 //void UTP_WeaponComponent::winScreen()
 //{
 //
@@ -60,7 +54,7 @@ void UTP_WeaponComponent::Fire()
 	if (IsADS)
 	{
 
-		if (bulletCount > 0 && canFire)
+		if (bulletCount >= 0 && canFire)
 		{
 			//particle system (to be tested and polished)
 			//ParticleSystem->Activate();
@@ -147,6 +141,8 @@ void UTP_WeaponComponent::Fire()
 
 			bulletCount -= 1;
 		}
+		else
+			bulletCount = 10;
 
 		//ParticleSystem->Deactivate();
 	}
@@ -197,9 +193,6 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 
 			//Input mapping for left click 
 			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::Fire);
-
-			//Input mapping for gun reload
-			EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::Reload);
 		}
 	}
 }

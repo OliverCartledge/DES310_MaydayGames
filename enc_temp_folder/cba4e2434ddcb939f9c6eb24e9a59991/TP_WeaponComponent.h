@@ -50,10 +50,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* SecondaryFireAction;
 
-	/** Reload Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* ReloadAction;
-
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();
 
@@ -88,7 +84,6 @@ protected:
 
 	void ADSReleased();
 
-	void Reload();
 
 	////commented out as this CANNOT be used in a skeletalmesh inherited class. Must be AACTOR so move this code.
 	// //fire rate for weapon
