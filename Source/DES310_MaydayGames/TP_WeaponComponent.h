@@ -19,7 +19,10 @@ class DES310_MAYDAYGAMES_API UTP_WeaponComponent : public USkeletalMeshComponent
 public:
 
 	//this weapon is the base-class pistol
+	UPROPERTY(BlueprintReadWrite, category = "score")
 	float weaponDamage = 50.f;
+
+	UPROPERTY(BlueprintReadWrite, category="score")
 	int playerScore = 0;
 	
 	/** Projectile class to spawn */
