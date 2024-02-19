@@ -20,10 +20,16 @@ public:
 
 	//this weapon is the base-class pistol
 	UPROPERTY(BlueprintReadWrite, category = "score")
-	float weaponDamage = 50.f;
+	float weaponDamage = 100.f;
 
 	UPROPERTY(BlueprintReadWrite, category="score")
 	int playerScore = 0;
+
+	UPROPERTY(BlueprintReadWrite, category = "ammo")
+	int ammoCurrent = 0;
+
+	UPROPERTY(BlueprintReadWrite, category = "ammo")
+	int ammoMax = 0;
 	
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)

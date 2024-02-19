@@ -50,7 +50,7 @@ void UTP_WeaponComponent::Fire()
 		return;
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %f"), bulletCount));
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Ammo Count: %f / 10"), bulletCount));
 
 	//If the player is hodling right click allow them to shoot
 	if (IsADS)
@@ -75,7 +75,7 @@ void UTP_WeaponComponent::Fire()
 			//ParticleSystem->SetWorldRotation(StartPoint);
 
 			//Debug line for bug testing the gun fire 
-			DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
+			//DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
 
 			canFire = false;
 			StartTimer();
