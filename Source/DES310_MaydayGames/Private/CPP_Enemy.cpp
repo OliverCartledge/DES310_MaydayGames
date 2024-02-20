@@ -18,18 +18,6 @@ ACPP_Enemy::ACPP_Enemy()
 	PawnSensing->SetPeripheralVisionAngle(180.f);
 
 	Tags.Add(FName("Enemy"));
-
-	/*RootComponent = SphereComponent;
-	SphereComponent->InitSphereRadius(80.0f);
-	SphereComponent->SetCollisionProfileName(TEXT("Enemy"));
-	SphereComponent->SetupAttachment(RootComponent);*/
-	//SphereComponent->SetNotifyRigidBodyCollision(true);
-	//SphereComponent->SetGenerateOverlapEvents(false);
-
-	//CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
-	//RootComponent = CollisionComponent;
-
-	//CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemyPawn::OnBeginOverlap);
 	
 }
 

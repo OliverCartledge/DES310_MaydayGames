@@ -39,13 +39,6 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UPawnSensingComponent* PawnSensing;
 
-	//UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Default")
-	//USphereComponent* SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("RootComponent"));
-	// 
-	// Collision component
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
-	//UBoxComponent* CollisionComponent;
-
 
 protected:
 	// Called when the game starts or when spawned

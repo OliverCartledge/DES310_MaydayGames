@@ -122,5 +122,5 @@ private:
 
 	bool IsShooting;
 
-	float bulletCount = 10;
+	float bulletCount = 30;
 };

@@ -39,7 +39,7 @@ void UTP_WeaponComponent::ADSReleased()
 //Check if right click has been released
 void UTP_WeaponComponent::Reload()
 {
-	bulletCount = 10;
+	bulletCount = 30;
 }
 
 void UTP_WeaponComponent::StartShoot()
@@ -50,7 +50,7 @@ void UTP_WeaponComponent::StartShoot()
 
 	if (OwningActor)
 	{
-		OwningActor->GetWorldTimerManager().SetTimer(ShootingTimer, this, &UTP_WeaponComponent::Fire, 0.3f, true);
+		OwningActor->GetWorldTimerManager().SetTimer(ShootingTimer, this, &UTP_WeaponComponent::Fire, 0.2f, true);
 	}
 }
 

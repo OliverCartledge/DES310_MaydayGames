@@ -165,18 +165,18 @@ void ADES310_MaydayGamesCharacter::BeginOverlap(UPrimitiveComponent* OverlappedC
 {
 	if (OtherActor && OtherActor->IsA(ACPP_Enemy::StaticClass()))
 	{
+		//Damage player using a timer similar to how the full auto / fire rate is set up. deadass took me 2 hours to get this working :)
 		GetWorld()->GetTimerManager().SetTimer(DamageTimeHandle, this, &ADES310_MaydayGamesCharacter::DealDamage, 0.1f, true);
 	}
 }
 
 void ADES310_MaydayGamesCharacter::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	//if (OtherActor && OtherActor->IsA(ACPP_Enemy::StaticClass()))
-	//{
-		GetWorld()->GetTimerManager().ClearTimer(DamageTimeHandle);
-	//}
+	//When not overlapping.... stop timer and stop taking dmg
+	GetWorld()->GetTimerManager().ClearTimer(DamageTimeHandle);
 }
 
+//When collision is made timer starts calling this function to deal dmg
 void ADES310_MaydayGamesCharacter::DealDamage()
 {
 	playerHealth -= 1;
