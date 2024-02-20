@@ -44,6 +44,10 @@ class ADES310_MaydayGamesCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ADSAction;
 
+	//Crouch action
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* CrouchAction;
+
 	
 public:
 	ADES310_MaydayGamesCharacter();
@@ -63,6 +67,10 @@ protected:
 	void ADSPressed();
 
 	void ADSReleased();
+
+	void CrouchPressed();
+
+	void CrouchReleased();
 
 public:
 
