@@ -55,6 +55,8 @@ class ADES310_MaydayGamesCharacter : public ACharacter
 
 =======
 >>>>>>> parent of 299a243 (Player crouch when ADS code side pushed)
+=======
+>>>>>>> parent of 299a243 (Player crouch when ADS code side pushed)
 	
 public:
 	ADES310_MaydayGamesCharacter();
