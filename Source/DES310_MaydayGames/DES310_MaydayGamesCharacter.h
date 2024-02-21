@@ -47,6 +47,7 @@ class ADES310_MaydayGamesCharacter : public ACharacter
 	class UInputAction* ADSAction;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	//Crouch action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* CrouchAction;
