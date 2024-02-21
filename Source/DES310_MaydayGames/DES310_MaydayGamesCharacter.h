@@ -8,8 +8,6 @@
 #include "Components/BoxComponent.h"
 #include "DES310_MaydayGamesCharacter.generated.h"
 
-
-//forward declerations
 class UInputComponent;
 class USkeletalMeshComponent;
 class USceneComponent;
@@ -46,17 +44,10 @@ class ADES310_MaydayGamesCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ADSAction;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 	//Crouch action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* CrouchAction;
 
-
-=======
->>>>>>> parent of 299a243 (Player crouch when ADS code side pushed)
-=======
->>>>>>> parent of 299a243 (Player crouch when ADS code side pushed)
 	
 public:
 	ADES310_MaydayGamesCharacter();
@@ -76,6 +67,10 @@ protected:
 	void ADSPressed();
 
 	void ADSReleased();
+
+	void CrouchPressed();
+
+	void CrouchReleased();
 
 public:
 
@@ -105,15 +100,15 @@ public:
 	//UFUNCTION(BlueprintImplementableEvent, Category = "winScreen")
 	//	void winScreen();
 
+	//UFUNCTION(BlueprintCallable, Category = "Score")
+	//	void UpdateScore(int scoreToAdd);
 
-	UPROPERTY(BlueprintReadWrite, category = "health")
-		float playerHealth = 0;
+	UPROPERTY(BlueprintReadWrite, category="health")
+	float playerHealth = 0;
 
-	//UPROPERTY(BlueprintReadWrite, category = "score")
-	//	int playerScore;
+	//int playerScore = 0;
 
 	bool IsADS;
-
 
 protected:
 	/** Called for movement input */
