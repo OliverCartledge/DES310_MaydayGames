@@ -47,11 +47,14 @@ class ADES310_MaydayGamesCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ADSAction;
 
+<<<<<<< HEAD
 	//Crouch action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* CrouchAction;
 
 
+=======
+>>>>>>> parent of 299a243 (Player crouch when ADS code side pushed)
 	
 public:
 	ADES310_MaydayGamesCharacter();
@@ -71,10 +74,6 @@ protected:
 	void ADSPressed();
 
 	void ADSReleased();
-
-	void CrouchPressed();
-
-	void CrouchReleased();
 
 public:
 

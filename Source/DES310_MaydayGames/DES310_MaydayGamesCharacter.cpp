@@ -96,10 +96,6 @@ void ADES310_MaydayGamesCharacter::SetupPlayerInputComponent(class UInputCompone
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADES310_MaydayGamesCharacter::Look);
 
-		//Crouch
-		//EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ADES310_MaydayGamesCharacter::CrouchPressed);
-		//EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &ADES310_MaydayGamesCharacter::CrouchReleased);
-
 		//Input mapping for holding/ releasing right click
 		EnhancedInputComponent->BindAction(ADSAction, ETriggerEvent::Started, this, &ADES310_MaydayGamesCharacter::ADSPressed);
 		EnhancedInputComponent->BindAction(ADSAction, ETriggerEvent::Completed, this, &ADES310_MaydayGamesCharacter::ADSReleased);
@@ -110,24 +106,12 @@ void ADES310_MaydayGamesCharacter::SetupPlayerInputComponent(class UInputCompone
 void ADES310_MaydayGamesCharacter::ADSPressed()
 {
 	IsADS = true;
-	Crouch();
 }
 
 void ADES310_MaydayGamesCharacter::ADSReleased()
 {
 	IsADS = false;
-	UnCrouch();
 }
-
-//void ADES310_MaydayGamesCharacter::CrouchPressed()
-//{
-//	Crouch();
-//}
-//
-//void ADES310_MaydayGamesCharacter::CrouchReleased()
-//{
-//	UnCrouch();
-//}
 
 
 void ADES310_MaydayGamesCharacter::Move(const FInputActionValue& Value)
