@@ -5,9 +5,11 @@
 #include "Engine.h"
 #include "CPP_Enemy.h"
 #include "DES310_MaydayGamesProjectile.h"
+#include "TP_WeaponComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -46,6 +48,8 @@ ADES310_MaydayGamesCharacter::ADES310_MaydayGamesCharacter()
 
 	CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ADES310_MaydayGamesCharacter::BeginOverlap);
 	CollisionBox->OnComponentEndOverlap.AddDynamic(this, &ADES310_MaydayGamesCharacter::EndOverlap);
+
+	playerScore = 0;
 }
 
 void ADES310_MaydayGamesCharacter::BeginPlay()
@@ -65,6 +69,15 @@ void ADES310_MaydayGamesCharacter::BeginPlay()
 	}
 
 }
+
+void ADES310_MaydayGamesCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	// Call the update score function every frame
+	updatePlayerScore(); // Assuming WeaponComponent is a member of your character class and is valid
+}
+
 
 //////////////////////////////////////////////////////////////////////////// Input
 
@@ -206,7 +219,16 @@ void ADES310_MaydayGamesCharacter::DealDamage()
 
 
 
-//void ADES310_MaydayGamesCharacter::UpdateScore(int scoreToAdd)
-//{
-//	playerScore += scoreToAdd;
-//}
+void ADES310_MaydayGamesCharacter::updatePlayerScore()
+{
+	
+
+		// Check if the cast was successful
+		if (WeaponComponent)
+		{
+			// Cast the weapon component instance to the specific weapon component class
+			UTP_WeaponComponent* WeaponComponentCasted = Cast<UTP_WeaponComponent>(WeaponComponent);
+
+			playerScore += WeaponComponentCasted->playerScore;
+		}
+}

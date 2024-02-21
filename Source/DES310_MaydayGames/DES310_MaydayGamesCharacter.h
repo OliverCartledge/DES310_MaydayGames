@@ -8,8 +8,11 @@
 #include "Components/BoxComponent.h"
 #include "DES310_MaydayGamesCharacter.generated.h"
 
+
+//forward declerations
 class UInputComponent;
 class USkeletalMeshComponent;
+class UTP_WeaponComponent;
 class USceneComponent;
 class UCameraComponent;
 class UAnimMontage;
@@ -47,6 +50,7 @@ class ADES310_MaydayGamesCharacter : public ACharacter
 	//Crouch action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* CrouchAction;
+
 
 	
 public:
@@ -100,15 +104,21 @@ public:
 	//UFUNCTION(BlueprintImplementableEvent, Category = "winScreen")
 	//	void winScreen();
 
-	//UFUNCTION(BlueprintCallable, Category = "Score")
-	//	void UpdateScore(int scoreToAdd);
+	UFUNCTION(Category = "score")
+		void updatePlayerScore();
 
-	UPROPERTY(BlueprintReadWrite, category="health")
-	float playerHealth = 0;
+	virtual void Tick(float DeltaTime) override;
 
-	//int playerScore = 0;
+	UPROPERTY(BlueprintReadWrite, category = "health")
+		float playerHealth = 0;
+
+	UPROPERTY(BlueprintReadWrite, category = "score")
+		int playerScore;
 
 	bool IsADS;
+
+	UTP_WeaponComponent* WeaponComponent;
+
 
 protected:
 	/** Called for movement input */

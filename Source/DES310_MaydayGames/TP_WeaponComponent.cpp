@@ -1,6 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 
+
+
+
+
+//FULL AUTO WEAPON COMPONENT
+
 #include "TP_WeaponComponent.h"
 #include "Engine.h"
 #include "DES310_MaydayGamesCharacter.h"
