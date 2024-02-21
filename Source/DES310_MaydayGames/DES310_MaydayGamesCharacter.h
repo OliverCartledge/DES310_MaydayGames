@@ -12,7 +12,6 @@
 //forward declerations
 class UInputComponent;
 class USkeletalMeshComponent;
-class UTP_WeaponComponent;
 class USceneComponent;
 class UCameraComponent;
 class UAnimMontage;
@@ -103,10 +102,6 @@ public:
 	//UFUNCTION(BlueprintImplementableEvent, Category = "winScreen")
 	//	void winScreen();
 
-	UFUNCTION(Category = "score")
-		void updatePlayerScore();
-
-	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, category = "health")
 		float playerHealth = 0;
@@ -115,8 +110,6 @@ public:
 		int playerScore;
 
 	bool IsADS;
-
-	UTP_WeaponComponent* WeaponComponent;
 
 
 protected:
