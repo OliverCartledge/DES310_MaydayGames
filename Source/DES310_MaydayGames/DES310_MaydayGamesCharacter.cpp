@@ -48,7 +48,6 @@ ADES310_MaydayGamesCharacter::ADES310_MaydayGamesCharacter()
 	CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ADES310_MaydayGamesCharacter::BeginOverlap);
 	CollisionBox->OnComponentEndOverlap.AddDynamic(this, &ADES310_MaydayGamesCharacter::EndOverlap);
 
-	playerScore = 0;
 }
 
 void ADES310_MaydayGamesCharacter::BeginPlay()

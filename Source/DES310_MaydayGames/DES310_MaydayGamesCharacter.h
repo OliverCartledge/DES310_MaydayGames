@@ -109,8 +109,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, category = "health")
 		float playerHealth = 0;
 
-	UPROPERTY(BlueprintReadWrite, category = "score")
-		int playerScore;
+	//UPROPERTY(BlueprintReadWrite, category = "score")
+	//	int playerScore;
 
 	bool IsADS;
 
