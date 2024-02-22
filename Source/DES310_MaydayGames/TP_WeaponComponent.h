@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "MyPlayerState.h"
 #include "GameFramework/Actor.h"
 #include "TP_WeaponComponent.generated.h"
 
 //class UParticleSystemComponent;
 class ADES310_MaydayGamesCharacter;
+class MyPlayerState;
 
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -114,11 +116,14 @@ protected:
 	//Timer for full auto
 	FTimerHandle ShootingTimer;
 
+	UPROPERTY(BlueprintReadOnly)
+		bool IsADS;
+
+
+
 private:
 	/** The Character holding this weapon*/
 	ADES310_MaydayGamesCharacter* Character;
-
-	bool IsADS;
 
 	bool IsShooting;
 

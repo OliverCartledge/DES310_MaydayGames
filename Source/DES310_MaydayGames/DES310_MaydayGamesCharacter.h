@@ -14,6 +14,7 @@ class USceneComponent;
 class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
+class UMyGameInstance;
 
 UCLASS(config=Game)
 class ADES310_MaydayGamesCharacter : public ACharacter

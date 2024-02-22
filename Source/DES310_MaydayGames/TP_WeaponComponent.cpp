@@ -108,7 +108,7 @@ void UTP_WeaponComponent::Fire()
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
 				ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
-
+				AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 				
 				//if we hit an enemy
 				if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
@@ -122,10 +122,11 @@ void UTP_WeaponComponent::Fire()
 					if (currentHealth <= 0)
 					{
 						enemyHit->Destroy();
-						playerScore += enemyHit->enemyGiveScore;
-						showScore();
+						playerScore += enemyHit->enemyGiveScore; //remove this once player state is working
+						MyPlayerState->updateScore(enemyHit->enemyGiveScore);
+						showScore(); //remove this once player state is working
 
-						if (playerScore >= 40)
+						if (playerScore >= 40) //test value
 						{
 							//this is being met, as per tested by the debug message
 							//but the winscreena nd bool aint showing in the BPs
