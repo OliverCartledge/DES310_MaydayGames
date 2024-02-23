@@ -20,9 +20,3 @@ void AMyPlayerState::updateScore(int pointsToGive)
 
 }
 
-void AMyPlayerState::shouldDisplayCrosshair(bool isADS)
-{
-	while (isADS) displayCrosshair();
-
-	hideCrosshair();
-}

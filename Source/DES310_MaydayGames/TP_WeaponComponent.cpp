@@ -28,12 +28,20 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 void UTP_WeaponComponent::ADSPressed()
 {
 	IsADS = true;
+
+	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+	ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
+	Player->ShouldShowCrosshair.Broadcast(IsADS);
 }
 
 //Check if right click has been released
 void UTP_WeaponComponent::ADSReleased()
 {
 	IsADS = false;
+
+	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+	ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
+	Player->ShouldShowCrosshair.Broadcast(IsADS);
 }
 
 //Check if right click has been released

@@ -24,19 +24,13 @@ public:
 	UPROPERTY(BlueprintAssignable, category = "score")
 		FOnPlayerScoreUpdated OnScoreUpdated;
 
-	UFUNCTION(BlueprintCallable, category = "UI")
-		void shouldDisplayCrosshair(bool isADS);
+
 
 
 protected: 
 	UPROPERTY(BlueprintReadOnly, category = "score")
 		int playerScore;
 
-	UFUNCTION(BlueprintImplementableEvent, category = "UI")
-		void displayCrosshair();
-
-	UFUNCTION(BlueprintImplementableEvent, category = "UI")
-		void hideCrosshair();
 
 
 

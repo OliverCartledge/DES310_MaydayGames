@@ -8,6 +8,10 @@
 #include "Components/BoxComponent.h"
 #include "DES310_MaydayGamesCharacter.generated.h"
 
+//delegates
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FShouldShowCrosshair, bool, isADS);
+
+//forward declare
 class UInputComponent;
 class USkeletalMeshComponent;
 class USceneComponent;
@@ -15,6 +19,8 @@ class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
 class UMyGameInstance;
+
+
 
 UCLASS(config=Game)
 class ADES310_MaydayGamesCharacter : public ACharacter
@@ -74,6 +80,18 @@ protected:
 	void CrouchReleased();
 
 public:
+
+	UPROPERTY(BlueprintAssignable, category = "crosshair")
+		FShouldShowCrosshair ShouldShowCrosshair;
+
+	UFUNCTION(BlueprintCallable, category = "UI")
+		void shouldDisplayCrosshair(bool isADS);
+
+	UFUNCTION(BlueprintImplementableEvent, category = "UI")
+		void displayCrosshair();
+
+	UFUNCTION(BlueprintImplementableEvent, category = "UI")
+		void hideCrosshair();
 
 	// Collision component
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Default")

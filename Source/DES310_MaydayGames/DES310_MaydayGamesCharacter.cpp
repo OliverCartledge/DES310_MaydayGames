@@ -206,7 +206,9 @@ void ADES310_MaydayGamesCharacter::DealDamage()
 
 
 
-//void ADES310_MaydayGamesCharacter::UpdateScore(int scoreToAdd)
-//{
-//	playerScore += scoreToAdd;
-//}
+void ADES310_MaydayGamesCharacter::shouldDisplayCrosshair(bool isADS)
+{
+	while (isADS) displayCrosshair();
+
+	hideCrosshair();
+}
