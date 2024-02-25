@@ -10,6 +10,7 @@
 
 //class UParticleSystemComponent;
 class ADES310_MaydayGamesCharacter;
+class APlayerCharacter;
 class MyPlayerState;
 
 
@@ -34,8 +35,8 @@ public:
 	int ammoMax = 0;
 	
 	/** Projectile class to spawn */
-	UPROPERTY(EditDefaultsOnly, Category=Projectile)
-	TSubclassOf<class ADES310_MaydayGamesProjectile> ProjectileClass;
+	//UPROPERTY(EditDefaultsOnly, Category=Projectile)
+	//TSubclassOf<class ADES310_MaydayGamesProjectile> ProjectileClass;
 
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)

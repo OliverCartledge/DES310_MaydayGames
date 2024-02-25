@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "DES310_MaydayGamesCharacter.h"
 #include "DES310_MaydayGamesProjectile.h"
+#include "Public/PlayerCharacter.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Actor.h"
 #include "Camera/PlayerCameraManager.h"

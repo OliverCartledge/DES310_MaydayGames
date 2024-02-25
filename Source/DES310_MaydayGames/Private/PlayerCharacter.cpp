@@ -14,8 +14,7 @@
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	//PrimaryActorTick.bCanEverTick = true;
+	bHasRifle = false;
 
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
@@ -36,6 +35,13 @@ APlayerCharacter::APlayerCharacter()
 	PlayerMesh->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
 	Tags.Add(FName("Player"));
+
+	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
+	CollisionBox->SetupAttachment(RootComponent);
+	//CollisionBox->SetBoxExtent();
+
+	CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::BeginOverlap);
+	CollisionBox->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::EndOverlap);
 }
 
 // Called when the game starts or when spawned
