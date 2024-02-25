@@ -4,7 +4,6 @@
 
 #include "Engine.h"
 #include "CPP_Enemy.h"
-#include "DES310_MaydayGamesProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
