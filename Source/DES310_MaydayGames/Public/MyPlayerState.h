@@ -22,18 +22,18 @@ public:
 	UFUNCTION(BlueprintCallable, category = "score")
 		void updateScore(int pointsToGive);
 
+	UFUNCTION(BlueprintCallable, category = "ammo")
+		void updateAmmoCount(int ammoUpdate);
+
+
+
 	UPROPERTY(BlueprintAssignable, category = "score")
 		FOnPlayerScoreUpdated OnScoreUpdated;
 
-
 	UPROPERTY(BlueprintAssignable, category = "ammo")
-		FAmmoCounter newAmmoCount;
+		FAmmoCounter AmmoCounter;
 
-	UPROPERTY(BlueprintAssignable, category = "ammo")
-		FAmmoCounter oldAmmoCount;
 
-	UPROPERTY(BlueprintReadWrite, category = "ammo")
-		int32 currentAmmo;
 
 
 
@@ -41,6 +41,10 @@ public:
 protected: 
 	UPROPERTY(BlueprintReadOnly, category = "score")
 		int32 playerScore;
+
+
+	UPROPERTY(BlueprintReadOnly, category = "ammo")
+		int32 currentAmmo = 40;
 
 
 

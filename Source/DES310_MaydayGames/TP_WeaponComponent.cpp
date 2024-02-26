@@ -108,6 +108,8 @@ void UTP_WeaponComponent::Fire()
 			//particle system (to be tested and polished)
 			//ParticleSystem->Activate();
 
+			AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
+
 			FHitResult OutHit;
 
 			APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
@@ -130,7 +132,7 @@ void UTP_WeaponComponent::Fire()
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
 				ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
-				AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
+				//AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 				
 				//if we hit an enemy
 				if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
@@ -144,20 +146,7 @@ void UTP_WeaponComponent::Fire()
 					if (currentHealth <= 0)
 					{
 						enemyHit->Destroy();
-						playerScore += enemyHit->enemyGiveScore; //remove this once player state is working
 						MyPlayerState->updateScore(enemyHit->enemyGiveScore);
-						showScore(); //remove this once player state is working
-
-						if (playerScore >= 40) //test value
-						{
-							//this is being met, as per tested by the debug message
-							//but the winscreena nd bool aint showing in the BPs
-							//so struggling ot set a win screen
-
-
-							winScreen();
-							//GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::White, FString::Printf(TEXT("WIN CONDITION MET"))); //DEBUG MSG
-						}
 					}
 					//else, update health value
 					else
@@ -185,6 +174,7 @@ void UTP_WeaponComponent::Fire()
 			}
 
 			bulletCount -= 1;
+			MyPlayerState->updateAmmoCount(bulletCount);
 		}
 
 		//ParticleSystem->Deactivate();
@@ -259,13 +249,6 @@ void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		}
 	}
 }
-
-
-void UTP_WeaponComponent::showScore()
-{
-		GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::White, FString::Printf(TEXT("Score: %d"), playerScore));
-}
-
 
 //commented out as this CANNOT be used in a skeletalmesh inherited class. Must be AACTOR so move this code.
 void UTP_WeaponComponent::TimerExpired()
