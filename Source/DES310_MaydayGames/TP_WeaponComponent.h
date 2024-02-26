@@ -128,6 +128,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 		bool IsReloading;
 
+	UPROPERTY(BlueprintReadWrite, category = "ammo")
+		bool currentAmmo;
+
 
 
 private:

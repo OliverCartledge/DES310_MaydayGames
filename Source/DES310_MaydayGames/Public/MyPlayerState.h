@@ -7,6 +7,7 @@
 #include "MyPlayerState.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerScoreUpdated, int32, newScore, int32, oldScore);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoCounter, int32, newAmmoCount, int32, oldAmmoCount);
 
 /**
  * 
@@ -25,11 +26,21 @@ public:
 		FOnPlayerScoreUpdated OnScoreUpdated;
 
 
+	UPROPERTY(BlueprintAssignable, category = "ammo")
+		FAmmoCounter newAmmoCount;
+
+	UPROPERTY(BlueprintAssignable, category = "ammo")
+		FAmmoCounter oldAmmoCount;
+
+	UPROPERTY(BlueprintReadWrite, category = "ammo")
+		int32 currentAmmo;
+
+
 
 
 protected: 
 	UPROPERTY(BlueprintReadOnly, category = "score")
-		int playerScore;
+		int32 playerScore;
 
 
 
