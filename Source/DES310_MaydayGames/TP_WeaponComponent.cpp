@@ -48,7 +48,24 @@ void UTP_WeaponComponent::ADSReleased()
 //Check if right click has been released
 void UTP_WeaponComponent::Reload()
 {
-	bulletCount = 30;
+	bulletCount = 40;
+	IsReloading = true;
+
+	AActor* OwningActor = GetOwner();
+
+	if (OwningActor)
+	{
+		OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
+	}
+}
+
+void UTP_WeaponComponent::StopReload()
+{
+	IsReloading = false;
+	AActor* OwningActor = GetOwner();
+
+	if (OwningActor)
+		OwningActor->GetWorldTimerManager().ClearTimer(ReloadTimer);
 }
 
 void UTP_WeaponComponent::StartShoot()
@@ -63,16 +80,15 @@ void UTP_WeaponComponent::StartShoot()
 	}
 }
 
-void UTP_WeaponComponent::EndShoot()
+void UTP_WeaponComponent::EndShoot() 
 {
 	IsShooting = false;
 
 	AActor* OwningActor = GetOwner();
 
 	if (OwningActor)
-	OwningActor->GetWorldTimerManager().ClearTimer(ShootingTimer);
+		OwningActor->GetWorldTimerManager().ClearTimer(ShootingTimer);
 }
-
 
 void UTP_WeaponComponent::Fire()
 {
@@ -87,7 +103,7 @@ void UTP_WeaponComponent::Fire()
 	if (IsADS && IsShooting)
 	{
 
-		if (bulletCount > 0/* && canFire*/)
+		if (bulletCount > 0 && !IsReloading/* && canFire*/)
 		{
 			//particle system (to be tested and polished)
 			//ParticleSystem->Activate();
@@ -109,9 +125,6 @@ void UTP_WeaponComponent::Fire()
 
 			//Debug line for bug testing the gun fire 
 			//DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
-
-			//canFire = false;
-			//StartTimer();
 			
 			bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
 
@@ -142,8 +155,6 @@ void UTP_WeaponComponent::Fire()
 					}
 				}
 			}
-
-
 			
 			// Try and play the sound if specified
 			if (FireSound != nullptr)
@@ -255,8 +266,3 @@ void UTP_WeaponComponent::StartTimer()
 		OwningActor->GetWorldTimerManager().SetTimer(GunFireRate, this, &UTP_WeaponComponent::TimerExpired,  0.5f, false);
 	}
 }
-
-
-
-
-

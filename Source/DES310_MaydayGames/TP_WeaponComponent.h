@@ -94,6 +94,8 @@ protected:
 
 	void Reload();
 
+	void StopReload();
+
 	void StartShoot();
 
 	void EndShoot();
@@ -108,8 +110,14 @@ protected:
 	//Timer for full auto
 	FTimerHandle ShootingTimer;
 
+	//Timer for reload
+	FTimerHandle ReloadTimer;
+
 	UPROPERTY(BlueprintReadOnly)
 		bool IsADS;
+
+	UPROPERTY(BlueprintReadOnly)
+		bool IsReloading;
 
 	UPROPERTY(BlueprintReadWrite, category = "ammo")
 		bool currentAmmo;
@@ -122,5 +130,5 @@ private:
 
 	bool IsShooting;
 
-	float bulletCount = 30;
+	float bulletCount = 40;
 };
