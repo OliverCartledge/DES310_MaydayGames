@@ -25,9 +25,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, category = "score")
 	float weaponDamage = 100.f;
 
-	UPROPERTY(BlueprintReadWrite, category="score")
-	int playerScore = 0;
-
 	UPROPERTY(BlueprintReadWrite, category = "ammo")
 	int ammoCurrent = 0;
 
@@ -80,12 +77,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool LineTraceShot(FHitResult& OutHit);
-
-	UFUNCTION(BlueprintImplementableEvent, Category = "winScreen")
-	void winScreen();
-
-	UFUNCTION(Category="HUD")
-	void showScore();
 
 
 	/*UPROPERTY(EditAnywhere, category = "particle")

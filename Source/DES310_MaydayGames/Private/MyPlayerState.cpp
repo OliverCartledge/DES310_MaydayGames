@@ -16,7 +16,23 @@ void AMyPlayerState::updateScore(int pointsToGive)
 	OnScoreUpdated.Broadcast(playerScore, oldScore);
 
 
-	if (playerScore == 200) {}//call winscreen
+	if (playerScore == 200) {}//create & call winscreen
+
+}
+
+void AMyPlayerState::updateAmmoCount(int ammoUpdate)
+{
+	//int32 oldAmmoCount = currentAmmo;
+	//ammoUpdate = FMath::Max(1, ammoUpdate);
+
+	//currentAmmo -= 1;
+	//oldAmmoCount = currentAmmo;
+
+	currentAmmo -= 1;
+	int32 oldAmmoCount = currentAmmo;
+
+
+	AmmoCounter.Broadcast(currentAmmo, oldAmmoCount);
 
 }
 
