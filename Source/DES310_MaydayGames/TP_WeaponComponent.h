@@ -120,6 +120,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 		bool IsADS;
 
+	UPROPERTY(BlueprintReadWrite, category = "ammo")
+		bool currentAmmo;
+
 
 
 private:
