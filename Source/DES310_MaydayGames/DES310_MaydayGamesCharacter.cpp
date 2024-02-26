@@ -7,6 +7,7 @@
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -95,8 +96,10 @@ void ADES310_MaydayGamesCharacter::SetupPlayerInputComponent(class UInputCompone
 
 void ADES310_MaydayGamesCharacter::ADSPressed()
 {
-	IsADS = true;
-	Crouch();
+	//if (GetCharacterMovement()->IsMovingOnGround()) { //Isn't Jumping }
+		IsADS = true;
+		Crouch();
+	//}
 }
 
 void ADES310_MaydayGamesCharacter::ADSReleased()
@@ -202,8 +205,6 @@ void ADES310_MaydayGamesCharacter::DealDamage()
 		this->Destroy();
 	}
 }
-
-
 
 void ADES310_MaydayGamesCharacter::shouldDisplayCrosshair(bool isADS)
 {
