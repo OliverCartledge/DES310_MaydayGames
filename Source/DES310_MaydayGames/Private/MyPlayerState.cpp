@@ -22,17 +22,11 @@ void AMyPlayerState::updateScore(int pointsToGive)
 
 void AMyPlayerState::updateAmmoCount(int ammoUpdate)
 {
-	//int32 oldAmmoCount = currentAmmo;
-	//ammoUpdate = FMath::Max(1, ammoUpdate);
 
-	//currentAmmo -= 1;
-	//oldAmmoCount = currentAmmo;
+	int32 TempAmmoCount = ammoUpdate;
 
-	currentAmmo -= 1;
-	int32 oldAmmoCount = currentAmmo;
+	currentAmmo = TempAmmoCount;
 
-
-	AmmoCounter.Broadcast(currentAmmo, oldAmmoCount);
-
+	AmmoCounter.Broadcast(currentAmmo, TempAmmoCount);
 }
 

@@ -48,15 +48,27 @@ void UTP_WeaponComponent::ADSReleased()
 //Check if right click has been released
 void UTP_WeaponComponent::Reload()
 {
+	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
+
+
 	bulletCount = 40;
 	IsReloading = true;
 
+	MyPlayerState->updateAmmoCount(bulletCount);
+
 	AActor* OwningActor = GetOwner();
 
-	if (OwningActor)
+
+
+	//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
+
+	/*if (OwningActor)
 	{
 		OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
-	}
+	}*/
+
+	//debugging
+	IsReloading = false; //remove once animation for reload timer is implemented
 }
 
 void UTP_WeaponComponent::StopReload()
