@@ -28,11 +28,15 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 //Check if right click is being held down
 void UTP_WeaponComponent::ADSPressed()
 {
-	IsADS = true;
 
-	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
-	ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
-	Player->ShouldShowCrosshair.Broadcast(IsADS);
+	if (!Character->GetJumpStatus())
+	{
+		IsADS = true;
+
+		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+		ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
+		Player->ShouldShowCrosshair.Broadcast(IsADS);
+	}
 }
 
 //Check if right click has been released
@@ -204,7 +208,6 @@ bool UTP_WeaponComponent::LineTraceShot(FHitResult& OutHit)
 	FCollisionQueryParams Parameters;
 	return GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint, ECC_Visibility, Parameters);
 }
-
 
 void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetCharacter)
 {

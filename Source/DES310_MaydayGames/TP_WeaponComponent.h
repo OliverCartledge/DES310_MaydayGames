@@ -63,7 +63,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ReloadAction;
 	
-
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();
 

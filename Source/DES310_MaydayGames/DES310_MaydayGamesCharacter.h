@@ -116,6 +116,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category="deathScreen")
 	void deathScreen();
 
+	UFUNCTION(BlueprintCallable)
+	bool GetJumpStatus();
+
 	//UFUNCTION(BlueprintImplementableEvent, Category = "winScreen")
 	//	void winScreen();
 
@@ -128,6 +131,8 @@ public:
 	//int playerScore = 0;
 
 	bool IsADS;
+
+	bool InAirTest;
 
 protected:
 	/** Called for movement input */

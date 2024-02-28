@@ -96,14 +96,19 @@ void ADES310_MaydayGamesCharacter::SetupPlayerInputComponent(class UInputCompone
 
 void ADES310_MaydayGamesCharacter::ADSPressed()
 {
-	//if (GetCharacterMovement()->IsMovingOnGround()) { //Isn't Jumping }
+	// hmm this condition does work? 
+	if (GetCharacterMovement()->IsFalling())
+		InAirTest = true;
+
+	if (!GetCharacterMovement()->IsFalling()) { //Isn't Jumping }
 		IsADS = true;
 		Crouch();
-	//}
+	}
 }
 
 void ADES310_MaydayGamesCharacter::ADSReleased()
 {
+	InAirTest = false;
 	IsADS = false;
 	UnCrouch();
 }
@@ -121,7 +126,7 @@ void ADES310_MaydayGamesCharacter::ADSReleased()
 
 void ADES310_MaydayGamesCharacter::Move(const FInputActionValue& Value)
 {
-	if (!IsADS)
+	if (!IsADS && !InAirTest)
 	{
 		// input is a Vector2D
 		FVector2D MovementVector = Value.Get<FVector2D>();
@@ -156,6 +161,11 @@ void ADES310_MaydayGamesCharacter::SetHasRifle(bool bNewHasRifle)
 bool ADES310_MaydayGamesCharacter::GetHasRifle()
 {
 	return bHasRifle;
+}
+
+bool ADES310_MaydayGamesCharacter::GetJumpStatus()
+{
+	return GetCharacterMovement()->IsFalling();
 }
 
 //player - enemy collisions
