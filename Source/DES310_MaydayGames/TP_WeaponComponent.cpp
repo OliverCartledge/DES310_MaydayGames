@@ -92,7 +92,8 @@ void UTP_WeaponComponent::StartShoot()
 
 	if (OwningActor)
 	{
-		OwningActor->GetWorldTimerManager().SetTimer(ShootingTimer, this, &UTP_WeaponComponent::Fire, 0.2f, true);
+		Fire();
+		OwningActor->GetWorldTimerManager().SetTimer(ShootingTimer, this, &UTP_WeaponComponent::Fire, 0.2, true);
 	}
 }
 
@@ -119,7 +120,7 @@ void UTP_WeaponComponent::Fire()
 	if (IsADS && IsShooting)
 	{
 
-		if (bulletCount > 0 && !IsReloading/* && canFire*/)
+		if (bulletCount > 0 && !IsReloading && canFire)
 		{
 			//particle system (to be tested and polished)
 			//ParticleSystem->Activate();
@@ -142,6 +143,9 @@ void UTP_WeaponComponent::Fire()
 			//Debug line for bug testing the gun fire 
 			//DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
 			
+			canFire = false;
+			StartTimer();
+
 			bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
 
 			if (bHit)
@@ -278,6 +282,6 @@ void UTP_WeaponComponent::StartTimer()
 	
 	if (OwningActor)
 	{
-		OwningActor->GetWorldTimerManager().SetTimer(GunFireRate, this, &UTP_WeaponComponent::TimerExpired,  0.5f, false);
+		OwningActor->GetWorldTimerManager().SetTimer(GunFireRate, this, &UTP_WeaponComponent::TimerExpired, 0.2, false);
 	}
 }

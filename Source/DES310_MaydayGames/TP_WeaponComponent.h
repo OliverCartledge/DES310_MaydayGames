@@ -121,6 +121,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite, category = "ammo")
 		bool currentAmmo;
 
+	UPROPERTY(BlueprintReadOnly)
+		float FireRate = 0.2;
+
 
 
 private:
