@@ -28,15 +28,11 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 //Check if right click is being held down
 void UTP_WeaponComponent::ADSPressed()
 {
+	IsADS = true;
 
-	if (!Character->GetJumpStatus())
-	{
-		IsADS = true;
-
-		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
-		ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
-		Player->ShouldShowCrosshair.Broadcast(IsADS);
-	}
+	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+	ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
+	Player->ShouldShowCrosshair.Broadcast(IsADS);
 }
 
 //Check if right click has been released
@@ -62,17 +58,13 @@ void UTP_WeaponComponent::Reload()
 
 	AActor* OwningActor = GetOwner();
 
-
-
-	//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
-
-	/*if (OwningActor)
+	if (OwningActor)
 	{
 		OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
-	}*/
+	}
 
 	//debugging
-	IsReloading = false; //remove once animation for reload timer is implemented
+	IsReloading = false;
 }
 
 void UTP_WeaponComponent::StopReload()
@@ -208,6 +200,7 @@ bool UTP_WeaponComponent::LineTraceShot(FHitResult& OutHit)
 	FCollisionQueryParams Parameters;
 	return GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint, ECC_Visibility, Parameters);
 }
+
 
 void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetCharacter)
 {
