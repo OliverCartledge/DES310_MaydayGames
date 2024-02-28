@@ -114,7 +114,7 @@ void UTP_WeaponComponent::Fire()
 		return;
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Ammo Count: %f / 10"), bulletCount));
+
 
 	//If the player is hodling right click allow them to shoot
 	if (IsADS && IsShooting)
@@ -122,8 +122,6 @@ void UTP_WeaponComponent::Fire()
 
 		if (bulletCount > 0 && !IsReloading && canFire)
 		{
-			//particle system (to be tested and polished)
-			//ParticleSystem->Activate();
 
 			AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
@@ -136,12 +134,6 @@ void UTP_WeaponComponent::Fire()
 			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
 			FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
 			FCollisionQueryParams CollisionParams;
-
-			//ParticleSystem->SetWorldLocation(SpawnLocation);
-			//ParticleSystem->SetWorldRotation(StartPoint);
-
-			//Debug line for bug testing the gun fire 
-			//DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
 			
 			canFire = false;
 			StartTimer();
@@ -150,9 +142,8 @@ void UTP_WeaponComponent::Fire()
 
 			if (bHit)
 			{
-				//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Thing hit: %s"), *OutHit.GetActor()->GetName()));
 				ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OutHit.GetActor());
-				//AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
+
 				
 				//if we hit an enemy
 				if (enemyHit != nullptr && enemyHit->ActorHasTag("Enemy"))
