@@ -66,13 +66,13 @@ void UTP_WeaponComponent::Reload()
 
 	//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
 
-	/*if (OwningActor)
+	if (OwningActor)
 	{
 		OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
-	}*/
+	}
 
 	//debugging
-	IsReloading = false; //remove once animation for reload timer is implemented
+	//IsReloading = false; //remove once animation for reload timer is implemented
 }
 
 void UTP_WeaponComponent::StopReload()
