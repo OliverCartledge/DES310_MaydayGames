@@ -65,6 +65,7 @@ void AExtractionZone::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 void AExtractionZone::ExtractionComplete()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extraction complete!"));
+	HasExtracted = true;
 }
 
 

@@ -28,7 +28,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Default")
 	UBoxComponent* CollisionBox;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Extraction")
+	UPROPERTY(EditAnywhere)
 	bool HasExtracted;
 
 
