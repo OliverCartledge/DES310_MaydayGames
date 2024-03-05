@@ -6,13 +6,15 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
-
+#include "MyPlayerState.h"
+#include "Kismet/GameplayStatics.h" 
+#include "Materials/Material.h"
 
 #include "BP_standObjective.generated.h"
 
 class USTATICMESHCOMPONENT;
 class USPHERECOMPONENT;
-//class USKELETALCMESHCOMPONENT;
+class UMATERIAL;
 
 UCLASS()
 class DES310_MAYDAYGAMES_API ABP_standObjective : public AActor
@@ -29,10 +31,35 @@ public:
 	UPROPERTY(EditAnywhere, category = "Collision")
 	USphereComponent* collisionSphere;
 
+	UFUNCTION(BlueprintCallable, category = "Objecive")
+	void objectiveSucceed();
+
+	UPROPERTY(EditAnywhere, category = "Material")
+	UMaterial* startMaterial;
+
+	UPROPERTY(EditAnywhere, category = "Material")
+	UMaterial* endMaterial;
+	
+
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	FTimerHandle objectiveTimer;
+	int32 scoreToGive = 100;
+
+
+	UFUNCTION()
+	void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	bool objComplete;
+
+private:
+	AMyPlayerState* MyPlayerState;
 
 public:	
 	// Called every frame
