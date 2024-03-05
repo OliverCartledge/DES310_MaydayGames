@@ -31,8 +31,8 @@ void AExtractionZone::BeginPlay()
 void AExtractionZone::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (IsExtracting)
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Tick test"));
+	//if (IsExtracting)
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Tick test"));
 
 }
 void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -42,6 +42,13 @@ void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Entering Zone"));
 		IsExtracting = true;
+
+		//AActor* OwningActor = GetOwner();
+
+		//if (OwningActor)
+		//{
+			OtherActor->GetWorldTimerManager().SetTimer(ExtractionTimer, this, &AExtractionZone::ExtractionComplete, 5, false);
+		//}
 	}
 }
 
@@ -51,7 +58,14 @@ void AExtractionZone::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Exiting Zone"));
 		IsExtracting = false;
+		OtherActor->GetWorldTimerManager().ClearTimer(ExtractionTimer);
 	}
+}
+
+void AExtractionZone::ExtractionComplete()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extraction complete!"));
+	HasExtracted = true;
 }
 
 
