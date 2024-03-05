@@ -44,7 +44,7 @@ public:
 	UAnimMontage* FireAnimation;
 
 	/** Gun muzzle's offset from the characters location */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	UPROPERTY(BlueprintReadWrite, BlueprintReadWrite, Category=Gameplay)
 	FVector MuzzleOffset;
 
 	/** MappingContext */
