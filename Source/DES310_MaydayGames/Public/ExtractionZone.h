@@ -28,6 +28,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Default")
 	UBoxComponent* CollisionBox;
 
+
+	FTimerHandle ExtractionTimer;
+	void ExtractionComplete();
+	//void TimerExpired();
+	//void StartTimer();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

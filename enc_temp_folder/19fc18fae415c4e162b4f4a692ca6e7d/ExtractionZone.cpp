@@ -43,12 +43,12 @@ void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Entering Zone"));
 		IsExtracting = true;
 
-		//AActor* OwningActor = GetOwner();
+		AActor* OwningActor = GetOwner();
 
-		//if (OwningActor)
-		//{
-			OtherActor->GetWorldTimerManager().SetTimer(ExtractionTimer, this, &AExtractionZone::ExtractionComplete, 5, false);
-		//}
+		if (OwningActor)
+		{
+			OwningActor->GetWorldTimerManager().SetTimer(ExtractionTimer, this, &AExtractionZone::ExtractionComplete, 5, false);
+		}
 	}
 }
 
@@ -58,7 +58,6 @@ void AExtractionZone::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Exiting Zone"));
 		IsExtracting = false;
-		OtherActor->GetWorldTimerManager().ClearTimer(ExtractionTimer);
 	}
 }
 
