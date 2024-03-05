@@ -15,6 +15,7 @@ ABP_standObjective::ABP_standObjective()
 	collisionSphere->SetupAttachment(RootComponent); 
 	objectiveMesh->SetupAttachment(RootComponent);
 
+	Tags.Add(FName("Objective"));
 }
 
 // Called when the game starts or when spawned

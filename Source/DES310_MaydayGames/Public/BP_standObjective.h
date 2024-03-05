@@ -12,6 +12,7 @@
 
 class USTATICMESHCOMPONENT;
 class USPHERECOMPONENT;
+//class USKELETALCMESHCOMPONENT;
 
 UCLASS()
 class DES310_MAYDAYGAMES_API ABP_standObjective : public AActor
@@ -22,11 +23,12 @@ public:
 	// Sets default values for this actor's properties
 	ABP_standObjective();
 
-	UPROPERTY(BlueprintReadWrite, Category = "Mesh")
+	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UStaticMeshComponent* objectiveMesh;
 
-	UPROPERTY(BlueprintReadWrite, category = "Collision")
+	UPROPERTY(EditAnywhere, category = "Collision")
 	USphereComponent* collisionSphere;
+
 
 protected:
 	// Called when the game starts or when spawned
