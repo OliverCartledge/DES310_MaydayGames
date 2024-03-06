@@ -104,6 +104,7 @@ protected:
 	FTimerHandle GunFireRate;
 	void TimerExpired();
 	void StartTimer();
+	void EndTimer();
 	bool canFire = true;
 
 	//Timer for full auto

@@ -93,7 +93,7 @@ void UTP_WeaponComponent::StartShoot()
 	if (OwningActor)
 	{
 		Fire();
-		OwningActor->GetWorldTimerManager().SetTimer(ShootingTimer, this, &UTP_WeaponComponent::Fire, 0.2, true);
+		OwningActor->GetWorldTimerManager().SetTimer(ShootingTimer, this, &UTP_WeaponComponent::Fire, 0.08, true);
 	}
 }
 
@@ -131,12 +131,15 @@ void UTP_WeaponComponent::Fire()
 
 			FVector ForwardVector = OurCamera->GetActorForwardVector();
 			FRotator StartPoint = OurCamera->GetCameraRotation();
-			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
+			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(FVector(100.0f, -35.0f, 25.0f));
+			//const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
 			FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
 			FCollisionQueryParams CollisionParams;
 			
 			canFire = false;
 			StartTimer();
+
+			DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
 
 			bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
 
@@ -186,6 +189,7 @@ void UTP_WeaponComponent::Fire()
 
 			bulletCount -= 1;
 			MyPlayerState->updateAmmoCount(bulletCount);
+			//EndTimer();
 		}
 
 		//ParticleSystem->Deactivate();
@@ -273,6 +277,17 @@ void UTP_WeaponComponent::StartTimer()
 	
 	if (OwningActor)
 	{
-		OwningActor->GetWorldTimerManager().SetTimer(GunFireRate, this, &UTP_WeaponComponent::TimerExpired, 0.2, false);
+		OwningActor->GetWorldTimerManager().SetTimer(GunFireRate, this, &UTP_WeaponComponent::TimerExpired, 0.08, false);
+	}
+}
+
+void UTP_WeaponComponent::EndTimer()
+{
+	// Start the timer to create a fire rate of -> 1 shot every x amount of time
+	AActor* OwningActor = GetOwner();
+
+	if (OwningActor)
+	{
+		OwningActor->GetWorldTimerManager().ClearTimer(GunFireRate);
 	}
 }
