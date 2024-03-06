@@ -19,12 +19,19 @@ class DES310_MAYDAYGAMES_API AMyPlayerState : public APlayerState
 	
 public:
 
+	UFUNCTION(BlueprintGetter)
+	float myGetScore() const
+	{
+		return playerScore;
+	}
+
 	UFUNCTION(BlueprintCallable, category = "score")
 		void updateScore(int pointsToGive);
 
 	UFUNCTION(BlueprintCallable, category = "ammo")
 		void updateAmmoCount(int ammoUpdate);
 
+	
 
 
 	UPROPERTY(BlueprintAssignable, category = "score")

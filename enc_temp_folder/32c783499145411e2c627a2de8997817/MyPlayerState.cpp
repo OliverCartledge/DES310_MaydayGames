@@ -8,7 +8,7 @@
 void AMyPlayerState::updateScore(int pointsToGive)
 {
 	const int32 oldScore = playerScore;
-	//pointsToGive = FMath::Max(1, pointsToGive); 
+	pointsToGive = FMath::Max(1, pointsToGive); 
 
 	playerScore += pointsToGive;
 
