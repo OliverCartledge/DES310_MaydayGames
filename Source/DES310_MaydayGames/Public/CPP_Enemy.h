@@ -25,7 +25,9 @@ public:
 	// Sets default values for this character's properties
 	ACPP_Enemy();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "health")
 	float enemyHealth = 100.f;
+
 	int enemyGiveScore = 10.f;
 	
 	//definition on 'pawn see' funciton
@@ -39,7 +41,7 @@ public:
 	bool seeingPlayer;
 	
 	//used to define pawn sensing
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 	UPawnSensingComponent* PawnSensing;
 
 
