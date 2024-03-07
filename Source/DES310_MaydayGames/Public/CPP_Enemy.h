@@ -32,6 +32,9 @@ public:
 	UFUNCTION()
 	void OnSeePawn(APawn* Pawn);
 
+	UFUNCTION()
+	void EnemyJump();
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
 	bool seeingPlayer;
 	
@@ -39,6 +42,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UPawnSensingComponent* PawnSensing;
 
+
+	FTimerHandle EnemyJumpTimer;
 
 protected:
 	// Called when the game starts or when spawned

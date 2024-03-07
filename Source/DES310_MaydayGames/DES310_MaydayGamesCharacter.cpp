@@ -103,6 +103,7 @@ void ADES310_MaydayGamesCharacter::ADSPressed()
 	if (!GetCharacterMovement()->IsFalling()) { //Isn't Jumping }
 		IsADS = true;
 		Crouch();
+		
 	}
 }
 

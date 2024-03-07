@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "CPP_Enemy.h"
 #include "AIController.h"
+#include "Engine.h"
 #include "DES310_MaydayGamesCharacter.generated.h"
 
 
@@ -25,13 +26,12 @@ ACPP_Enemy::ACPP_Enemy()
 void ACPP_Enemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	//add pawn sensing's "OnSeePawn" - this triggers when the AI 'see's' the player pawn
 	if (PawnSensing)
     {
 		PawnSensing->OnSeePawn.AddDynamic(this, &ACPP_Enemy::OnSeePawn); //call OnSeePawn when a pawn is seen
     }
-	
 }
 
 // Called every frame
@@ -39,6 +39,11 @@ void ACPP_Enemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!EnemyJumpTimer.IsValid() && seeingPlayer)
+	{
+		EnemyJumpTimer = FTimerHandle();
+		GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 1.0f, false);
+	}
 }
 
 // Called to bind functionality to input
@@ -70,7 +75,18 @@ void ACPP_Enemy::OnSeePawn(APawn* Pawn) //player or 'other' pawn passed in via p
 			if (AIControllerClass != nullptr)
 			{
 				AIController->MoveToActor(Pawn);
+				//GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 1.0f, true);
 			}
+
+
 		}
 	}
+}
+
+void ACPP_Enemy::EnemyJump()
+{
+
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));
+	Jump();
+	EnemyJumpTimer.Invalidate();
 }

@@ -34,7 +34,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	UEnvQuery *RandomSpawnEQS;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		TSubclassOf<ACPP_Enemy> enemyClass;
 
 	//funcitons
