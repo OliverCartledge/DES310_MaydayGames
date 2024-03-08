@@ -20,8 +20,8 @@ ABP_standObjective::ABP_standObjective()
 	objectiveMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("objectiveMesh"));
 	collisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("collisionSphere"));
 
-	collisionSphere->SetupAttachment(RootComponent); 
 	objectiveMesh->SetupAttachment(RootComponent);
+	collisionSphere->SetupAttachment(objectiveMesh);
 
 	collisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ABP_standObjective::BeginOverlap);
 	collisionSphere->OnComponentEndOverlap.AddDynamic(this, &ABP_standObjective::EndOverlap);
