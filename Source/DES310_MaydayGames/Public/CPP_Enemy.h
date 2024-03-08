@@ -35,7 +35,13 @@ public:
 	void OnSeePawn(APawn* Pawn);
 
 	UFUNCTION()
+	void EnemyJumpToLedge();
+
+	UFUNCTION()
 	void EnemyJump();
+
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	bool IsWithinNavMeshProxy();
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
 	bool seeingPlayer;

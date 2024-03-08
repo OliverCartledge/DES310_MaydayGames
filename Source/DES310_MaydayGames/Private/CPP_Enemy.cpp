@@ -2,91 +2,136 @@
 #include "CPP_Enemy.h"
 #include "AIController.h"
 #include "Engine.h"
+#include "NavigationSystem.h" // Ensure this is included for navigation system access
+#include "AI/Navigation/NavigationTypes.h" // For FNavLocation
+#include "GameFramework/CharacterMovementComponent.h" // For character movement component
 #include "DES310_MaydayGamesCharacter.generated.h"
-
 
 // Sets default values
 ACPP_Enemy::ACPP_Enemy()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	
-	seeingPlayer = false;
-	
-	//set up and enable pawn sensing (using by AI to sense player)
-	PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensing");
-	PawnSensing->bEnableSensingUpdates = true;
-	PawnSensing->SetPeripheralVisionAngle(180.f);
+    // Set this character to call Tick() every frame.
+    PrimaryActorTick.bCanEverTick = true;
 
-	Tags.Add(FName("Enemy"));
-	
+    seeingPlayer = false;
+
+    // Set up and enable pawn sensing (using by AI to sense player)
+    PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensing");
+    PawnSensing->bEnableSensingUpdates = true;
+    PawnSensing->SetPeripheralVisionAngle(180.f);
+
+    Tags.Add(FName("Enemy"));
 }
 
 // Called when the game starts or when spawned
 void ACPP_Enemy::BeginPlay()
 {
-	Super::BeginPlay();
+    Super::BeginPlay();
 
-	//add pawn sensing's "OnSeePawn" - this triggers when the AI 'see's' the player pawn
-	if (PawnSensing)
+    // Add pawn sensing's "OnSeePawn" - this triggers when the AI 'sees' the player pawn
+    if (PawnSensing)
     {
-		PawnSensing->OnSeePawn.AddDynamic(this, &ACPP_Enemy::OnSeePawn); //call OnSeePawn when a pawn is seen
+        PawnSensing->OnSeePawn.AddDynamic(this, &ACPP_Enemy::OnSeePawn); // Call OnSeePawn when a pawn is seen
     }
 }
 
 // Called every frame
 void ACPP_Enemy::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
-	if (!EnemyJumpTimer.IsValid() && seeingPlayer)
-	{
-		EnemyJumpTimer = FTimerHandle();
-		GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 1.0f, false);
-	}
+    if (!EnemyJumpTimer.IsValid() && seeingPlayer)
+    {
+        EnemyJumpTimer = FTimerHandle();
+        GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 1.0f, false);
+    }
+
+
+    //worst case:
+        //if enemy colides with proxy
+            //apply upwards force and impulse
+                //eg: 
+                        //    FVector JumpForce = FVector(0, 0, 10); // Adjust force as needed
+                        //    LocalCharacterMovement->AddImpulse(JumpForce, true);
+
+
+ /*   if (IsWithinNavMeshProxy())
+    {
+        EnemyJumpToLedge();
+    }
+    else if (!EnemyJumpTimer.IsValid() && seeingPlayer)
+    {
+        EnemyJumpTimer = FTimerHandle();
+        GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 1.0f, false);
+    }*/
 }
 
 // Called to bind functionality to input
 void ACPP_Enemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-
-//OnSeePawn function (created)
-//This is what enables the AI to 'see' the player pawn
-void ACPP_Enemy::OnSeePawn(APawn* Pawn) //player or 'other' pawn passed in via param
+void ACPP_Enemy::OnSeePawn(APawn* Pawn) 
 {
 
-	//check for player tag to allow this ot see the player, specifically
-	if(Pawn->ActorHasTag("Player"))
-	{
-		seeingPlayer = true;
+    if (Pawn->ActorHasTag("Player"))
+    {
+        seeingPlayer = true;
 
-		//if the player is see
-		if(seeingPlayer)
-		{
-			//AI MOVETO:
-				//get the AI's controller to override/update it
-			AAIController* AIController = GetController<AAIController>();
+        // If the player is seen
+        if (seeingPlayer)
+        {
+            AAIController* AIController = GetController<AAIController>();
 
-			//move the AI to the player (pawn actor)
-			if (AIControllerClass != nullptr)
-			{
-				AIController->MoveToActor(Pawn);
-				//GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 1.0f, true);
-			}
-
-
-		}
-	}
+            if (AIController)
+            {
+                AIController->MoveToActor(Pawn);
+            }
+        }
+    }
 }
 
 void ACPP_Enemy::EnemyJump()
 {
+    //UCharacterMovementComponent* LocalCharacterMovement = GetCharacterMovement();
+    //if (LocalCharacterMovement)
+    //{
+    //    // Standard jump force
+    //    FVector JumpForce = FVector(0, 0, 10); // Adjust force as needed
+    //    LocalCharacterMovement->AddImpulse(JumpForce, true);
+    //}
 
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));
-	Jump();
-	EnemyJumpTimer.Invalidate();
+    //GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));  //debug
+    Jump();
+    EnemyJumpTimer.Invalidate();
+}
+
+void ACPP_Enemy::EnemyJumpToLedge()
+{
+    // Character component that handles movement
+    UCharacterMovementComponent* LocalCharacterMovement = GetCharacterMovement();
+    if (LocalCharacterMovement)
+    {
+        // Upward impulse to simulate a jump
+        FVector JumpForceLedge = FVector(0, 0, 100); // Example force, adjust as needed
+        LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
+    }
+}
+
+bool ACPP_Enemy::IsWithinNavMeshProxy()
+{
+    // Get the AI's current location
+    FVector AILocation = GetActorLocation();
+
+    // Get NavMesh current location
+    FNavLocation NavLocation;
+    const UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(GetWorld());
+    if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation))
+    {
+        return true;
+    }
+
+    // The AI is not within the NavMesh
+    return false;
 }
