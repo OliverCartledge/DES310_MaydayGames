@@ -40,11 +40,11 @@ void ACPP_Enemy::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    if (!EnemyJumpTimer.IsValid() && seeingPlayer)
+  /*  if (!EnemyJumpTimer.IsValid() && seeingPlayer)
     {
         EnemyJumpTimer = FTimerHandle();
         GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 1.0f, false);
-    }
+    }*/
 
 
     //worst case:
@@ -55,11 +55,13 @@ void ACPP_Enemy::Tick(float DeltaTime)
                         //    LocalCharacterMovement->AddImpulse(JumpForce, true);
 
 
- /*   if (IsWithinNavMeshProxy())
+    IsWithinNavMeshProxy();
+
+    /*if (IsWithinNavMeshProxy())
     {
-        EnemyJumpToLedge();
-    }
-    else if (!EnemyJumpTimer.IsValid() && seeingPlayer)
+        EnemyJump();
+    }*/
+  /*  else if (!EnemyJumpTimer.IsValid() && seeingPlayer)
     {
         EnemyJumpTimer = FTimerHandle();
         GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 1.0f, false);
@@ -102,7 +104,7 @@ void ACPP_Enemy::EnemyJump()
     //    LocalCharacterMovement->AddImpulse(JumpForce, true);
     //}
 
-    //GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));  //debug
+    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));  //debug
     Jump();
     EnemyJumpTimer.Invalidate();
 }
@@ -114,7 +116,8 @@ void ACPP_Enemy::EnemyJumpToLedge()
     if (LocalCharacterMovement)
     {
         // Upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 100); // Example force, adjust as needed
+        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));  //debug
+        FVector JumpForceLedge = FVector(0, 0, 50); // Example force, adjust as needed
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
@@ -123,15 +126,20 @@ bool ACPP_Enemy::IsWithinNavMeshProxy()
 {
     // Get the AI's current location
     FVector AILocation = GetActorLocation();
+    FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+
 
     // Get NavMesh current location
     FNavLocation NavLocation;
     const UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(GetWorld());
-    if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation))
+    if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation) && AILocation.Z < PlayerLocation.Z)
     {
-        return true;
+        //add: is player not jump
+        //or, most likey better, code a funciton which uses a threashold to stop the bouncing
+        EnemyJumpToLedge();
     }
 
     // The AI is not within the NavMesh
+    UE_LOG(LogTemp, Warning, TEXT("AI is not within NavMesh proxy."));
     return false;
 }
