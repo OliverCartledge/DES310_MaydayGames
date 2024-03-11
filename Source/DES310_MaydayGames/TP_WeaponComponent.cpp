@@ -23,7 +23,6 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 
 	//particle system
 	//ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystem");
-	AddLocalRotation(FRotator(0.0, 0.0, 15.0));
 }
 
 //Check if right click is being held down
@@ -37,8 +36,8 @@ void UTP_WeaponComponent::ADSPressed()
 		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 		ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 		Player->ShouldShowCrosshair.Broadcast(IsADS);
-		AddLocalRotation(FRotator(0.0, 0.0, -15.0));
 	}
+	AddLocalRotation(FRotator(0.0, 0.0, -15.0));
 }
 
 //Check if right click has been released
@@ -50,7 +49,7 @@ void UTP_WeaponComponent::ADSReleased()
 	ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 	Player->ShouldShowCrosshair.Broadcast(IsADS);
 
-	if (!Character->GetJumpStatus())
+	//if (!Character->GetJumpStatus())
 	AddLocalRotation(FRotator(0.0, 0.0, 15.0));
 }
 
@@ -59,21 +58,22 @@ void UTP_WeaponComponent::Reload()
 {
 	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
-
-	bulletCount = 40;
-	IsReloading = true;
-
-	MyPlayerState->updateAmmoCount(bulletCount);
-
-	AActor* OwningActor = GetOwner();
-
-	AddLocalRotation(FRotator(25.0, 0.0, 0.0));
-
-	//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
-
-	if (OwningActor)
+	if (!IsReloading)
 	{
-		OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
+		bulletCount = 40;
+		IsReloading = true;
+		MyPlayerState->updateAmmoCount(bulletCount);
+
+		AActor* OwningActor = GetOwner();
+
+		AddLocalRotation(FRotator(25.0, 0.0, 0.0));
+
+		//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
+
+		if (OwningActor)
+		{
+			OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
+		}
 	}
 
 	//debugging
