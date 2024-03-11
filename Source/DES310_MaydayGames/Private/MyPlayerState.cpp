@@ -30,3 +30,17 @@ void AMyPlayerState::updateAmmoCount(int ammoUpdate)
 	AmmoCounter.Broadcast(currentAmmo, TempAmmoCount);
 }
 
+void AMyPlayerState::updateObjCount(int objScoreUpdate)
+{
+	const int32 oldObjScore = objScore;
+
+	objScore += objScoreUpdate;
+
+	if (objScore >= 3)
+	{
+		//extraction becomes true
+		GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, TEXT("WIN CONDITIONS MET: EXTRACTION POSSIBLE"));  //debug
+	}
+	
+}
+

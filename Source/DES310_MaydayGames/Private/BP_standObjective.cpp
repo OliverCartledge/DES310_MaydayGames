@@ -51,7 +51,7 @@ void ABP_standObjective::BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 {
 	if (OtherActor != nullptr && OtherActor->ActorHasTag("Player"))
 	{
-		GetWorld()->GetTimerManager().SetTimer(objectiveTimer, this, &ABP_standObjective::objectiveSucceed, 10.f, false);
+		GetWorld()->GetTimerManager().SetTimer(objectiveTimer, this, &ABP_standObjective::objectiveSucceed, 5.f, false);
 	}
 }
 
@@ -71,9 +71,10 @@ void ABP_standObjective::EndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 void ABP_standObjective::objectiveSucceed()
 {
 	MyPlayerState->updateScore(scoreToGive);
-
+	MyPlayerState->updateObjCount(objIncrement);
 	objectiveMesh->SetMaterial(0, endMaterial);
 
 	objComplete = true;
+	
 }
 

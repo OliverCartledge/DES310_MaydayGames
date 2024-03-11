@@ -48,6 +48,7 @@ protected:
 
 	FTimerHandle objectiveTimer;
 	int32 scoreToGive = 100;
+	int32 objIncrement = 1;
 
 
 	UFUNCTION()
