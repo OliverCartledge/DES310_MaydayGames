@@ -23,7 +23,6 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 
 	//particle system
 	//ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystem");
-	AddLocalRotation(FRotator(0.0, 0.0, 15.0));
 }
 
 //Check if right click is being held down
@@ -67,7 +66,7 @@ void UTP_WeaponComponent::Reload()
 
 	AActor* OwningActor = GetOwner();
 
-	AddLocalRotation(FRotator(25.0, 0.0, 0.0));
+	AddLocalRotation(FRotator(15.0, 0.0, 0.0));
 
 	//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
 
@@ -85,7 +84,7 @@ void UTP_WeaponComponent::StopReload()
 	IsReloading = false;
 	AActor* OwningActor = GetOwner();
 
-	AddLocalRotation(FRotator(-25.0, 0.0, 0.0));
+	AddLocalRotation(FRotator(-15.0, 0.0, 0.0));
 
 	if (OwningActor)
 		OwningActor->GetWorldTimerManager().ClearTimer(ReloadTimer);
@@ -230,6 +229,8 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 	
 	// switch bHasRifle so the animation blueprint can switch to another animation set
 	Character->SetHasRifle(true);
+
+	AddLocalRotation(FRotator(0.0, 0.0, 15.0));
 
 	// Set up action bindings
 	if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
