@@ -23,6 +23,7 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 
 	//particle system
 	//ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystem");
+	AddLocalRotation(FRotator(0.0, 0.0, -15.0));
 }
 
 //Check if right click is being held down
@@ -36,6 +37,7 @@ void UTP_WeaponComponent::ADSPressed()
 		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 		ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 		Player->ShouldShowCrosshair.Broadcast(IsADS);
+		AddLocalRotation(FRotator(0.0, 0.0, 15.0));
 	}
 }
 
@@ -47,6 +49,7 @@ void UTP_WeaponComponent::ADSReleased()
 	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 	ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 	Player->ShouldShowCrosshair.Broadcast(IsADS);
+	AddLocalRotation(FRotator(0.0, 0.0, -15.0));
 }
 
 //Check if right click has been released
