@@ -76,7 +76,6 @@ void ACPP_Enemy::OnSeePawn(APawn* Pawn)
 
 void ACPP_Enemy::EnemyJump()
 {
-    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));  //debug
     Jump();
     EnemyJumpTimer.Invalidate();
 }
@@ -88,7 +87,7 @@ void ACPP_Enemy::EnemyJumpToLedge()
     if (LocalCharacterMovement)
     {
         //upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 45); // Example force, adjust as needed
+        FVector JumpForceLedge = FVector(0, 0, 55); // Example force, adjust as needed
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
@@ -100,7 +99,7 @@ void ACPP_Enemy::EnemyJumpToHighLedge()
     if (LocalCharacterMovement)
     {
         //upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 90); // Example force, adjust as needed
+        FVector JumpForceLedge = FVector(0, 0, 105); // Example force, adjust as needed
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
@@ -112,7 +111,7 @@ void ACPP_Enemy::EnemyJumpToReallyHighLedge()
     if (LocalCharacterMovement)
     {
         //upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 120); // Example force, adjust as needed
+        FVector JumpForceLedge = FVector(0, 0, 175); // Example force, adjust as needed
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }

@@ -28,7 +28,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "health")
 	float enemyHealth = 100.f;
 
-	int enemyGiveScore = 10.f;
+	int32 enemyGiveScore = 10;
+
+	int32 objWinIndex = 0;
 	
 	//definition on 'pawn see' funciton
 	UFUNCTION()
