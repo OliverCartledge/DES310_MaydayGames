@@ -38,6 +38,9 @@ public:
 	void EnemyJumpToLedge();
 
 	UFUNCTION()
+	void EnemyJumpToHighLedge();
+
+	UFUNCTION()
 	void EnemyJump();
 
 	UFUNCTION(BlueprintCallable, Category = "AI")

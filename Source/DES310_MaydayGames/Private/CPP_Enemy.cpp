@@ -96,14 +96,6 @@ void ACPP_Enemy::OnSeePawn(APawn* Pawn)
 
 void ACPP_Enemy::EnemyJump()
 {
-    //UCharacterMovementComponent* LocalCharacterMovement = GetCharacterMovement();
-    //if (LocalCharacterMovement)
-    //{
-    //    // Standard jump force
-    //    FVector JumpForce = FVector(0, 0, 10); // Adjust force as needed
-    //    LocalCharacterMovement->AddImpulse(JumpForce, true);
-    //}
-
     GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));  //debug
     Jump();
     EnemyJumpTimer.Invalidate();
@@ -117,7 +109,20 @@ void ACPP_Enemy::EnemyJumpToLedge()
     {
         // Upward impulse to simulate a jump
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));  //debug
-        FVector JumpForceLedge = FVector(0, 0, 50); // Example force, adjust as needed
+        FVector JumpForceLedge = FVector(0, 0, 45); // Example force, adjust as needed
+        LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
+    }
+}
+
+void ACPP_Enemy::EnemyJumpToHighLedge()
+{
+    // Character component that handles movement
+    UCharacterMovementComponent* LocalCharacterMovement = GetCharacterMovement();
+    if (LocalCharacterMovement)
+    {
+        // Upward impulse to simulate a jump
+        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy jump"));  //debug
+        FVector JumpForceLedge = FVector(0, 0, 80); // Example force, adjust as needed
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
@@ -132,11 +137,20 @@ bool ACPP_Enemy::IsWithinNavMeshProxy()
     // Get NavMesh current location
     FNavLocation NavLocation;
     const UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(GetWorld());
-    if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation) && AILocation.Z < PlayerLocation.Z)
+    float LowThreashold = 100;
+    float HighThreashold = 250;
+
+    if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation) && AILocation.Z + LowThreashold < PlayerLocation.Z)
     {
         //add: is player not jump
         //or, most likey better, code a funciton which uses a threashold to stop the bouncing
         EnemyJumpToLedge();
+    }
+    else if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation) && AILocation.Z + HighThreashold < PlayerLocation.Z)
+    {
+        //add: is player not jump
+        //or, most likey better, code a funciton which uses a threashold to stop the bouncing
+        EnemyJumpToHighLedge();
     }
 
     // The AI is not within the NavMesh
