@@ -223,7 +223,6 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 		return;
 	}
 
-
 	// Attach the weapon to the First Person Character
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint")));
