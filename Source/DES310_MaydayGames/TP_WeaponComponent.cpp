@@ -138,7 +138,7 @@ void UTP_WeaponComponent::Fire()
 
 			FVector ForwardVector = OurCamera->GetActorForwardVector();
 			FRotator StartPoint = OurCamera->GetCameraRotation();
-			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(FVector(100.0f, -35.0f, 25.0f));
+			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(FVector(25.0f, -20.0f, 25.0f));
 			//const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
 			FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
 			FCollisionQueryParams CollisionParams;
