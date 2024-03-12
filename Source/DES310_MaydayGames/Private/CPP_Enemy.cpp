@@ -17,7 +17,6 @@ ACPP_Enemy::ACPP_Enemy()
     PawnSensing->bEnableSensingUpdates = true;
     PawnSensing->SetPeripheralVisionAngle(180.f);
 
-    CheckNavMeshTimerHandle = FTimerHandle();
     EnemyJumpTimer = FTimerHandle();
 
     Tags.Add(FName("Enemy"));
@@ -50,12 +49,7 @@ void ACPP_Enemy::Tick(float DeltaTime)
         GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 3.5f, false);
     }
 
-    //  if (CheckNavMeshTimerHandle.IsValid())
-    //{
-    //    GetWorldTimerManager().SetTimer(CheckNavMeshTimerHandle, this, &ACPP_Enemy::IsWithinNavMeshProxy, 1.0f, true);
-    //}
-
-    //IsWithinNavMeshProxy();
+    IsWithinNavMeshProxy();
     
 }
 
@@ -131,6 +125,13 @@ void ACPP_Enemy::EnemyJumpToReallyHighLedge()
 
 void ACPP_Enemy::IsWithinNavMeshProxy()
 {
+
+    //check for player
+    if (!IsValid(GetWorld()->GetFirstPlayerController()->GetPawn()))
+    {
+        return;
+    }
+
     //get the AI's current location
     FVector AILocation = GetActorLocation();
     FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
