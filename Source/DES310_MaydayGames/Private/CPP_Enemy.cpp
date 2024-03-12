@@ -1,16 +1,13 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 #include "CPP_Enemy.h"
 #include "AIController.h"
 #include "Engine.h"
-#include "NavigationSystem.h" // Ensure this is included for navigation system access
-#include "AI/Navigation/NavigationTypes.h" // For FNavLocation
-#include "GameFramework/CharacterMovementComponent.h" // For character movement component
+#include "NavigationSystem.h" 
+#include "AI/Navigation/NavigationTypes.h" 
+#include "GameFramework/CharacterMovementComponent.h" 
 #include "DES310_MaydayGamesCharacter.generated.h"
 
-// Sets default values
 ACPP_Enemy::ACPP_Enemy()
 {
-    //set this character to call Tick() every frame.
     PrimaryActorTick.bCanEverTick = true;
 
     seeingPlayer = false;
@@ -54,9 +51,8 @@ void ACPP_Enemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ACPP_Enemy::OnSeePawn(APawn* Pawn) 
+void ACPP_Enemy::OnSeePawn(APawn* Pawn)
 {
-
     if (Pawn->ActorHasTag("Player"))
     {
         seeingPlayer = true;
@@ -77,7 +73,10 @@ void ACPP_Enemy::OnSeePawn(APawn* Pawn)
 void ACPP_Enemy::EnemyJump()
 {
     Jump();
-    EnemyJumpTimer.Invalidate();
+    if (EnemyJumpTimer.IsValid())
+    {
+        EnemyJumpTimer.Invalidate();
+    }
 }
 
 void ACPP_Enemy::EnemyJumpToLedge()
@@ -87,7 +86,7 @@ void ACPP_Enemy::EnemyJumpToLedge()
     if (LocalCharacterMovement)
     {
         //upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 55); // Example force, adjust as needed
+        FVector JumpForceLedge = FVector(0, 0, 60); // Example force, adjust as needed
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
@@ -111,7 +110,7 @@ void ACPP_Enemy::EnemyJumpToReallyHighLedge()
     if (LocalCharacterMovement)
     {
         //upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 175); // Example force, adjust as needed
+        FVector JumpForceLedge = FVector(0, 0, 170); // Example force, adjust as needed
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
@@ -121,11 +120,6 @@ bool ACPP_Enemy::IsWithinNavMeshProxy()
     //get the AI's current location
     FVector AILocation = GetActorLocation();
     FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-
-
-    //get NavMesh current location
-    FNavLocation NavLocation;
-    const UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(GetWorld());
 
     //jump threasholds
     float LowThreashold = 150.f;
@@ -137,17 +131,17 @@ bool ACPP_Enemy::IsWithinNavMeshProxy()
     float DistanceToPlayer = FVector::Dist(AILocation, PlayerLocation);
 
     //if AI is near player and under the player, jump
-    if(DistanceToPlayer <= ProximityThreashold)
+    if (DistanceToPlayer <= ProximityThreashold)
     {
-        if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation) && AILocation.Z + LowThreashold < PlayerLocation.Z)
+        if (AILocation.Z + LowThreashold < PlayerLocation.Z)
         {
             EnemyJumpToLedge();
         }
-        else if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation) && AILocation.Z + HighThreashold < PlayerLocation.Z)
+        else if (AILocation.Z + HighThreashold < PlayerLocation.Z) 
         {
             EnemyJumpToHighLedge();
         }
-        else if (NavSystem && NavSystem->ProjectPointToNavigation(AILocation, NavLocation) && AILocation.Z + ReallyHighThreashold < PlayerLocation.Z)
+        else if (AILocation.Z + ReallyHighThreashold < PlayerLocation.Z)
         {
             EnemyJumpToReallyHighLedge();
         }
