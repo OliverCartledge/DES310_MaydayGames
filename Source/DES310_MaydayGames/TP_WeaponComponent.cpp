@@ -15,6 +15,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
+
 // Sets default values for this component's properties
 UTP_WeaponComponent::UTP_WeaponComponent()
 {
@@ -36,8 +37,12 @@ void UTP_WeaponComponent::ADSPressed()
 		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 		ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 		Player->ShouldShowCrosshair.Broadcast(IsADS);
+
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+		AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint_0")));
 	}
-	AddLocalRotation(FRotator(0.0, 0.0, -15.0));
+	//AddLocalRotation(FRotator(0.0, 0.0, -15.0));
+
 }
 
 //Check if right click has been released
@@ -49,8 +54,11 @@ void UTP_WeaponComponent::ADSReleased()
 	ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 	Player->ShouldShowCrosshair.Broadcast(IsADS);
 
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+	AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint")));
+
 	//if (!Character->GetJumpStatus())
-	AddLocalRotation(FRotator(0.0, 0.0, 15.0));
+	//AddLocalRotation(FRotator(0.0, 0.0, 15.0));
 }
 
 //Check if right click has been released
@@ -138,7 +146,7 @@ void UTP_WeaponComponent::Fire()
 
 			FVector ForwardVector = OurCamera->GetActorForwardVector();
 			FRotator StartPoint = OurCamera->GetCameraRotation();
-			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(FVector(100.0f, -35.0f, 25.0f));
+			const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(FVector(25.0f, -20.0f, 25.0f));
 			//const FVector SpawnLocation = GetOwner()->GetActorLocation() + StartPoint.RotateVector(MuzzleOffset);
 			FVector EndPoint = SpawnLocation + (ForwardVector * 10000);
 			FCollisionQueryParams CollisionParams;
@@ -226,7 +234,7 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 	// Attach the weapon to the First Person Character
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint")));
-	
+
 	// switch bHasRifle so the animation blueprint can switch to another animation set
 	Character->SetHasRifle(true);
 
