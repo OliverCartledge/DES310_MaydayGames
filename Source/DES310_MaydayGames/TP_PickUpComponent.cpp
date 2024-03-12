@@ -4,6 +4,8 @@
 
 AActor* OtherActorTest;
 
+int i = 0;
+
 UTP_PickUpComponent::UTP_PickUpComponent()
 {
 	// Setup the Sphere Collision
@@ -33,18 +35,22 @@ void UTP_PickUpComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedCo
 {
 	// Checking if it is a First Person Character overlapping
 	ADES310_MaydayGamesCharacter* Character = Cast<ADES310_MaydayGamesCharacter>(OtherActor);
-	OtherActorTest = OtherActor;
+	//OtherActorTest = OtherActor;
 	if(Character != nullptr)
 	{
-		// Set up action bindings
-		if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
-		{
-			if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
-			{
-				// Fire
-				EnhancedInputComponent->BindAction(PickupAction, ETriggerEvent::Triggered, this, &UTP_PickUpComponent::pickWeaponUp);
-			}
-			
-		}
+		// Notify that the actor is being picked up
+		OnPickUp.Broadcast(Character);
+
+		// Unregister from the Overlap Event so it is no longer triggered
+		OnComponentBeginOverlap.RemoveAll(this);
+		//// Set up action bindings
+		//if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
+		//{
+		//	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
+		//	{
+		//		// Fire
+		//		EnhancedInputComponent->BindAction(PickupAction, ETriggerEvent::Triggered, this, &UTP_PickUpComponent::pickWeaponUp);
+		//	}
+		//}
 	}
 }
