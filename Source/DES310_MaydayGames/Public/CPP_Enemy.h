@@ -49,7 +49,8 @@ public:
 	void EnemyJump();
 
 	UFUNCTION(BlueprintCallable, Category = "AI")
-	bool IsWithinNavMeshProxy();
+	void IsWithinNavMeshProxy();
+
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
 	bool seeingPlayer;
@@ -58,7 +59,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	UPawnSensingComponent* PawnSensing;
 
-
+	FTimerHandle CheckNavMeshTimerHandle;
 	FTimerHandle EnemyJumpTimer;
 
 protected:

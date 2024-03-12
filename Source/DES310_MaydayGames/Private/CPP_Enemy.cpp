@@ -17,6 +17,9 @@ ACPP_Enemy::ACPP_Enemy()
     PawnSensing->bEnableSensingUpdates = true;
     PawnSensing->SetPeripheralVisionAngle(180.f);
 
+    CheckNavMeshTimerHandle = FTimerHandle();
+    EnemyJumpTimer = FTimerHandle();
+
     Tags.Add(FName("Enemy"));
 }
 
@@ -25,9 +28,14 @@ void ACPP_Enemy::BeginPlay()
     Super::BeginPlay();
 
     //add pawn sensing's "OnSeePawn" - this triggers when the AI 'sees' the player pawn
-    if (PawnSensing)
+    if (IsValid(PawnSensing))
     {
         PawnSensing->OnSeePawn.AddDynamic(this, &ACPP_Enemy::OnSeePawn); // Call OnSeePawn when a pawn is seen
+    }
+
+    if (CheckNavMeshTimerHandle.IsValid())
+    {
+        GetWorldTimerManager().SetTimer(CheckNavMeshTimerHandle, this, &ACPP_Enemy::IsWithinNavMeshProxy, 1.0f, true);
     }
 }
 
@@ -42,7 +50,13 @@ void ACPP_Enemy::Tick(float DeltaTime)
         GetWorldTimerManager().SetTimer(EnemyJumpTimer, this, &ACPP_Enemy::EnemyJump, 3.5f, false);
     }
 
-    IsWithinNavMeshProxy();
+    //  if (CheckNavMeshTimerHandle.IsValid())
+    //{
+    //    GetWorldTimerManager().SetTimer(CheckNavMeshTimerHandle, this, &ACPP_Enemy::IsWithinNavMeshProxy, 1.0f, true);
+    //}
+
+    //IsWithinNavMeshProxy();
+    
 }
 
 // Called to bind functionality to input
@@ -53,7 +67,7 @@ void ACPP_Enemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 void ACPP_Enemy::OnSeePawn(APawn* Pawn)
 {
-    if (Pawn->ActorHasTag("Player"))
+    if (IsValid(Pawn) && Pawn->ActorHasTag("Player"))
     {
         seeingPlayer = true;
 
@@ -62,7 +76,7 @@ void ACPP_Enemy::OnSeePawn(APawn* Pawn)
         {
             AAIController* AIController = GetController<AAIController>();
 
-            if (AIController)
+            if (IsValid(AIController))
             {
                 AIController->MoveToActor(Pawn);
             }
@@ -115,7 +129,7 @@ void ACPP_Enemy::EnemyJumpToReallyHighLedge()
     }
 }
 
-bool ACPP_Enemy::IsWithinNavMeshProxy()
+void ACPP_Enemy::IsWithinNavMeshProxy()
 {
     //get the AI's current location
     FVector AILocation = GetActorLocation();
@@ -127,7 +141,7 @@ bool ACPP_Enemy::IsWithinNavMeshProxy()
     float ReallyHighThreashold = 500.f;
 
     //proximity checks
-    float ProximityThreashold = 500.f;
+    float ProximityThreashold = 650.f;
     float DistanceToPlayer = FVector::Dist(AILocation, PlayerLocation);
 
     //if AI is near player and under the player, jump
@@ -136,16 +150,18 @@ bool ACPP_Enemy::IsWithinNavMeshProxy()
         if (AILocation.Z + LowThreashold < PlayerLocation.Z)
         {
             EnemyJumpToLedge();
+            GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Jump activated")));
         }
         else if (AILocation.Z + HighThreashold < PlayerLocation.Z) 
         {
             EnemyJumpToHighLedge();
+            GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("High Jump activated")));
         }
         else if (AILocation.Z + ReallyHighThreashold < PlayerLocation.Z)
         {
             EnemyJumpToReallyHighLedge();
+            GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Super High Jump activated")));
         }
     }
-
-    return false;
 }
+
