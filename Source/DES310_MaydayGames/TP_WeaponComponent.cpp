@@ -37,12 +37,12 @@ void UTP_WeaponComponent::ADSPressed()
 		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 		ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 		Player->ShouldShowCrosshair.Broadcast(IsADS);
+
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+		AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint_0")));
 	}
 	//AddLocalRotation(FRotator(0.0, 0.0, -15.0));
 
-	// Attach the weapon to the First Person Character
-	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
-	AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint_0")));
 }
 
 //Check if right click has been released
