@@ -37,6 +37,7 @@ void UTP_WeaponComponent::ADSPressed()
 		ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 		Player->ShouldShowCrosshair.Broadcast(IsADS);
 	}
+	AddLocalRotation(FRotator(0.0, 0.0, -15.0));
 }
 
 //Check if right click has been released
@@ -47,6 +48,9 @@ void UTP_WeaponComponent::ADSReleased()
 	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 	ADES310_MaydayGamesCharacter* Player = Cast<ADES310_MaydayGamesCharacter>(PlayerPawn);
 	Player->ShouldShowCrosshair.Broadcast(IsADS);
+
+	//if (!Character->GetJumpStatus())
+	AddLocalRotation(FRotator(0.0, 0.0, 15.0));
 }
 
 //Check if right click has been released
@@ -54,21 +58,22 @@ void UTP_WeaponComponent::Reload()
 {
 	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
-
-	bulletCount = 40;
-	IsReloading = true;
-
-	MyPlayerState->updateAmmoCount(bulletCount);
-
-	AActor* OwningActor = GetOwner();
-
-
-
-	//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
-
-	if (OwningActor)
+	if (!IsReloading)
 	{
-		OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
+		bulletCount = 40;
+		IsReloading = true;
+		MyPlayerState->updateAmmoCount(bulletCount);
+
+		AActor* OwningActor = GetOwner();
+
+		AddLocalRotation(FRotator(25.0, 0.0, 0.0));
+
+		//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
+
+		if (OwningActor)
+		{
+			OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
+		}
 	}
 
 	//debugging
@@ -79,6 +84,8 @@ void UTP_WeaponComponent::StopReload()
 {
 	IsReloading = false;
 	AActor* OwningActor = GetOwner();
+
+	AddLocalRotation(FRotator(-25.0, 0.0, 0.0));
 
 	if (OwningActor)
 		OwningActor->GetWorldTimerManager().ClearTimer(ReloadTimer);
