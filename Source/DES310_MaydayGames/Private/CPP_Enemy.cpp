@@ -151,17 +151,17 @@ void ACPP_Enemy::IsWithinNavMeshProxy()
         if (AILocation.Z + LowThreashold < PlayerLocation.Z)
         {
             EnemyJumpToLedge();
-            GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Jump activated")));
+            //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Jump activated")));
         }
         else if (AILocation.Z + HighThreashold < PlayerLocation.Z) 
         {
             EnemyJumpToHighLedge();
-            GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("High Jump activated")));
+            //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("High Jump activated")));
         }
         else if (AILocation.Z + ReallyHighThreashold < PlayerLocation.Z)
         {
             EnemyJumpToReallyHighLedge();
-            GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Super High Jump activated")));
+            //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Super High Jump activated")));
         }
     }
 }

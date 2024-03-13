@@ -26,8 +26,9 @@ public:
 	ACPP_Enemy();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "health")
-	float enemyHealth = 100.f;
+	float enemyHealth;
 
+	UPROPERTY(EditAnywhere, category = "Score")
 	int32 enemyGiveScore = 10;
 
 	int32 objWinIndex = 0;
