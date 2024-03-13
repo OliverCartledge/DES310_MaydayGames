@@ -38,14 +38,14 @@ void ACPP_BuyableDoor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	//Check if player character has entered the zone (this makes sure it wont tick on enemys too lol)
 	if (OtherActor && OtherActor->IsA(ADES310_MaydayGamesCharacter::StaticClass()))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("InBuyableRange"));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("InBuyableRange"));
 
 		AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
 		//MyPlayerState->updateScore(50);
 		if (MyPlayerState->myGetScore() >= 50)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Door Is Buyable!"));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Door Is Buyable!"));
 			//if (Character != nullptr)
 			//{
 				// Set up action bindings
@@ -61,7 +61,7 @@ void ACPP_BuyableDoor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 			//}
 		}
 		else
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Door Is not Buyable!"));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Door Is not Buyable!"));
 
 
 		
@@ -72,7 +72,7 @@ void ACPP_BuyableDoor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 {
 	if (OtherActor && OtherActor->IsA(ADES310_MaydayGamesCharacter::StaticClass()))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("OutBuyableRange"));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("OutBuyableRange"));
 	}
 }
 

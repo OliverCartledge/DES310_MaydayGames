@@ -154,7 +154,7 @@ void UTP_WeaponComponent::Fire()
 			canFire = false;
 			StartTimer();
 
-			DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
+			//DrawDebugLine(GetWorld(), SpawnLocation, EndPoint, FColor::Green, true);
 
 			bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, SpawnLocation, EndPoint, ECC_Pawn, CollisionParams);
 
