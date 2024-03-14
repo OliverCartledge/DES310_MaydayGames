@@ -49,22 +49,21 @@ void ACPP_BuyableDoor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 			//if (Character != nullptr)
 			//{
 				// Set up action bindings
-				if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
+			if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
+			{
+				if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
 				{
-					if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
-					{
-						// Fire
-						EnhancedInputComponent->BindAction(BuyDoorAction, ETriggerEvent::Triggered, this, &ACPP_BuyableDoor::RemoveDoor);
-					}
-
+					// Fire
+					EnhancedInputComponent->BindAction(BuyDoorAction, ETriggerEvent::Triggered, this, &ACPP_BuyableDoor::RemoveDoor);
 				}
+
+			}
 			//}
 		}
-		else
+		//else
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Door Is not Buyable!"));
 
 
-		
 	}
 }
 
