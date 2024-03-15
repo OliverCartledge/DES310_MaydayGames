@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "DES310_MaydayGamesProjectile.h"
+#include "CPP_Enemy.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 
@@ -33,10 +34,11 @@ ADES310_MaydayGamesProjectile::ADES310_MaydayGamesProjectile()
 
 void ADES310_MaydayGamesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
 	// Only add impulse and destroy projectile if we hit a physics
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherActor->ActorHasTag("Enemy"))
 	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+		OtherComp->DestroyComponent();
 
 		Destroy();
 	}

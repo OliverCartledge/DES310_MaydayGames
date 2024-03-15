@@ -30,10 +30,13 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, category = "ammo")
 	int ammoMax = 0;
+
+	UPROPERTY(BlueprintReadWrite, category = "ammo")
+	bool hasLauncher = true;
 	
 	/** Projectile class to spawn */
-	//UPROPERTY(EditDefaultsOnly, Category=Projectile)
-	//TSubclassOf<class ADES310_MaydayGamesProjectile> ProjectileClass;
+	UPROPERTY(EditDefaultsOnly, Category=Projectile)
+	TSubclassOf<class ADES310_MaydayGamesProjectile> ProjectileClass;
 
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
@@ -59,6 +62,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* SecondaryFireAction;
 
+	/** ADS Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* ADSAction;
+
 	/** Reload Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ReloadAction;
@@ -70,9 +77,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void AttachWeapon(ADES310_MaydayGamesCharacter* TargetCharacter);
 
-	/** Make the weapon Fire a Projectile */
+	/* Line trace shot for gun */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
+
+	/** Make the weapon Fire a grenade */
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void GrenadeLauncher();
 
 	UFUNCTION(BlueprintCallable)
 	bool LineTraceShot(FHitResult& OutHit);

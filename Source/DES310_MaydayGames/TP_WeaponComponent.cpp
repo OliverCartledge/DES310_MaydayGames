@@ -129,8 +129,6 @@ void UTP_WeaponComponent::Fire()
 		return;
 	}
 
-
-
 	//If the player is hodling right click allow them to shoot
 	if (IsADS && IsShooting)
 	{
@@ -211,6 +209,34 @@ void UTP_WeaponComponent::Fire()
 	}
 }
 
+void UTP_WeaponComponent::GrenadeLauncher()
+{
+	if (IsADS)
+	{
+		// Try and fire a projectile
+		if (ProjectileClass != nullptr)
+		{
+			UWorld* const World = GetWorld();
+			if (World != nullptr)
+			{
+				APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+				const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
+				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+				const FVector SpawnLocation = GetOwner()->GetActorLocation() +SpawnRotation.RotateVector(MuzzleOffset);
+
+				//Set Spawn Collision Handling Override
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher fired")));
+
+				// Spawn the projectile at the muzzle
+				World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			}
+		}
+	}
+}
+
 bool UTP_WeaponComponent::LineTraceShot(FHitResult& OutHit)
 {
 	APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
@@ -250,8 +276,8 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->InputComponent))
 		{
 			//Input mapping for holding/ releasing right click
-			EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Started, this, &UTP_WeaponComponent::ADSPressed);
-			EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Completed, this, &UTP_WeaponComponent::ADSReleased);
+			EnhancedInputComponent->BindAction(ADSAction, ETriggerEvent::Started, this, &UTP_WeaponComponent::ADSPressed);
+			EnhancedInputComponent->BindAction(ADSAction, ETriggerEvent::Completed, this, &UTP_WeaponComponent::ADSReleased);
 
 			//Input mapping for left click 
 			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this, &UTP_WeaponComponent::StartShoot);
@@ -259,6 +285,11 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 
 			//Input mapping for gun reload
 			EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::Reload);
+
+			if (hasLauncher)
+			{
+				EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::GrenadeLauncher);
+			}
 		}
 	}
 }
