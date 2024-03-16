@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class TP_SingleShotFireComponent;
 
 UCLASS(config=Game)
 class ADES310_MaydayGamesProjectile : public AActor
@@ -21,6 +22,7 @@ class ADES310_MaydayGamesProjectile : public AActor
 	/** Projectile movement component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
+
 
 public:
 	ADES310_MaydayGamesProjectile();
