@@ -8,13 +8,6 @@
 #include "EnvironmentQuery/EnvQueryManager.h"
 
 
-//TODO
-//Make simple spawner first, then add EQS.
-//EQS is proving to be quite the task.
-
-
-
-
 // Sets default values
 ACPP_EnemySpawner::ACPP_EnemySpawner()
 {

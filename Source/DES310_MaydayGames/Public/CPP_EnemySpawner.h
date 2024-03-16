@@ -34,6 +34,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	UEnvQuery *RandomSpawnEQS;
 
+	UPROPERTY(EditAnywhere, Category = "AI")
+		float spawnTimer = 2.7;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		TSubclassOf<ACPP_Enemy> enemyClass;
 
