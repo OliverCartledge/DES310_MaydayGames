@@ -69,6 +69,8 @@ protected:
 
 	void DealDamage();
 
+	void HealPlayer();
+
 	void ADSPressed();
 
 	void ADSReleased();
@@ -140,6 +142,8 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 	FTimerHandle DamageTimeHandle;
+
+	FTimerHandle HealingTimeHandle;
 
 protected:
 	// APawn interface

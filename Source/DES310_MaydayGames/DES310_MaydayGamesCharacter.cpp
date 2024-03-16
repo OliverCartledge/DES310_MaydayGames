@@ -194,6 +194,7 @@ void ADES310_MaydayGamesCharacter::BeginOverlap(UPrimitiveComponent* OverlappedC
 {
 	if (OtherActor && OtherActor->IsA(ACPP_Enemy::StaticClass()))
 	{
+		GetWorld()->GetTimerManager().ClearTimer(HealingTimeHandle);
 		//Damage player using a timer similar to how the full auto / fire rate is set up. deadass took me 2 hours to get this working :)
 		GetWorld()->GetTimerManager().SetTimer(DamageTimeHandle, this, &ADES310_MaydayGamesCharacter::DealDamage, 0.1f, true);
 	}
@@ -203,6 +204,11 @@ void ADES310_MaydayGamesCharacter::EndOverlap(UPrimitiveComponent* OverlappedCom
 {
 	//When not overlapping.... stop timer and stop taking dmg
 	GetWorld()->GetTimerManager().ClearTimer(DamageTimeHandle);
+
+	if (playerHealth >=1 && playerHealth <= 50)
+	{
+		GetWorld()->GetTimerManager().SetTimer(HealingTimeHandle, this, &ADES310_MaydayGamesCharacter::HealPlayer, 1.f, true);
+	}
 }
 
 //When collision is made timer starts calling this function to deal dmg
@@ -215,6 +221,13 @@ void ADES310_MaydayGamesCharacter::DealDamage()
 		deathScreen();
 		this->Destroy();
 	}
+}
+
+//Heal the player after a set amount of time
+void ADES310_MaydayGamesCharacter::HealPlayer()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Player being headled")));
+	playerHealth += 1;
 }
 
 void ADES310_MaydayGamesCharacter::shouldDisplayCrosshair(bool isADS)
