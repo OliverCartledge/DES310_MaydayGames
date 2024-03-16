@@ -83,10 +83,6 @@ void ADES310_MaydayGamesCharacter::SetupPlayerInputComponent(class UInputCompone
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADES310_MaydayGamesCharacter::Look);
 
-		//Crouch
-		//EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ADES310_MaydayGamesCharacter::CrouchPressed);
-		//EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &ADES310_MaydayGamesCharacter::CrouchReleased);
-
 		//Input mapping for holding/ releasing right click
 		EnhancedInputComponent->BindAction(ADSAction, ETriggerEvent::Started, this, &ADES310_MaydayGamesCharacter::ADSPressed);
 		EnhancedInputComponent->BindAction(ADSAction, ETriggerEvent::Completed, this, &ADES310_MaydayGamesCharacter::ADSReleased);
@@ -113,17 +109,6 @@ void ADES310_MaydayGamesCharacter::ADSReleased()
 	IsADS = false;
 	UnCrouch();
 }
-
-//void ADES310_MaydayGamesCharacter::CrouchPressed()
-//{
-//	Crouch();
-//}
-//
-//void ADES310_MaydayGamesCharacter::CrouchReleased()
-//{
-//	UnCrouch();
-//}
-
 
 void ADES310_MaydayGamesCharacter::Move(const FInputActionValue& Value)
 {
@@ -169,27 +154,6 @@ bool ADES310_MaydayGamesCharacter::GetJumpStatus()
 	return GetCharacterMovement()->IsFalling();
 }
 
-//player - enemy collisions
-//void ADES310_MaydayGamesCharacter::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
-//{
-//
-//	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
-//	
-//	 if (Other && Other->IsA(ACPP_Enemy::StaticClass()))
-//	 {
-//		 playerHealth -= 1;
-//		 GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Current health: %f"), playerHealth));
-//
-//		 if (playerHealth <= 0)
-//		 {
-//			 deathScreen();
-//			 this->Destroy();
-//		 }
-//
-//	 	//OtherActor->Destroy(); //test
-//	 }
-//}
-
 void ADES310_MaydayGamesCharacter::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor && OtherActor->IsA(ACPP_Enemy::StaticClass()))
@@ -226,7 +190,6 @@ void ADES310_MaydayGamesCharacter::DealDamage()
 //Heal the player after a set amount of time
 void ADES310_MaydayGamesCharacter::HealPlayer()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Player being headled")));
 	playerHealth += 1;
 }
 
