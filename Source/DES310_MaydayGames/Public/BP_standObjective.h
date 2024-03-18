@@ -34,11 +34,11 @@ public:
 	UFUNCTION(BlueprintCallable, category = "Objecive")
 	void objectiveSucceed();
 
-	UPROPERTY(EditAnywhere, category = "Material")
-	UMaterial* startMaterial;
+	//UPROPERTY(EditAnywhere, category = "Material")
+	//UMaterial* startMaterial;
 
-	UPROPERTY(EditAnywhere, category = "Material")
-	UMaterial* endMaterial;
+	//UPROPERTY(EditAnywhere, category = "Material")
+	//UMaterial* endMaterial;
 	
 
 

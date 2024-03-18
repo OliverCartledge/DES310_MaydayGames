@@ -14,8 +14,8 @@ ABP_standObjective::ABP_standObjective()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	startMaterial = CreateDefaultSubobject<UMaterial>(TEXT("startMaterial"));
-	endMaterial = CreateDefaultSubobject<UMaterial>(TEXT("endMaterial"));
+	//startMaterial = CreateDefaultSubobject<UMaterial>(TEXT("startMaterial"));
+	//endMaterial = CreateDefaultSubobject<UMaterial>(TEXT("endMaterial"));
 
 	objectiveMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("objectiveMesh"));
 	collisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("collisionSphere"));
@@ -28,7 +28,7 @@ ABP_standObjective::ABP_standObjective()
 
 	Tags.Add(FName("Objective"));
 	objComplete = false;
-	objectiveMesh->SetMaterial(0, startMaterial);
+	//objectiveMesh->SetMaterial(0, startMaterial);
 }
 
 // Called when the game starts or when spawned
@@ -72,7 +72,7 @@ void ABP_standObjective::objectiveSucceed()
 {
 	MyPlayerState->updateScore(scoreToGive);
 	MyPlayerState->updateObjCount(objIncrement);
-	objectiveMesh->SetMaterial(0, endMaterial);
+	//objectiveMesh->SetMaterial(0, endMaterial);
 
 	objComplete = true;
 	
