@@ -32,6 +32,8 @@ void ATP_SingleShotFireComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Explosion met")));
+
 	TimerStart();
 }
 
@@ -43,29 +45,32 @@ void ATP_SingleShotFireComponent::Tick(float DeltaTime)
 
 void ATP_SingleShotFireComponent::TimerStart()
 {
-	GetWorldTimerManager().SetTimer(ExplosionTimer, this, &ATP_SingleShotFireComponent::Explosion, 0.5f, true);
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("TimerStartCalled")));
+
+	GetWorldTimerManager().SetTimer(ExplosionTimer, this, &ATP_SingleShotFireComponent::Explosion, 5.0f, true);
 }
 
 void ATP_SingleShotFireComponent::Explosion()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Explosion met")));
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Explosion met")));
 	Destroy();
 }
+
 
 void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("BeginOverlapCalled")));
 
-	ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
-	if (OtherActor->ActorHasTag("Enemy"))
-	{
-		OtherActor->Destroy();
-	}
+	//ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
+	//if (OtherActor->ActorHasTag("Enemy"))
+	//{
+		//OtherActor->Destroy();
+	//}
 }
 
 void ATP_SingleShotFireComponent::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("EndOverlap")));
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("EndOverlap")));
 }
 
 

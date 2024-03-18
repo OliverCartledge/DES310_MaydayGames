@@ -46,5 +46,5 @@ void ADES310_MaydayGamesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* 
 
 		//OtherComp->DestroyComponent();
 	}
-	Destroy();
+	//Destroy();
 } 
