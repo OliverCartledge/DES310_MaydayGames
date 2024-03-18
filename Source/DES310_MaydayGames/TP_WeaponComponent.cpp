@@ -29,7 +29,6 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 //Check if right click is being held down
 void UTP_WeaponComponent::ADSPressed()
 {
-
 	if (!Character->GetJumpStatus())
 	{
 		IsADS = true;
