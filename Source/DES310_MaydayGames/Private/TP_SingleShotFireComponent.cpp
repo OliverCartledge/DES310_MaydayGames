@@ -54,14 +54,41 @@ void ATP_SingleShotFireComponent::Explosion()
 
 void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("BeginOverlapCalled")));
+    //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("BeginOverlapCalled")));
 
-	ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
-	if (OtherActor->ActorHasTag("Enemy"))
-	{
-		OtherActor->Destroy();
-	}
+    ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
+    if (enemyHit && OtherActor->ActorHasTag("Enemy"))
+    {
+        // Temporarily stop the enemy's movement
+        enemyHit->GetCharacterMovement()->StopMovementImmediately();
+
+        //calculate the direction away from the explosion
+        FVector ImpulseDirection = (enemyHit->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+
+
+        float ImpulseMagnitude = 10000.0f; //change this to control the imoulse of the grenade
+
+        //upward impulse
+        float UpwardForce = 500.0f; 
+        ImpulseDirection.Z += UpwardForce;
+
+        //backwards impulse
+        FVector ImpulseForce = ImpulseDirection * ImpulseMagnitude;
+        enemyHit->GetCharacterMovement()->Velocity += ImpulseForce;
+
+        //timer allows the enemy to move again after a delay
+        FTimerHandle UnusedHandle;
+        GetWorldTimerManager().SetTimer(UnusedHandle, [enemyHit]()
+            {
+                enemyHit->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+            }, 1.5f, false);
+    }
 }
+
+
+
+
+
 
 void ATP_SingleShotFireComponent::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {

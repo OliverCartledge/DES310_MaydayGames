@@ -83,8 +83,6 @@ void UTP_WeaponComponent::Reload()
 		}
 	}
 
-	//debugging
-	//IsReloading = false; //remove once animation for reload timer is implemented
 }
 
 void UTP_WeaponComponent::StopReload()
