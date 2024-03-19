@@ -66,6 +66,7 @@ protected:
 	UFUNCTION()
 	void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	void DealDamage();
 
 	void HealPlayer();
 
@@ -86,8 +87,6 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, category = "UI")
 		void hideCrosshair();
-
-		void DealDamage();
 
 	// Collision component
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Default")

@@ -5,7 +5,6 @@
 
 #include "Engine.h"
 #include "CPP_Enemy.h"
-#include "DES310_MaydayGames/DES310_MaydayGamesCharacter.h"
 
 // Sets default values
 ATP_SingleShotFireComponent::ATP_SingleShotFireComponent()
@@ -58,7 +57,6 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
     //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("BeginOverlapCalled")));
 
     ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
-    //ADES310_MaydayGamesCharacter* playerHit = Cast<ADES310_MaydayGamesCharacter>(OtherActor);
     if (enemyHit && OtherActor->ActorHasTag("Enemy"))
     {
         // Temporarily stop the enemy's movement
@@ -66,6 +64,7 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
 
         //calculate the direction away from the explosion
         FVector ImpulseDirection = (enemyHit->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+
 
         float ImpulseMagnitude = 10000.0f; //change this to control the imoulse of the grenade
 
@@ -84,21 +83,6 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
                 enemyHit->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
             }, 1.5f, false);
     }
-    //if (playerHit && OtherActor->ActorHasTag("Player"))
-    //{
-    //    FVector ImpulseDirection = (playerHit->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-    //    float ImpulseMagnitude = 10000.0f; //change this to control the imoulse of the grenade
-
-    //    //upward impulse
-    //    float UpwardForce = 500.0f;
-    //    ImpulseDirection.Z += UpwardForce;
-
-    //    //backwards impulse
-    //    FVector ImpulseForce = ImpulseDirection * ImpulseMagnitude;
-    //    playerHit->GetCharacterMovement()->Velocity += ImpulseForce;
-
-    //    playerHit->DealDamage();
-    //}
 }
 
 
