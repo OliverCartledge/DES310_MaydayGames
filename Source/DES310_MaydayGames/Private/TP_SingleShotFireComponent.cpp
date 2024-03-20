@@ -58,7 +58,7 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
     //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("BeginOverlapCalled")));
 
     ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
-    //ADES310_MaydayGamesCharacter* playerHit = Cast<ADES310_MaydayGamesCharacter>(OtherActor);
+    ADES310_MaydayGamesCharacter* playerHit = Cast<ADES310_MaydayGamesCharacter>(OtherActor);
     if (enemyHit && OtherActor->ActorHasTag("Enemy"))
     {
         // Temporarily stop the enemy's movement
