@@ -65,7 +65,7 @@ void UTP_WeaponComponent::Reload()
 {
 	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
-	if (!IsReloading)
+	if (!IsReloading && bulletCount != 40)
 	{
 		bulletCount = 40;
 		IsReloading = true;
