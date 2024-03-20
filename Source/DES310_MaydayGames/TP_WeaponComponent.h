@@ -22,16 +22,16 @@ class DES310_MAYDAYGAMES_API UTP_WeaponComponent : public USkeletalMeshComponent
 public:
 
 	//this weapon is the base-class pistol
-	UPROPERTY(BlueprintReadWrite, category = "score")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "score")
 	float weaponDamage = 100.f;
 
-	UPROPERTY(BlueprintReadWrite, category = "ammo")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "ammo")
 	int ammoCurrent = 0;
 
-	UPROPERTY(BlueprintReadWrite, category = "ammo")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "ammo")
 	int ammoMax = 0;
 
-	UPROPERTY(BlueprintReadWrite, category = "ammo")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "ammo")
 	bool hasLauncher = true;
 	
 	/** Projectile class to spawn */
