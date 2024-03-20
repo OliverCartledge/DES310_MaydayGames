@@ -32,7 +32,7 @@ public:
 	int ammoMax = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "ammo")
-	bool hasLauncher = true;
+	bool hasLauncher = false;
 	
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
@@ -109,6 +109,13 @@ protected:
 	void StartShoot();
 
 	void EndShoot();
+
+	UFUNCTION(BlueprintGetter)
+	bool getHasLauncher() const
+	{
+		return hasLauncher;
+	}
+
 
 	////commented out as this CANNOT be used in a skeletalmesh inherited class. Must be AACTOR so move this code.
 	// //fire rate for weapon
