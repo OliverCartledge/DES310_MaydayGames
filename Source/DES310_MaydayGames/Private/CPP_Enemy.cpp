@@ -12,7 +12,6 @@ ACPP_Enemy::ACPP_Enemy()
 
     seeingPlayer = false;
 
-    //set up and enable pawn sensing (using by AI to sense player)
     PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensing");
     PawnSensing->bEnableSensingUpdates = true;
     PawnSensing->SetPeripheralVisionAngle(180.f);
@@ -26,10 +25,9 @@ void ACPP_Enemy::BeginPlay()
 {
     Super::BeginPlay();
 
-    //add pawn sensing's "OnSeePawn" - this triggers when the AI 'sees' the player pawn
     if (IsValid(PawnSensing))
     {
-        PawnSensing->OnSeePawn.AddDynamic(this, &ACPP_Enemy::OnSeePawn); // Call OnSeePawn when a pawn is seen
+        PawnSensing->OnSeePawn.AddDynamic(this, &ACPP_Enemy::OnSeePawn); 
     }
 
     if (CheckNavMeshTimerHandle.IsValid())
@@ -50,7 +48,6 @@ void ACPP_Enemy::Tick(float DeltaTime)
     }
 
     IsWithinNavMeshProxy();
-    
 }
 
 // Called to bind functionality to input
@@ -89,80 +86,98 @@ void ACPP_Enemy::EnemyJump()
 
 void ACPP_Enemy::EnemyJumpToLedge()
 {
-    //character component that handles movement
     UCharacterMovementComponent* LocalCharacterMovement = GetCharacterMovement();
     if (LocalCharacterMovement)
     {
-        //upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 60); // Example force, adjust as needed
+        FVector JumpForceLedge = FVector(0, 0, 60); 
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
 
 void ACPP_Enemy::EnemyJumpToHighLedge()
 {
-    //character component that handles movement
     UCharacterMovementComponent* LocalCharacterMovement = GetCharacterMovement();
     if (LocalCharacterMovement)
     {
-        //upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 105); // Example force, adjust as needed
+  
+        FVector JumpForceLedge = FVector(0, 0, 105); 
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
 
 void ACPP_Enemy::EnemyJumpToReallyHighLedge()
 {
-    //character component that handles movement
+
     UCharacterMovementComponent* LocalCharacterMovement = GetCharacterMovement();
     if (LocalCharacterMovement)
     {
-        //upward impulse to simulate a jump
-        FVector JumpForceLedge = FVector(0, 0, 170); // Example force, adjust as needed
+        
+        FVector JumpForceLedge = FVector(0, 0, 170); 
         LocalCharacterMovement->AddImpulse(JumpForceLedge, true);
     }
 }
 
 void ACPP_Enemy::IsWithinNavMeshProxy()
 {
-
-    //check for player
     if (!IsValid(GetWorld()->GetFirstPlayerController()->GetPawn()))
     {
         return;
     }
 
-    //get the AI's current location
+    //log pos's
     FVector AILocation = GetActorLocation();
     FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 
-    //jump threasholds
-    float LowThreashold = 150.f;
-    float HighThreashold = 300.f;
-    float ReallyHighThreashold = 500.f;
-
-    //proximity checks
-    float ProximityThreashold = 650.f;
+    //threasholds
+    float TeleportThreshold = 1800.f;
     float DistanceToPlayer = FVector::Dist(AILocation, PlayerLocation);
+    float ApproachThreshold = 1.f;
 
-    //if AI is near player and under the player, jump
-    if (DistanceToPlayer <= ProximityThreashold)
+    //teleport
+    if (DistanceToPlayer >= TeleportThreshold)
     {
-        if (AILocation.Z + LowThreashold < PlayerLocation.Z)
+        FVector NewLocation = PlayerLocation + (AILocation - PlayerLocation).GetSafeNormal() * TeleportThreshold;
+
+        SetActorLocation(NewLocation);
+
+        AAIController* AIController = GetController<AAIController>();
+        if (IsValid(AIController))
         {
-            EnemyJumpToLedge();
-            //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Jump activated")));
+            AIController->MoveToActor(GetWorld()->GetFirstPlayerController()->GetPawn(), 1.f); 
         }
-        else if (AILocation.Z + HighThreashold < PlayerLocation.Z) 
+    }
+    //approach
+    else if (DistanceToPlayer > ApproachThreshold)
+    {
+        AAIController* AIController = GetController<AAIController>();
+        if (IsValid(AIController))
         {
-            EnemyJumpToHighLedge();
-            //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("High Jump activated")));
+            AIController->MoveToActor(GetWorld()->GetFirstPlayerController()->GetPawn(), 1.f); 
         }
-        else if (AILocation.Z + ReallyHighThreashold < PlayerLocation.Z)
+    }
+    //jump
+    else
+    {
+        float LowThreashold = 150.f;
+        float HighThreashold = 300.f;
+        float ReallyHighThreashold = 500.f;
+
+        float ProximityThreashold = 750.f;
+
+        if (DistanceToPlayer <= ProximityThreashold)
         {
-            EnemyJumpToReallyHighLedge();
-            //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Super High Jump activated")));
+            if (AILocation.Z + LowThreashold < PlayerLocation.Z)
+            {
+                EnemyJumpToLedge();
+            }
+            else if (AILocation.Z + HighThreashold < PlayerLocation.Z)
+            {
+                EnemyJumpToHighLedge();
+            }
+            else if (AILocation.Z + ReallyHighThreashold < PlayerLocation.Z)
+            {
+                EnemyJumpToReallyHighLedge();
+            }
         }
     }
 }
-
