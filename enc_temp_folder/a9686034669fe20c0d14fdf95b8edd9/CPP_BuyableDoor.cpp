@@ -42,8 +42,8 @@ void ACPP_BuyableDoor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 
 		AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
-		//MyPlayerState->updateScore(100);
-		if (MyPlayerState->myGetScore() >= 100)
+		//MyPlayerState->updateScore(50);
+		if (MyPlayerState->myGetScore() >= 50)
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Door Is Buyable!"));
 			//if (Character != nullptr)
@@ -78,6 +78,6 @@ void ACPP_BuyableDoor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 void ACPP_BuyableDoor::RemoveDoor()
 {
 	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
-	MyPlayerState->updateScore(-100);
+	MyPlayerState->updateScore(-50);
 	Destroy();
 }
