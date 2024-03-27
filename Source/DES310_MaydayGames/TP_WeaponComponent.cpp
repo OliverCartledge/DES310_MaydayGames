@@ -21,6 +21,7 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 {
 	// Default offset from the character location for projectiles to spawn
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
+	grenadeFire = true;
 
 	//particle system
 	//ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystem");
@@ -74,8 +75,6 @@ void UTP_WeaponComponent::Reload()
 		AActor* OwningActor = GetOwner();
 
 		AddLocalRotation(FRotator(25.0, 0.0, 0.0));
-
-		//removed reload timer for now - without an animaiton, it looks like a bug. Replaced with isReloading = false
 
 		if (OwningActor)
 		{
@@ -201,25 +200,33 @@ void UTP_WeaponComponent::Fire()
 			MyPlayerState->updateAmmoCount(bulletCount);
 			//EndTimer();
 		}
-
-		//ParticleSystem->Deactivate();
 	}
 }
+  
+
+
+
+
+
+//==============grenade launcher================================================================================================================================================
+
+
 
 void UTP_WeaponComponent::GrenadeLauncher()
 {
-	if (IsADS)
+	if (IsADS && grenadeFire)
 	{
 		// Try and fire a projectile
 		if (ProjectileClass != nullptr)
 		{
+
 			UWorld* const World = GetWorld();
 			if (World != nullptr)
 			{
 				APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
 				const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
 				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = GetOwner()->GetActorLocation() +SpawnRotation.RotateVector(MuzzleOffset);
+				const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
 
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
@@ -231,9 +238,53 @@ void UTP_WeaponComponent::GrenadeLauncher()
 				World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 			}
 		}
+
+		grenadeFire = false;
+#
+		//start the timer to create a fire rate of 1 shot every 2.5 seconds
+		AActor* OwningActor = GetOwner();
+
+		if (OwningActor)
+		{
+			OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, 2.0f, false);
+		}
 	}
 }
 
+void UTP_WeaponComponent::GrenadeLauncherDelayManager()
+{
+	grenadeFire = true;
+}
+
+//void UTP_WeaponComponent::GrenadeLauncherLogic()
+//{
+//
+//		// Try and fire a projectile
+//	if (ProjectileClass != nullptr)
+//	{
+//		UWorld* const World = GetWorld();
+//		if (World != nullptr)
+//		{
+//			APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+//			const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
+//			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+//			const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
+//
+//			//Set Spawn Collision Handling Override
+//			FActorSpawnParameters ActorSpawnParams;
+//			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+//
+//			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher fired")));
+//
+//			// Spawn the projectile at the muzzle
+//			World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+//		}
+//	}
+//	
+//}
+
+
+//=====================================================================================================================================================================================
 bool UTP_WeaponComponent::LineTraceShot(FHitResult& OutHit)
 {
 	APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
