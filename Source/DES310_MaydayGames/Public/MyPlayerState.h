@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable, category = "ammo")
 		void updateAmmoCount(int ammoUpdate);
 
+	UFUNCTION(BlueprintCallable, category = "ammo")
+		void updateGrenadeCount(int grenadeUpdate);
+
 	UFUNCTION(BlueprintCallable, category = "obj")
 		void updateObjCount(int objScoreUpdate);
 
@@ -42,6 +45,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, category = "ammo")
 		FAmmoCounter AmmoCounter;
+
+	UPROPERTY(BlueprintAssignable, category = "ammo")
+		FAmmoCounter GrenadeCounter;
 
 
 
@@ -61,14 +67,11 @@ protected:
 	UPROPERTY(BlueprintReadOnly, category = "ammo")
 		int32 maxAmmo = 40;
 
+	UPROPERTY(BlueprintReadOnly, category = "ammo")
+		int32 currentGrenade = 3;
 
-
-
-	//TODO:
-	//winscreen
-	//win conditions
-	//game timer
-	//move currentHealth from weapon to enemy and cast it over
+	UPROPERTY(BlueprintReadOnly, category = "ammo")
+		int32 maxGrenade = 3;
 
 
 };

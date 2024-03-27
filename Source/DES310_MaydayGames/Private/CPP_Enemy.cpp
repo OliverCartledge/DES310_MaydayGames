@@ -129,9 +129,10 @@ void ACPP_Enemy::IsWithinNavMeshProxy()
     FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 
     //threasholds
-    float TeleportThreshold = 1800.f;
+    float TeleportThreshold = 2800.f;
     float DistanceToPlayer = FVector::Dist(AILocation, PlayerLocation);
     float ApproachThreshold = 1.f;
+    float jumpThreashold = 800.f;
 
     //teleport
     if (DistanceToPlayer >= TeleportThreshold)
@@ -156,13 +157,13 @@ void ACPP_Enemy::IsWithinNavMeshProxy()
         }
     }
     //jump
-    else
+    if(DistanceToPlayer <= jumpThreashold)
     {
         float LowThreashold = 150.f;
         float HighThreashold = 300.f;
         float ReallyHighThreashold = 500.f;
 
-        float ProximityThreashold = 750.f;
+        float ProximityThreashold = 800.f;
 
         if (DistanceToPlayer <= ProximityThreashold)
         {

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
+#include "MyPlayerState.h"
 #include "TP_SingleShotFireComponent.generated.h"
 
 class USphereComponent;
@@ -38,6 +39,7 @@ protected:
 
 	//Timer for full auto
 	FTimerHandle ExplosionTimer;
+	float grenadeDamage = 150;
 
 public:
 

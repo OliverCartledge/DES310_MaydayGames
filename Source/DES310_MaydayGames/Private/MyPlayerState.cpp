@@ -30,6 +30,16 @@ void AMyPlayerState::updateAmmoCount(int ammoUpdate)
 	AmmoCounter.Broadcast(currentAmmo, TempAmmoCount);
 }
 
+void AMyPlayerState::updateGrenadeCount(int grenadeUpdate)
+{
+
+	int32 TempGrenadeCount = grenadeUpdate;
+
+	currentGrenade = TempGrenadeCount;
+
+	GrenadeCounter.Broadcast(currentAmmo, TempGrenadeCount);
+}
+
 void AMyPlayerState::updateObjCount(int objScoreUpdate)
 {
 	const int32 oldObjScore = objScore;

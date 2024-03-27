@@ -147,6 +147,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite, category = "ammo")
 		bool currentAmmo;
 
+	UPROPERTY(BlueprintReadWrite, category = "ammo")
+		bool currentGrenades;
+
 	UPROPERTY(BlueprintReadOnly)
 		float FireRate = 0.2;
 
@@ -159,4 +162,5 @@ private:
 	bool IsShooting;
 
 	float bulletCount = 40;
+	float grenadeCount = 3;
 };

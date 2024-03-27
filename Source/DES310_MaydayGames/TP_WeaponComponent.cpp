@@ -57,8 +57,6 @@ void UTP_WeaponComponent::ADSReleased()
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint")));
 
-	//if (!Character->GetJumpStatus())
-	//AddLocalRotation(FRotator(0.0, 0.0, 15.0));
 }
 
 //Check if right click has been released
@@ -69,8 +67,11 @@ void UTP_WeaponComponent::Reload()
 	if (!IsReloading && bulletCount != 40)
 	{
 		bulletCount = 40;
+		grenadeCount = 3;
 		IsReloading = true;
 		MyPlayerState->updateAmmoCount(bulletCount);
+		MyPlayerState->updateGrenadeCount(grenadeCount);
+
 
 		AActor* OwningActor = GetOwner();
 
@@ -214,7 +215,7 @@ void UTP_WeaponComponent::Fire()
 
 void UTP_WeaponComponent::GrenadeLauncher()
 {
-	if (IsADS && grenadeFire)
+	if (IsADS && grenadeFire && grenadeCount > 0)
 	{
 		// Try and fire a projectile
 		if (ProjectileClass != nullptr)
@@ -238,7 +239,7 @@ void UTP_WeaponComponent::GrenadeLauncher()
 				World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 			}
 		}
-
+		grenadeCount -= 1;
 		grenadeFire = false;
 #
 		//start the timer to create a fire rate of 1 shot every 2.5 seconds
@@ -246,7 +247,8 @@ void UTP_WeaponComponent::GrenadeLauncher()
 
 		if (OwningActor)
 		{
-			OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, 2.0f, false);
+			OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, 3.0f, false);
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher ready to fire")));
 		}
 	}
 }
@@ -256,32 +258,6 @@ void UTP_WeaponComponent::GrenadeLauncherDelayManager()
 	grenadeFire = true;
 }
 
-//void UTP_WeaponComponent::GrenadeLauncherLogic()
-//{
-//
-//		// Try and fire a projectile
-//	if (ProjectileClass != nullptr)
-//	{
-//		UWorld* const World = GetWorld();
-//		if (World != nullptr)
-//		{
-//			APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
-//			const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
-//			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-//			const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
-//
-//			//Set Spawn Collision Handling Override
-//			FActorSpawnParameters ActorSpawnParams;
-//			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-//
-//			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher fired")));
-//
-//			// Spawn the projectile at the muzzle
-//			World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-//		}
-//	}
-//	
-//}
 
 
 //=====================================================================================================================================================================================

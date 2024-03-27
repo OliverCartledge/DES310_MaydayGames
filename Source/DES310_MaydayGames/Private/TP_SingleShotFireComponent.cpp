@@ -26,6 +26,8 @@ ATP_SingleShotFireComponent::ATP_SingleShotFireComponent()
 
 	ExplosionMesh->SetupAttachment(RootComponent);
 	SphereComp->SetupAttachment(ExplosionMesh);
+
+    
 }
 
 // Called when the game starts or when spawned
@@ -56,6 +58,7 @@ void ATP_SingleShotFireComponent::Explosion()
 void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
     //GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("BeginOverlapCalled")));
+    AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
     ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
     ADES310_MaydayGamesCharacter* playerHit = Cast<ADES310_MaydayGamesCharacter>(OtherActor);
@@ -63,6 +66,22 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
     {
         // Temporarily stop the enemy's movement
         enemyHit->GetCharacterMovement()->StopMovementImmediately();
+
+        //get enemy health
+        float currentHealth = enemyHit->enemyHealth;
+        currentHealth -= grenadeDamage; //apply damage
+
+        //if enemy has no health left, destroy the actor
+        if (currentHealth <= 0)
+        {
+            enemyHit->Destroy();
+            MyPlayerState->updateScore(enemyHit->enemyGiveScore);
+        }
+        //else, update health value
+        else
+        {
+            enemyHit->enemyHealth = currentHealth;
+        }
 
         //calculate the direction away from the explosion
         FVector ImpulseDirection = (enemyHit->GetActorLocation() - GetActorLocation()).GetSafeNormal();
