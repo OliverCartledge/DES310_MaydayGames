@@ -58,6 +58,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly, category = "ammo")
 		int32 currentAmmo = 40;
 
+	UPROPERTY(BlueprintReadOnly, category = "ammo")
+		int32 maxAmmo = 40;
+
 
 
 
