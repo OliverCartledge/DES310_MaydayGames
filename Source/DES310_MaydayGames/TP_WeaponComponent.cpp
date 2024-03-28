@@ -241,7 +241,7 @@ void UTP_WeaponComponent::GrenadeLauncher()
 		}
 		grenadeCount -= 1;
 		grenadeFire = false;
-#
+#		
 		//start the timer to create a fire rate of 1 shot every 2.5 seconds
 		AActor* OwningActor = GetOwner();
 
