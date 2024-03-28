@@ -67,21 +67,21 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
         // Temporarily stop the enemy's movement
         enemyHit->GetCharacterMovement()->StopMovementImmediately();
 
-        ////get enemy health
-        //float currentHealth = enemyHit->enemyHealth;
-        //currentHealth -= grenadeDamage; //apply damage
+        //get enemy health
+        float currentHealth = enemyHit->enemyHealth;
+        currentHealth -= grenadeDamage; //apply damage
 
-        ////if enemy has no health left, destroy the actor
-        //if (currentHealth <= 0)
-        //{
-        //    enemyHit->Destroy();
-        //    MyPlayerState->updateScore(enemyHit->enemyGiveScore);
-        //}
-        ////else, update health value
-        //else
-        //{
-        //    enemyHit->enemyHealth = currentHealth;
-        //}
+        //if enemy has no health left, destroy the actor
+        if (currentHealth <= 0)
+        {
+            enemyHit->Destroy();
+            MyPlayerState->updateScore(enemyHit->enemyGiveScore);
+        }
+        //else, update health value
+        else
+        {
+            enemyHit->enemyHealth = currentHealth;
+        }
 
         //calculate the direction away from the explosion
         FVector ImpulseDirection = (enemyHit->GetActorLocation() - GetActorLocation()).GetSafeNormal();

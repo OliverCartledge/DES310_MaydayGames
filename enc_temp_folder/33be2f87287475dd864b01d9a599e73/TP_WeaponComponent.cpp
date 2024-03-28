@@ -240,16 +240,16 @@ void UTP_WeaponComponent::GrenadeLauncher()
 			}
 		}
 		grenadeCount -= 1;
-		grenadeFire = false;
+		//grenadeFire = false;
 #
 		//start the timer to create a fire rate of 1 shot every 2.5 seconds
-		AActor* OwningActor = GetOwner();
+		//AActor* OwningActor = GetOwner();
 
-		if (OwningActor)
+		/*if (OwningActor)
 		{
-			OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, 1.5f, false);
+			OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, 3.0f, false);
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher ready to fire")));
-		}
+		}*/
 	}
 }
 
