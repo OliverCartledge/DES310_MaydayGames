@@ -75,7 +75,6 @@ void ABP_standObjective::objectiveSucceed()
 	//objectiveMesh->SetMaterial(0, endMaterial);
 
 	objComplete = true;
-	Destroy();
 	
 }
 

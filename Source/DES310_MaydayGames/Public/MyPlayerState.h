@@ -25,6 +25,12 @@ public:
 		return playerScore;
 	}
 
+	UFUNCTION(BlueprintGetter)
+	float myGetObj() const
+	{
+		return objScore;
+	}
+
 	UFUNCTION(BlueprintCallable, category = "score")
 		void updateScore(int pointsToGive);
 

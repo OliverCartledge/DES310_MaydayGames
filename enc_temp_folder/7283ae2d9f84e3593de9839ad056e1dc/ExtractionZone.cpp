@@ -45,7 +45,7 @@ void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Entering Zone"));
 
-		if (MyPlayerState->myGetObj() >= 1)
+		if (MyPlayerState->myGetObj() >= 2)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extracting"));
 			IsExtracting = true;
