@@ -55,6 +55,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
 	bool seeingPlayer;
+
+	//Collision box for cats tails
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Default")
+	UBoxComponent* CollisionBox;
 	
 	//used to define pawn sensing
 	UPROPERTY(EditAnywhere)

@@ -16,7 +16,11 @@ ACPP_Enemy::ACPP_Enemy()
     PawnSensing->bEnableSensingUpdates = true;
     PawnSensing->SetPeripheralVisionAngle(180.f);
 
+    CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
+    CollisionBox->SetupAttachment(RootComponent);
+
     EnemyJumpTimer = FTimerHandle();
+
 
     Tags.Add(FName("Enemy"));
 }
