@@ -120,6 +120,11 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
     //}
 }
 
+
+
+
+
+
 void ATP_SingleShotFireComponent::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("EndOverlap")));

@@ -14,9 +14,6 @@ ABP_standObjective::ABP_standObjective()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//startMaterial = CreateDefaultSubobject<UMaterial>(TEXT("startMaterial"));
-	//endMaterial = CreateDefaultSubobject<UMaterial>(TEXT("endMaterial"));
-
 	objectiveMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("objectiveMesh"));
 	collisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("collisionSphere"));
 
@@ -28,7 +25,6 @@ ABP_standObjective::ABP_standObjective()
 
 	Tags.Add(FName("Objective"));
 	objComplete = false;
-	//objectiveMesh->SetMaterial(0, startMaterial);
 }
 
 // Called when the game starts or when spawned
@@ -36,7 +32,7 @@ void ABP_standObjective::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(GetWorld()->GetFirstPlayerController(), 0));
+	//Initialize MyPlayerState to be used later when beginPlay is called
 	MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(GetWorld()->GetFirstPlayerController(), 0));
 }
 
@@ -49,8 +45,10 @@ void ABP_standObjective::Tick(float DeltaTime)
 
 void ABP_standObjective::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	//Check if the overlapping actor is the player and only allow the player to start the objective
 	if (OtherActor != nullptr && OtherActor->ActorHasTag("Player"))
 	{
+		//After X seconds, call the ObjectiveSucceed function
 		GetWorld()->GetTimerManager().SetTimer(objectiveTimer, this, &ABP_standObjective::objectiveSucceed, 5.f, false);
 	}
 }
@@ -62,6 +60,7 @@ void ABP_standObjective::EndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	{
 		if (GetWorld())
 		{
+			//Reset the timer if the player walks off the objective pad
 			GetWorld()->GetTimerManager().ClearTimer(objectiveTimer);
 		}
 	}
@@ -70,11 +69,13 @@ void ABP_standObjective::EndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 
 void ABP_standObjective::objectiveSucceed()
 {
+	//Update both player score and objective score if the objective is completed successfully
 	MyPlayerState->updateScore(scoreToGive);
 	MyPlayerState->updateObjCount(objIncrement);
-	//objectiveMesh->SetMaterial(0, endMaterial);
 
 	objComplete = true;
+
+	//Destroy the objective once complete to stop the player from repeatidly standing on the same objective pad
 	Destroy();
 	
 }

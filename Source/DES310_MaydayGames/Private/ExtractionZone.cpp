@@ -31,11 +31,10 @@ void AExtractionZone::BeginPlay()
 // Called every frame
 void AExtractionZone::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-	//if (IsExtracting)
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Tick test"));
+	Super::Tick(DeltaTime);;
 
 }
+
 void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	//Check if player character has entered the zone (this makes sure it wont tick on enemys too lol)
@@ -45,17 +44,14 @@ void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Entering Zone"));
 
+		//Check if the player has completed all the objectives before allowing them to extract
 		if (MyPlayerState->myGetObj() >= 1)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extracting"));
 			IsExtracting = true;
 
-			//AActor* OwningActor = GetOwner();
-
-			//if (OwningActor)
-			//{
+			//After X seconds call the ExtractionComplete function - this leads to the win screen after its called
 			OtherActor->GetWorldTimerManager().SetTimer(ExtractionTimer, this, &AExtractionZone::ExtractionComplete, 5, false);
-			//}
 		}
 		else
 		{
@@ -68,12 +64,14 @@ void AExtractionZone::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 {
 	if (OtherActor && OtherActor->IsA(ADES310_MaydayGamesCharacter::StaticClass()))
 	{
+		//If the player walks out of the extraction zone reset the timer 
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Exiting Zone"));
 		IsExtracting = false;
 		OtherActor->GetWorldTimerManager().ClearTimer(ExtractionTimer);
 	}
 }
 
+//Called when the extraction is successful
 void AExtractionZone::ExtractionComplete()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extraction complete!"));

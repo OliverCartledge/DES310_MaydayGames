@@ -18,7 +18,7 @@ class DES310_MAYDAYGAMES_API AMyPlayerState : public APlayerState
 	GENERATED_BODY()
 	
 public:
-
+	//Getters 
 	UFUNCTION(BlueprintGetter)
 	float myGetScore() const
 	{
@@ -31,6 +31,7 @@ public:
 		return objScore;
 	}
 
+	//Update functions
 	UFUNCTION(BlueprintCallable, category = "score")
 		void updateScore(int pointsToGive);
 
