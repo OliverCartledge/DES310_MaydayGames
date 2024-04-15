@@ -97,11 +97,11 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
         enemyHit->GetCharacterMovement()->Velocity += ImpulseForce;
 
         //timer allows the enemy to move again after a delay
-        FTimerHandle UnusedHandle;
+        /*FTimerHandle UnusedHandle;
         GetWorldTimerManager().SetTimer(UnusedHandle, [enemyHit]()
             {
                 enemyHit->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-            }, 1.5f, false);
+            }, 1.5f, false);*/
     }
     //if (playerHit && OtherActor->ActorHasTag("Player"))
     //{

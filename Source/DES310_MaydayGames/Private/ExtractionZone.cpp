@@ -45,7 +45,7 @@ void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Entering Zone"));
 
 		//Check if the player has completed all the objectives before allowing them to extract
-		if (MyPlayerState->myGetObj() >= 1)
+		if (MyPlayerState->myGetObj() >= 3)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extracting"));
 			IsExtracting = true;
