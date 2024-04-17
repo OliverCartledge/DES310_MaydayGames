@@ -36,6 +36,7 @@ void ATP_SingleShotFireComponent::BeginPlay()
 	Super::BeginPlay();
 
 	TimerStart();
+
 }
 
 void ATP_SingleShotFireComponent::Tick(float DeltaTime)

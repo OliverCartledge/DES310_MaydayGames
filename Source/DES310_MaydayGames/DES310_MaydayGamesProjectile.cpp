@@ -3,6 +3,7 @@
 #include "DES310_MaydayGamesProjectile.h"
 #include "CPP_Enemy.h"
 #include "TP_SingleShotFireComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 
@@ -45,6 +46,11 @@ void ADES310_MaydayGamesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* 
 		GetWorld()->SpawnActor<AActor>(ExplosionClass, SpawnLocation, SpawnRotation);
 
 		//OtherComp->DestroyComponent();
+
+		if (ExplosionSound != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, ExplosionSound, SpawnLocation);
+		}
 	}
 	Destroy();
 } 

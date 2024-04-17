@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
 #include "DES310_MaydayGamesCharacter.generated.h"
 
@@ -78,6 +79,12 @@ public:
 	UPROPERTY(BlueprintAssignable, category = "crosshair")
 		FShouldShowCrosshair ShouldShowCrosshair;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		USoundBase* WalkSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		UAudioComponent* TestWalk;
+
 	UFUNCTION(BlueprintCallable, category = "UI")
 		void shouldDisplayCrosshair(bool isADS);
 
@@ -140,6 +147,10 @@ protected:
 	FTimerHandle DamageTimeHandle;
 
 	FTimerHandle HealingTimeHandle;
+
+private: 
+
+	bool bWalkSoundPlayed;
 
 protected:
 	// APawn interface

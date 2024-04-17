@@ -22,6 +22,7 @@ class DES310_MAYDAYGAMES_API ATP_SingleShotFireComponent : public AActor
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UStaticMeshComponent* ExplosionMesh;
 
+
 public:
 	// Sets default values for this actor's properties
 	ATP_SingleShotFireComponent();	

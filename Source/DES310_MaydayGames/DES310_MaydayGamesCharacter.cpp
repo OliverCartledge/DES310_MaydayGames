@@ -46,6 +46,16 @@ ADES310_MaydayGamesCharacter::ADES310_MaydayGamesCharacter()
 
 	CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ADES310_MaydayGamesCharacter::BeginOverlap);
 	CollisionBox->OnComponentEndOverlap.AddDynamic(this, &ADES310_MaydayGamesCharacter::EndOverlap);
+
+	TestWalk = CreateAbstractDefaultSubobject<UAudioComponent>(TEXT("WalkingAudio"));
+	TestWalk->SetupAttachment(Mesh1P);
+
+	bWalkSoundPlayed = false;
+
+	if (WalkSound != nullptr)
+	{
+		TestWalk->SetSound(WalkSound);
+	}
 }
 
 void ADES310_MaydayGamesCharacter::BeginPlay()
@@ -122,6 +132,18 @@ void ADES310_MaydayGamesCharacter::Move(const FInputActionValue& Value)
 			// add movement 
 			AddMovementInput(GetActorForwardVector(), MovementVector.Y);
 			AddMovementInput(GetActorRightVector(), MovementVector.X);
+		}
+
+		if (TestWalk && !TestWalk->IsPlaying())
+		{
+			TestWalk->Play();
+		}
+	}
+	else
+	{
+		if (TestWalk && TestWalk->IsPlaying())
+		{
+			TestWalk->Stop();
 		}
 	}
 }
