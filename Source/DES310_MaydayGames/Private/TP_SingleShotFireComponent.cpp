@@ -63,6 +63,9 @@ void ATP_SingleShotFireComponent::BeginOverlap(UPrimitiveComponent* OverlappedCo
 
     ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
     ADES310_MaydayGamesCharacter* playerHit = Cast<ADES310_MaydayGamesCharacter>(OtherActor);
+
+    UGameplayStatics::SpawnEmitterAtLocation(this, EmitterClass, GetActorLocation());
+
     if (enemyHit && OtherActor->ActorHasTag("Enemy"))
     {
         // Temporarily stop the enemy's movement

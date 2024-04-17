@@ -102,11 +102,10 @@ void ADES310_MaydayGamesCharacter::SetupPlayerInputComponent(class UInputCompone
 
 void ADES310_MaydayGamesCharacter::ADSPressed()
 {
-	// hmm this condition does work? 
 	if (GetCharacterMovement()->IsFalling())
 		InAirTest = true;
 
-	if (!GetCharacterMovement()->IsFalling()) { //Isn't Jumping }
+	if (!GetCharacterMovement()->IsFalling()) { 
 		IsADS = true;
 		Crouch();
 		

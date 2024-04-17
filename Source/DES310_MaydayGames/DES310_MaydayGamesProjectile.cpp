@@ -36,6 +36,8 @@ ADES310_MaydayGamesProjectile::ADES310_MaydayGamesProjectile()
 
 void ADES310_MaydayGamesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	UGameplayStatics::SpawnEmitterAtLocation(this, EmitterClass, GetActorLocation());
+
 	ACPP_Enemy* enemyHit = Cast<ACPP_Enemy>(OtherActor);
 	UClass* ExplosionClass = ATP_SingleShotFireComponent::StaticClass();
 	// Only add impulse and destroy projectile if we hit a physics

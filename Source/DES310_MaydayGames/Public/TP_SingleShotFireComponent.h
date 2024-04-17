@@ -9,6 +9,7 @@
 #include "TP_SingleShotFireComponent.generated.h"
 
 class USphereComponent;
+class UParticleSystem;
 
 UCLASS(config = Game)
 class DES310_MAYDAYGAMES_API ATP_SingleShotFireComponent : public AActor
@@ -22,6 +23,8 @@ class DES310_MAYDAYGAMES_API ATP_SingleShotFireComponent : public AActor
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	UStaticMeshComponent* ExplosionMesh;
 
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UParticleSystem* EmitterClass;
 
 public:
 	// Sets default values for this actor's properties
@@ -32,6 +35,8 @@ public:
 
 	UFUNCTION()
 	void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	
 
 protected:
 

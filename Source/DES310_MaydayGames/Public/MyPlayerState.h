@@ -8,6 +8,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerScoreUpdated, int32, newScore, int32, oldScore);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoCounter, int32, newAmmoCount, int32, oldAmmoCount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FObjectiveCounter, int32, newObjCount, int32, oldObjCount);
 
 /**
  * 
@@ -31,6 +32,9 @@ public:
 		return objScore;
 	}
 
+	UPROPERTY(BlueprintReadOnly, category = "obj")
+		bool bcanExtract = false;
+
 	//Update functions
 	UFUNCTION(BlueprintCallable, category = "score")
 		void updateScore(int pointsToGive);
@@ -46,7 +50,7 @@ public:
 
 	
 
-
+	//delegate inits
 	UPROPERTY(BlueprintAssignable, category = "score")
 		FOnPlayerScoreUpdated OnScoreUpdated;
 
@@ -55,6 +59,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, category = "ammo")
 		FAmmoCounter GrenadeCounter;
+
+	UPROPERTY(BlueprintAssignable, category = "obj")
+		FObjectiveCounter ObjectiveCounter;
 
 
 

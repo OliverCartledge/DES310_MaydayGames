@@ -9,6 +9,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class TP_SingleShotFireComponent;
+class UParticleSystem;
 
 UCLASS(config=Game)
 class ADES310_MaydayGamesProjectile : public AActor
@@ -38,5 +39,8 @@ public:
 	USphereComponent* GetCollisionComp() const { return CollisionComp; }
 	/** Returns ProjectileMovement subobject **/
 	UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
+
+	UPROPERTY(EditAnywhere, category = "particle")
+	UParticleSystem* EmitterClass;
 };
 

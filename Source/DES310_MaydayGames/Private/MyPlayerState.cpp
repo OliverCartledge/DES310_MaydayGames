@@ -46,11 +46,13 @@ void AMyPlayerState::updateObjCount(int objScoreUpdate)
 
 	objScore += objScoreUpdate;
 
+	ObjectiveCounter.Broadcast(objScore, oldObjScore);
+
 	if (objScore >= 3)
 	{
 		//extraction becomes true
-		GEngine->AddOnScreenDebugMessage(-1, 60.0f, FColor::Yellow, TEXT("WIN CONDITIONS MET: EXTRACTION POSSIBLE"));  //debug
+		bcanExtract = true;
 	}
-	
 }
+
 
