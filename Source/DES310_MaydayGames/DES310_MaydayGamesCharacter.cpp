@@ -133,9 +133,12 @@ void ADES310_MaydayGamesCharacter::Move(const FInputActionValue& Value)
 			AddMovementInput(GetActorRightVector(), MovementVector.X);
 		}
 
-		if (TestWalk && !TestWalk->IsPlaying())
+		if (!GetJumpStatus())
 		{
-			TestWalk->Play();
+			if (TestWalk && !TestWalk->IsPlaying())
+			{
+				TestWalk->Play();
+			}
 		}
 	}
 	else
