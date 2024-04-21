@@ -133,12 +133,12 @@ void ACPP_Enemy::IsWithinNavMeshProxy()
     FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 
     //threasholds
-    float TeleportThreshold = 5600.f;
+    float TeleportThreshold = 2800.f;
     float DistanceToPlayer = FVector::Dist(AILocation, PlayerLocation);
     float ApproachThreshold = 1.f;
     float jumpThreashold = 800.f;
 
-    ////teleport
+    //teleport
     if (DistanceToPlayer >= TeleportThreshold)
     {
         FVector NewLocation = PlayerLocation + (AILocation - PlayerLocation).GetSafeNormal() * TeleportThreshold;

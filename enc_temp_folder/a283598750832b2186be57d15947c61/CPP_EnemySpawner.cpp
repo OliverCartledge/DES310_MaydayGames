@@ -23,7 +23,7 @@ void ACPP_EnemySpawner::BeginPlay()
 
 	//start the timer when the game starts
 		//this sets the timer, allowing 'this' class to use the spawnEnemy funciton every 1.5 seconds. Looping is enabled.
-	GetWorld()->GetTimerManager().SetTimer(Timer, this, &ACPP_EnemySpawner::spawnEnemy, 1.f, true);
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &ACPP_EnemySpawner::spawnEnemy, 5.f, true);
 	
 }
 
