@@ -163,6 +163,7 @@ protected:
 		float FireRate = 0.2;
 
 
+
 private:
 	/** The Character holding this weapon*/
 	ADES310_MaydayGamesCharacter* Character;

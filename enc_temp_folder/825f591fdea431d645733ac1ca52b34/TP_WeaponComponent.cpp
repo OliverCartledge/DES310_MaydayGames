@@ -198,8 +198,7 @@ void UTP_WeaponComponent::Fire()
 
 			if (MuzzleFlash != nullptr)
 			{
-				const FVector MuzzlePoint = GetOwner()->GetActorLocation() + StartPoint.RotateVector(FVector(100.0f, 0.0f, 10.0f));
-				UGameplayStatics::SpawnEmitterAtLocation(this, MuzzleFlash, MuzzlePoint);
+				UGameplayStatics::SpawnEmitterAtLocation(this, MuzzleFlash, MuzzleOffset);
 			}
 
 			bulletCount -= 1;

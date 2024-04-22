@@ -48,7 +48,7 @@ void ADES310_MaydayGamesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* 
 		GetWorld()->SpawnActor<AActor>(ExplosionClass, SpawnLocation, SpawnRotation);
 
 		//OtherComp->DestroyComponent();
-
+		
 		if (ExplosionSound != nullptr)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, ExplosionSound, SpawnLocation);
