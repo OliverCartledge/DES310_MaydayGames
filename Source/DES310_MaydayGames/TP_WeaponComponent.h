@@ -12,6 +12,7 @@
 class ADES310_MaydayGamesCharacter;
 class APlayerCharacter;
 class MyPlayerState;
+class UParticleSystem;
 
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -73,6 +74,9 @@ public:
 	/** Reload Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* ReloadAction;
+
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+	UParticleSystem* MuzzleFlash;
 	
 	/** Sets default values for this component's properties */
 	UTP_WeaponComponent();
@@ -99,7 +103,8 @@ public:
 	bool LineTraceShot(FHitResult& OutHit);
 
 
-	/*UPROPERTY(EditAnywhere, category = "particle")
+	/*UPROPERTY(EditAnywhere, category = "
+	e")
 	UParticleSystemComponent* ParticleSystem;*/
 	
 
@@ -156,7 +161,6 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 		float FireRate = 0.2;
-
 
 
 private:
