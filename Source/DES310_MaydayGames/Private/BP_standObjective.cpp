@@ -60,8 +60,11 @@ void ABP_standObjective::EndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	{
 		if (GetWorld())
 		{
-			//Reset the timer if the player walks off the objective pad
-			GetWorld()->GetTimerManager().ClearTimer(objectiveTimer);
+			if (OtherActor != nullptr && OtherActor->ActorHasTag("Player"))
+			{
+				//Reset the timer if the player walks off the objective pad
+				GetWorld()->GetTimerManager().ClearTimer(objectiveTimer);
+			}
 		}
 	}
 }
