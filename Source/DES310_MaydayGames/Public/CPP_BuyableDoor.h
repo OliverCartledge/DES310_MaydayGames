@@ -43,6 +43,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	USoundBase* DoorPurchasedSound;
+
+
+	UPROPERTY(EditAnywhere)
+	float DoorPrice;
 //
 //protected:
 //	// Called when the game starts or when spawned

@@ -256,7 +256,7 @@ void UTP_WeaponComponent::GrenadeLauncher()
 
 		if (OwningActor)
 		{
-			OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, 1.5f, false);
+			OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, .5f, false);
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher ready to fire")));
 		}
 

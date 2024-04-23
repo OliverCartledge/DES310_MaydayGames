@@ -13,6 +13,8 @@ ACPP_BuyableDoor::ACPP_BuyableDoor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	DoorPrice = 50.0;
+
 	BuyableDoor = FBox(FVector(-100, -100, -100), FVector(100, 100, 100));
 
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
@@ -31,7 +33,7 @@ void ACPP_BuyableDoor::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	{
 		AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
-		if (MyPlayerState->myGetScore() >= 100)
+		if (MyPlayerState->myGetScore() >= DoorPrice)
 		{
 			// Set up action bindings
 			if (APlayerController* PlayerController = Cast<APlayerController>(Character->GetController()))
@@ -58,7 +60,7 @@ void ACPP_BuyableDoor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 void ACPP_BuyableDoor::RemoveDoor()
 {
 	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
-	MyPlayerState->updateScore(-100);
+	MyPlayerState->updateScore(-DoorPrice);
 
 	// Play audio sound when door is purchased
 	if (DoorPurchasedSound != nullptr)
