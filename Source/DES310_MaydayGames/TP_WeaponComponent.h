@@ -131,7 +131,6 @@ protected:
 		return hasLauncher;
 	}
 
-
 	////commented out as this CANNOT be used in a skeletalmesh inherited class. Must be AACTOR so move this code.
 	// //fire rate for weapon
 	FTimerHandle GunFireRate;

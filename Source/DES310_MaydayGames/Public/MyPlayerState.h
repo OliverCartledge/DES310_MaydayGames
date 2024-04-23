@@ -19,6 +19,8 @@ class DES310_MAYDAYGAMES_API AMyPlayerState : public APlayerState
 	GENERATED_BODY()
 	
 public:
+
+
 	//Getters 
 	UFUNCTION(BlueprintGetter)
 	float myGetScore() const
@@ -48,6 +50,9 @@ public:
 	UFUNCTION(BlueprintCallable, category = "obj")
 		void updateObjCount(int objScoreUpdate);
 
+	UFUNCTION(BlueprintCallable, category = "obj")
+		void IncreaseGrenade();
+
 	
 
 	//delegate inits
@@ -62,8 +67,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable, category = "obj")
 		FObjectiveCounter ObjectiveCounter;
-
-
 
 
 

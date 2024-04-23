@@ -284,8 +284,6 @@ void UTP_WeaponComponent::GrenadeLauncherDelayManager()
 	grenadeFire = true;
 }
 
-
-
 //=====================================================================================================================================================================================
 bool UTP_WeaponComponent::LineTraceShot(FHitResult& OutHit)
 {

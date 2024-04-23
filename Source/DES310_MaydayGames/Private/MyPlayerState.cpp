@@ -3,7 +3,11 @@
 
 #include "MyPlayerState.h"
 
-
+//Update grenade luncher ammo over time
+void AMyPlayerState::IncreaseGrenade()
+{
+	currentGrenade += 1;
+}
 
 void AMyPlayerState::updateScore(int pointsToGive)
 {
