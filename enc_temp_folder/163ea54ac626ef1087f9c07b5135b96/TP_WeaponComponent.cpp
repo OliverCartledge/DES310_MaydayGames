@@ -20,7 +20,7 @@ UTP_WeaponComponent::UTP_WeaponComponent()
 {
 	// Default offset from the character location for projectiles to spawn
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
-	grenadeFire = true;
+	grenadeFire = false;
 
 	//particle system
 	//ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystem");
@@ -224,60 +224,56 @@ void UTP_WeaponComponent::Fire()
 
 void UTP_WeaponComponent::GrenadeLauncher()
 {
-	if (hasLauncher)
+	if (IsADS && grenadeFire && grenadeCount > 0)
 	{
-		if (IsADS && grenadeFire && grenadeCount > 0)
+		// Try and fire a projectile
+		if (ProjectileClass != nullptr)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("AKLJ;HGJKDLS;HGKJLAPG")));
-			// Try and fire a projectile
-			if (ProjectileClass != nullptr)
+
+			UWorld* const World = GetWorld();
+			if (World != nullptr)
 			{
+				APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+				const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
+				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+				const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
 
-				UWorld* const World = GetWorld();
-				if (World != nullptr)
-				{
-					APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
-					const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
-					// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-					const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
+				//Set Spawn Collision Handling Override
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-					//Set Spawn Collision Handling Override
-					FActorSpawnParameters ActorSpawnParams;
-					ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher fired")));
 
-					GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher fired")));
-
-					// Spawn the projectile at the muzzle
-					World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-				}
+				// Spawn the projectile at the muzzle
+				World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 			}
-			grenadeCount -= 1;
-			grenadeFire = false;
+		}
+		grenadeCount -= 1;
+		grenadeFire = false;
 #		
-			//start the timer to create a fire rate of 1 shot every 2.5 seconds
-			AActor* OwningActor = GetOwner();
+		//start the timer to create a fire rate of 1 shot every 2.5 seconds
+		AActor* OwningActor = GetOwner();
 
-			if (OwningActor)
-			{
-				OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, .5f, false);
-				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher ready to fire")));
-			}
+		if (OwningActor)
+		{
+			OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, .5f, false);
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher ready to fire")));
+		}
 
-			// Try and play the sound if specified
-			if (LauncherFireSound != nullptr)
-			{
-				UGameplayStatics::PlaySoundAtLocation(this, LauncherFireSound, Character->GetActorLocation());
-			}
+		// Try and play the sound if specified
+		if (LauncherFireSound != nullptr)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, LauncherFireSound, Character->GetActorLocation());
+		}
 
-			// Try and play a firing animation if specified
-			if (FireAnimation != nullptr)
+		// Try and play a firing animation if specified
+		if (FireAnimation != nullptr)
+		{
+			// Get the animation object for the arms mesh
+			UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
+			if (AnimInstance != nullptr)
 			{
-				// Get the animation object for the arms mesh
-				UAnimInstance* AnimInstance = Character->GetMesh1P()->GetAnimInstance();
-				if (AnimInstance != nullptr)
-				{
-					AnimInstance->Montage_Play(FireAnimation, 1.f);
-				}
+				AnimInstance->Montage_Play(FireAnimation, 1.f);
 			}
 		}
 	}
@@ -338,11 +334,10 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 			//Input mapping for gun reload
 			EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::Reload);
 
-			//if (hasLauncher)
-			//{
-			EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::GrenadeLauncher);
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade mapped")));
-			//}
+			if (hasLauncher)
+			{
+				EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::GrenadeLauncher);
+			}
 		}
 	}
 }
