@@ -75,6 +75,11 @@ void ABP_standObjective::objectiveSucceed()
 
 	objComplete = true;
 
+	if (ObjectiveCompleteSound != nullptr)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, ObjectiveCompleteSound, GetActorLocation());
+	}
+
 	//Destroy the objective once complete to stop the player from repeatidly standing on the same objective pad
 	Destroy();
 	

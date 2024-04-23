@@ -59,5 +59,12 @@ void ACPP_BuyableDoor::RemoveDoor()
 {
 	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 	MyPlayerState->updateScore(-100);
+
+	// Play audio sound when door is purchased
+	if (DoorPurchasedSound != nullptr)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, DoorPurchasedSound, GetActorLocation());
+	}
+
 	Destroy();
 }
