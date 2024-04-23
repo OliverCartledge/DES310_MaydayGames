@@ -168,6 +168,10 @@ void UTP_WeaponComponent::Fire()
 					//if enemy has no health left, destroy the actor
 					if (currentHealth <= 0)
 					{
+						if (enemyHit->EnemyDeathSound != nullptr)
+						{
+							UGameplayStatics::PlaySoundAtLocation(this, enemyHit->EnemyDeathSound, enemyHit->GetActorLocation());
+						}
 						enemyHit->Destroy();
 						MyPlayerState->updateScore(enemyHit->enemyGiveScore);
 					}
