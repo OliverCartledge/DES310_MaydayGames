@@ -15,6 +15,7 @@
 class USTATICMESHCOMPONENT;
 class USPHERECOMPONENT;
 class UMATERIAL;
+class USoundBase;
 
 UCLASS()
 class DES310_MAYDAYGAMES_API ABP_standObjective : public AActor
@@ -33,6 +34,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, category = "Objecive")
 	void objectiveSucceed();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	USoundBase* ObjectiveCompleteSound;
 
 	//UPROPERTY(EditAnywhere, category = "Material")
 	//UMaterial* startMaterial;
