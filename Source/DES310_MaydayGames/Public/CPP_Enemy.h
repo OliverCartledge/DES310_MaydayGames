@@ -14,6 +14,7 @@ class UCapsuleComponent;
 class UArrowComponent;
 class UPawnSensingComponent;
 class UCharacterMovementComponent;
+class USoundBase;
 
 
 UCLASS()
@@ -66,6 +67,9 @@ public:
 
 	FTimerHandle CheckNavMeshTimerHandle;
 	FTimerHandle EnemyJumpTimer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	USoundBase* EnemyDeathSound;
 
 	bool FShouldTeleport = false;
 
