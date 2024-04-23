@@ -12,6 +12,7 @@
 
 
 class MyPlayerState;
+class USoundBase;
 
 UCLASS()
 class DES310_MAYDAYGAMES_API ACPP_BuyableDoor : public AActor
@@ -39,6 +40,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* BuyDoorAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	USoundBase* DoorPurchasedSound;
 //
 //protected:
 //	// Called when the game starts or when spawned
