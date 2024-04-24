@@ -41,16 +41,16 @@ void AMyPlayerState::updateGrenadeCount(int grenadeUpdate)
 
 	currentGrenade = TempGrenadeCount;
 
-	GrenadeCounter.Broadcast(currentAmmo, TempGrenadeCount);
+	GrenadeCounter.Broadcast(currentGrenade, TempGrenadeCount);
 }
 
 void AMyPlayerState::updateObjCount(int objScoreUpdate)
 {
-	const int32 oldObjScore = objScore;
+	const int32 tempObjScore = objScoreUpdate;
 
-	objScore += objScoreUpdate;
+	objScore += tempObjScore;
 
-	ObjectiveCounter.Broadcast(objScore, oldObjScore);
+	ObjectiveCounter.Broadcast(objScore, tempObjScore);
 
 	if (objScore >= 3)
 	{

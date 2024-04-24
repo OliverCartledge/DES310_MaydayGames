@@ -76,7 +76,7 @@ protected:
 		int32 playerScore;
 
 	UPROPERTY(BlueprintReadOnly, category = "score")
-		int32 objScore;
+		int32 objScore = 0;
 
 	UPROPERTY(BlueprintReadOnly, category = "ammo")
 		int32 currentAmmo = 40;
