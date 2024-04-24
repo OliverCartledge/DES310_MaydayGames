@@ -76,7 +76,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, category = "score")
 		int32 playerScore;
 
-	UPROPERTY(BlueprintReadOnly, category = "score")
+	UPROPERTY(BlueprintCallable, category = "score")
 		int32 objScore = 0;
 
 	UPROPERTY(BlueprintReadOnly, category = "ammo")
