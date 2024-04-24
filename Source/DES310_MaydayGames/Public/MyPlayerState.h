@@ -12,7 +12,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGrenadeCounter, int32, newGrenadeCo
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FObjectiveCounter, int32, newObjCount, int32, oldObjCount);
 
 /**
- * 
+ * m
  */
 UCLASS()
 class DES310_MAYDAYGAMES_API AMyPlayerState : public APlayerState
