@@ -65,6 +65,8 @@ void ADES310_MaydayGamesCharacter::BeginPlay()
 
 	playerHealth = 50;
 
+	oppasityHeath = 0;
+
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -204,6 +206,8 @@ void ADES310_MaydayGamesCharacter::DealDamage()
 {
 	playerHealth -= 1;
 
+	oppasityHeath += 1;
+
 	if (playerHealth <= 0)
 	{
 		deathScreen();
@@ -215,6 +219,8 @@ void ADES310_MaydayGamesCharacter::DealDamage()
 void ADES310_MaydayGamesCharacter::HealPlayer()
 {
 	playerHealth += 1;
+
+	oppasityHeath -= 1;
 }
 
 void ADES310_MaydayGamesCharacter::shouldDisplayCrosshair(bool isADS)

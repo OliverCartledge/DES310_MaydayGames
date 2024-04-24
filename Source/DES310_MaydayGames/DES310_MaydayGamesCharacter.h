@@ -131,6 +131,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, category="health")
 	float playerHealth = 0;
 
+	UPROPERTY(BlueprintReadWrite, category = "health")
+	float oppasityHeath = 0;
+
 	//int playerScore = 0;
 
 	bool IsADS;
