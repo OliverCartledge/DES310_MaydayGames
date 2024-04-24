@@ -63,8 +63,9 @@ void UTP_WeaponComponent::Reload()
 {
 	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
-	if (!IsReloading && bulletCount != 40)
+	if (!IsReloading)
 	{
+		if (bulletCount != 40 || grenadeCount != 3)
 		bulletCount = 40;
 		grenadeCount = 3;
 		IsReloading = true;
@@ -104,8 +105,16 @@ void UTP_WeaponComponent::StartShoot()
 
 	if (OwningActor)
 	{
-		Fire();
-		OwningActor->GetWorldTimerManager().SetTimer(ShootingTimer, this, &UTP_WeaponComponent::Fire, 0.08, true);
+		//Auto reload when ammo is 0
+		if (bulletCount == 0)
+		{
+			Reload();
+		}
+		else
+		{
+			Fire();
+			OwningActor->GetWorldTimerManager().SetTimer(ShootingTimer, this, &UTP_WeaponComponent::Fire, 0.08, true);
+		}
 	}
 }
 
