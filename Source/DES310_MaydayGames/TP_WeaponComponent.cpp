@@ -63,8 +63,9 @@ void UTP_WeaponComponent::Reload()
 {
 	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
-	if (!IsReloading && bulletCount != 40)
+	if (!IsReloading)
 	{
+		if (bulletCount != 40  || grenadeCount != 3)
 		bulletCount = 40;
 		grenadeCount = 3;
 		IsReloading = true;
@@ -134,7 +135,7 @@ void UTP_WeaponComponent::Fire()
 		{
 
 			AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
-
+			 
 			FHitResult OutHit;
 
 			APlayerCameraManager* OurCamera = UGameplayStatics::GetPlayerCameraManager(this, 0);
@@ -205,6 +206,11 @@ void UTP_WeaponComponent::Fire()
 			{
 				const FVector MuzzlePoint = GetOwner()->GetActorLocation() + StartPoint.RotateVector(FVector(100.0f, 0.0f, 10.0f));
 				UGameplayStatics::SpawnEmitterAtLocation(this, MuzzleFlash, MuzzlePoint);
+			}
+
+			if (bulletCount == 0)
+			{
+				Reload();
 			}
 
 			bulletCount -= 1;
