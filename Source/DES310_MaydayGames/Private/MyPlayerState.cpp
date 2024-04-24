@@ -41,7 +41,7 @@ void AMyPlayerState::updateGrenadeCount(int grenadeUpdate)
 
 	currentGrenade = TempGrenadeCount;
 
-	GrenadeCounter.Broadcast(currentGrenade, TempGrenadeCount);
+	GrenadeCounter.Broadcast(currentGrenade);
 }
 
 void AMyPlayerState::updateObjCount(int objScoreUpdate)

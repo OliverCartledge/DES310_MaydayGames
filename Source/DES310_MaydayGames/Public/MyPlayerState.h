@@ -8,6 +8,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerScoreUpdated, int32, newScore, int32, oldScore);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAmmoCounter, int32, newAmmoCount, int32, oldAmmoCount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGrenadeCounter, int32, newGrenadeCount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FObjectiveCounter, int32, newObjCount, int32, oldObjCount);
 
 /**
@@ -63,7 +64,7 @@ public:
 		FAmmoCounter AmmoCounter;
 
 	UPROPERTY(BlueprintAssignable, category = "ammo")
-		FAmmoCounter GrenadeCounter;
+		FGrenadeCounter GrenadeCounter;
 
 	UPROPERTY(BlueprintAssignable, category = "obj")
 		FObjectiveCounter ObjectiveCounter;

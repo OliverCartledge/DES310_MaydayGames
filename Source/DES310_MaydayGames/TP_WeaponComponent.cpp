@@ -68,6 +68,7 @@ void UTP_WeaponComponent::Reload()
 		bulletCount = 40;
 		grenadeCount = 3;
 		IsReloading = true;
+
 		MyPlayerState->updateAmmoCount(bulletCount);
 		MyPlayerState->updateGrenadeCount(grenadeCount);
 
@@ -224,8 +225,13 @@ void UTP_WeaponComponent::Fire()
 
 void UTP_WeaponComponent::GrenadeLauncher()
 {
+	AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
+
 	if (hasLauncher)
 	{
+		//grenadeCount = 3;
+		//MyPlayerState->updateGrenadeCount(grenadeCount);
+
 		if (IsADS && grenadeFire && grenadeCount > 0)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("AKLJ;HGJKDLS;HGKJLAPG")));
@@ -252,6 +258,8 @@ void UTP_WeaponComponent::GrenadeLauncher()
 				}
 			}
 			grenadeCount -= 1;
+			MyPlayerState->updateGrenadeCount(grenadeCount);
+
 			grenadeFire = false;
 #		
 			//start the timer to create a fire rate of 1 shot every 2.5 seconds
