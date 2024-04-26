@@ -52,8 +52,6 @@ ADES310_MaydayGamesCharacter::ADES310_MaydayGamesCharacter()
 
 	bWalkSoundPlayed = false;
 
-	Healing = false;
-
 	if (WalkSound != nullptr)
 	{
 		TestWalk->SetSound(WalkSound);
@@ -78,36 +76,6 @@ void ADES310_MaydayGamesCharacter::BeginPlay()
 		}
 	}
 
-}
-
-// Called every frame
-void ADES310_MaydayGamesCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	
-	if (Healing)
-	{
-		playerHealth += 0.25;
-
-		oppasityHeath -= 0.25;
-		if (playerHealth >= 50)
-		{
-			Healing = false;
-		}
-	}
-
-	if (TakeDamage)
-	{
-		playerHealth -= 0.125;
-
-		oppasityHeath += 0.125;
-
-		if (playerHealth <= 0)
-		{
-			deathScreen();
-			this->Destroy();
-		}
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -217,7 +185,8 @@ void ADES310_MaydayGamesCharacter::BeginOverlap(UPrimitiveComponent* OverlappedC
 	if (OtherActor && OtherActor->IsA(ACPP_Enemy::StaticClass()))
 	{
 		GetWorld()->GetTimerManager().ClearTimer(HealingTimeHandle);
-		TakeDamage = true;
+		//Damage player using a timer similar to how the full auto / fire rate is set up. deadass took me 2 hours to get this working :)
+		GetWorld()->GetTimerManager().SetTimer(DamageTimeHandle, this, &ADES310_MaydayGamesCharacter::DealDamage, 0.1f, true);
 	}
 }
 
@@ -226,18 +195,32 @@ void ADES310_MaydayGamesCharacter::EndOverlap(UPrimitiveComponent* OverlappedCom
 	//When not overlapping.... stop timer and stop taking dmg
 	GetWorld()->GetTimerManager().ClearTimer(DamageTimeHandle);
 
-	TakeDamage = false;
-
-	if (playerHealth >=1 && playerHealth <= 50 && Healing == false)
+	if (playerHealth >=1 && playerHealth <= 50)
 	{
-		GetWorld()->GetTimerManager().SetTimer(HealingTimeHandle, this, &ADES310_MaydayGamesCharacter::HealPlayer, 3.0f, true);
+		GetWorld()->GetTimerManager().SetTimer(HealingTimeHandle, this, &ADES310_MaydayGamesCharacter::HealPlayer, 1.f, true);
+	}
+}
+
+//When collision is made timer starts calling this function to deal dmg
+void ADES310_MaydayGamesCharacter::DealDamage()
+{
+	playerHealth -= 1;
+
+	oppasityHeath += 1;
+
+	if (playerHealth <= 0)
+	{
+		deathScreen();
+		this->Destroy();
 	}
 }
 
 //Heal the player after a set amount of time
 void ADES310_MaydayGamesCharacter::HealPlayer()
 {
-	Healing = true;
+	playerHealth += 1;
+
+	oppasityHeath -= 1;
 }
 
 void ADES310_MaydayGamesCharacter::shouldDisplayCrosshair(bool isADS)

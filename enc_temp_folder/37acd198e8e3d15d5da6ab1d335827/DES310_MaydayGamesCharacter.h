@@ -67,13 +67,11 @@ protected:
 	UFUNCTION()
 	void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	UFUNCTION()
+
 	void HealPlayer();
 
-	UFUNCTION()
 	void ADSPressed();
 
-	UFUNCTION()
 	void ADSReleased();
 
 public:
@@ -96,53 +94,51 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, category = "UI")
 		void hideCrosshair();
 
-	//Collision component
+		void DealDamage();
+
+	// Collision component
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Default")
 	UBoxComponent* CollisionBox;
 
-	//Input action for looking
+	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
-	
+	/** Bool for AnimBP to switch to another animation set */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapon)
 	bool bHasRifle;
 
-	//Setter for the gun
+	/** Setter to set the bool */
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	void SetHasRifle(bool bNewHasRifle);
 
-	//Getter for if the player has the gun
+	/** Getter for the bool */
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool GetHasRifle();
 
 	UFUNCTION(BlueprintImplementableEvent, Category="deathScreen")
 	void deathScreen();
 
-	//Function to check the players jump status to enable/disable shooting and crosshair display
 	UFUNCTION(BlueprintCallable)
 	bool GetJumpStatus();
 
-	//Initialized players health
+	//UFUNCTION(BlueprintImplementableEvent, Category = "winScreen")
+	//	void winScreen();
+
+	//UFUNCTION(BlueprintCallable, Category = "Score")
+	//	void UpdateScore(int scoreToAdd);
+
 	UPROPERTY(BlueprintReadWrite, category="health")
 	float playerHealth = 0;
 
-	//Float to display the damage vignette overlay 
 	UPROPERTY(BlueprintReadWrite, category = "health")
 	float oppasityHeath = 0;
 
+	//int playerScore = 0;
+
 	bool IsADS;
 
-	//Bool for checking if the player is in the air (used to allow for firing or displaying the crosshair)
 	bool InAirTest;
-	
-	//Bool for the tick to heal the player
-	UPROPERTY(BlueprintReadWrite, category = "health")
-	bool Healing;
-
-	//Bool for the tick to deal damage
-	UPROPERTY(BlueprintReadWrite, category = "health")
-	bool TakeDamage;
 
 protected:
 	/** Called for movement input */
@@ -156,9 +152,8 @@ protected:
 	FTimerHandle HealingTimeHandle;
 
 private: 
-	//Bool to check if the walk sound is being played to avoid overlapping sounds
-	bool bWalkSoundPlayed;
 
+	bool bWalkSoundPlayed;
 
 protected:
 	// APawn interface
@@ -171,7 +166,6 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+
 };
 
