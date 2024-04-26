@@ -240,7 +240,7 @@ void UTP_WeaponComponent::GrenadeLauncher()
 
 		if (IsADS && grenadeFire && grenadeCount > 0)
 		{
-			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("AKLJ;HGJKDLS;HGKJLAPG")));
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("AKLJ;HGJKDLS;HGKJLAPG")));
 			// Try and fire a projectile
 			if (ProjectileClass != nullptr)
 			{
@@ -257,7 +257,7 @@ void UTP_WeaponComponent::GrenadeLauncher()
 					FActorSpawnParameters ActorSpawnParams;
 					ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-					//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher fired")));
+					GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher fired")));
 
 					// Spawn the projectile at the muzzle
 					World->SpawnActor<ADES310_MaydayGamesProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
@@ -274,7 +274,7 @@ void UTP_WeaponComponent::GrenadeLauncher()
 			if (OwningActor)
 			{
 				OwningActor->GetWorldTimerManager().SetTimer(GrenadeLauncherDelay, this, &UTP_WeaponComponent::GrenadeLauncherDelayManager, .5f, false);
-				//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher ready to fire")));
+				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade launcher ready to fire")));
 			}
 
 			// Try and play the sound if specified
@@ -355,7 +355,7 @@ void UTP_WeaponComponent::AttachWeapon(ADES310_MaydayGamesCharacter* TargetChara
 			//if (hasLauncher)
 			//{
 			EnhancedInputComponent->BindAction(SecondaryFireAction, ETriggerEvent::Triggered, this, &UTP_WeaponComponent::GrenadeLauncher);
-			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade mapped")));
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Grenade mapped")));
 			//}
 		}
 	}

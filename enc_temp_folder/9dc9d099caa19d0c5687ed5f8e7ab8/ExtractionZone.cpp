@@ -42,12 +42,12 @@ void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	{
 		AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(UGameplayStatics::GetPlayerState(this, 0));
 
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Entering Zone"));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Entering Zone"));
 
 		//Check if the player has completed all the objectives before allowing them to extract
 		if (MyPlayerState->myGetObj() >= 3)
 		{
-			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extracting"));
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extracting"));
 			IsExtracting = true;
 
 			//After X seconds call the ExtractionComplete function - this leads to the win screen after its called
@@ -55,7 +55,7 @@ void AExtractionZone::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 		}
 		else
 		{
-			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Collect all objectives!"));
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Collect all objectives!"));
 		}
 	}
 }
@@ -65,7 +65,7 @@ void AExtractionZone::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	if (OtherActor && OtherActor->IsA(ADES310_MaydayGamesCharacter::StaticClass()))
 	{
 		//If the player walks out of the extraction zone reset the timer 
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Exiting Zone"));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Exiting Zone"));
 		IsExtracting = false;
 		OtherActor->GetWorldTimerManager().ClearTimer(ExtractionTimer);
 	}
@@ -74,7 +74,7 @@ void AExtractionZone::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 //Called when the extraction is successful
 void AExtractionZone::ExtractionComplete()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extraction complete!"));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Extraction complete!"));
 	HasExtracted = true;
 }
 
