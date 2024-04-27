@@ -52,6 +52,11 @@ void ACPP_Enemy::Tick(float DeltaTime)
     }
 
     IsWithinNavMeshProxy();
+
+    if (!seeingPlayer)
+    {
+        GetWorldTimerManager().SetTimer(DeleteEnemyTimer, this, &ACPP_Enemy::DestroyEnemy, 5.f, true);
+    }
 }
 
 // Called to bind functionality to input
@@ -124,7 +129,8 @@ void ACPP_Enemy::EnemyJumpToReallyHighLedge()
 
 void ACPP_Enemy::DestroyEnemy()
 {
-     Destroy();
+    if (!seeingPlayer)
+        Destroy();
 }
 
 void ACPP_Enemy::IsWithinNavMeshProxy()

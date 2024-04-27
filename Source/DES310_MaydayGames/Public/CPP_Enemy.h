@@ -53,6 +53,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AI")
 	void IsWithinNavMeshProxy();
 
+	UFUNCTION()
+	void DestroyEnemy();
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
 	bool seeingPlayer;
@@ -67,6 +69,7 @@ public:
 
 	FTimerHandle CheckNavMeshTimerHandle;
 	FTimerHandle EnemyJumpTimer;
+	FTimerHandle DeleteEnemyTimer;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	USoundBase* EnemyDeathSound;
