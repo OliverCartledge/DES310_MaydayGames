@@ -95,6 +95,8 @@ void UTP_WeaponComponent::StopReload()
 
 	if (OwningActor)
 		OwningActor->GetWorldTimerManager().ClearTimer(ReloadTimer);
+
+
 }
 
 void UTP_WeaponComponent::StartShoot()
