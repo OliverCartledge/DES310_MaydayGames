@@ -65,22 +65,24 @@ void UTP_WeaponComponent::Reload()
 
 	if (!IsReloading)
 	{
-		if (bulletCount != 40  || grenadeCount != 3)
-		bulletCount = 40;
-		grenadeCount = 3;
-		IsReloading = true;
-
-		MyPlayerState->updateAmmoCount(bulletCount);
-		MyPlayerState->updateGrenadeCount(grenadeCount);
-
-
-		AActor* OwningActor = GetOwner();
-
-		AddLocalRotation(FRotator(25.0, 0.0, 0.0));
-
-		if (OwningActor)
+		if (bulletCount != 40 || grenadeCount != 3)
 		{
-			OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
+			bulletCount = 40;
+			grenadeCount = 3;
+			IsReloading = true;
+
+			MyPlayerState->updateAmmoCount(bulletCount);
+			MyPlayerState->updateGrenadeCount(grenadeCount);
+
+
+			AActor* OwningActor = GetOwner();
+
+			AddLocalRotation(FRotator(25.0, 0.0, 0.0));
+
+			if (OwningActor)
+			{
+				OwningActor->GetWorldTimerManager().SetTimer(ReloadTimer, this, &UTP_WeaponComponent::StopReload, 3.0f, true);
+			}
 		}
 	}
 
