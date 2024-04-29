@@ -13,7 +13,7 @@ ACPP_BuyableDoor::ACPP_BuyableDoor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	DoorPrice = 50.0;
+	DoorPrice = 100.0;
 
 	BuyableDoor = FBox(FVector(-100, -100, -100), FVector(100, 100, 100));
 
